@@ -7,11 +7,11 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "ABScreenCapturer.h"
+#import "ABScreenCapture.h"
 
 @interface ABScreenCapturerTests : XCTestCase
 {
-    ABScreenCapturer *capturer;
+    ABScreenCapture *capturer;
 }
 @end
 
@@ -19,8 +19,8 @@
 
 #pragma mark - Utility methods
 
-- (ABScreenCapturer *)newScreenCapturer {
-    return [[ABScreenCapturer alloc] init];
+- (ABScreenCapture *)newScreenCapturer {
+    return [[ABScreenCapture alloc] init];
 }
 
 #pragma mark - Tests

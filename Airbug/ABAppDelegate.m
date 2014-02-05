@@ -7,12 +7,12 @@
 //
 
 #import "ABAppDelegate.h"
-#import "ABScreenCapturer.h"
+#import "ABScreenCaptureController.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
 @property (strong, nonatomic) NSStatusItem *statusItem;
-@property (strong, nonatomic) ABScreenCapturer *capturer;
+@property (strong, nonatomic) ABScreenCaptureController *captureController;
 @end
 
 @implementation ABAppDelegate
@@ -32,21 +32,21 @@
     self.statusItem.highlightMode = YES;
     self.statusItem.menu = self.statusMenu;
     
-    self.capturer = [[ABScreenCapturer alloc] init];
+    self.captureController = [[ABScreenCaptureController alloc] init];
 }
 
 #pragma mark - IBAction
 
 - (IBAction)takeScreenshot:(id)sender {
-    NSImage *screenshot = [self.capturer captureMainDisplay];
-    NSLog(@"screenshot: %@", screenshot);
+    [self.captureController takeScreenshot];
 }
 
 - (IBAction)captureArea:(id)sender {
-    [self.capturer displayOverlayOnMainDisplay];
+    [self.captureController captureArea];
 }
 
 - (IBAction)quit:(id)sender {
+    [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
     [[NSApplication sharedApplication] stop:nil];
 }
 

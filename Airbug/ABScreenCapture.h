@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ABScreenCapturer : NSObject <NSAnimationDelegate>
+@interface ABScreenCapture : NSObject <NSAnimationDelegate>
 
+// TODO: Change to class method
 - (NSImage *)captureMainDisplay;
 - (void)displayOverlayOnMainDisplay;
 

@@ -19,7 +19,8 @@
 		4A2620A018A1DB3400E973EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A26207F18A1DB3400E973EC /* Cocoa.framework */; };
 		4A2620A818A1DB3400E973EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A2620A618A1DB3400E973EC /* InfoPlist.strings */; };
 		4A2620B418A1E65100E973EC /* ABScreenCapturerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2620B318A1E65100E973EC /* ABScreenCapturerTests.m */; };
-		4A2620B818A1E68D00E973EC /* ABScreenCapturer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2620B718A1E68D00E973EC /* ABScreenCapturer.m */; };
+		4A2620B818A1E68D00E973EC /* ABScreenCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2620B718A1E68D00E973EC /* ABScreenCapture.m */; };
+		4A72CC5618A29D7A00B41533 /* ABScreenCaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5518A29D7A00B41533 /* ABScreenCaptureController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,9 +53,11 @@
 		4A2620A518A1DB3400E973EC /* AirbugTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AirbugTests-Info.plist"; sourceTree = "<group>"; };
 		4A2620A718A1DB3400E973EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A2620B318A1E65100E973EC /* ABScreenCapturerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScreenCapturerTests.m; sourceTree = "<group>"; };
-		4A2620B618A1E68D00E973EC /* ABScreenCapturer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABScreenCapturer.h; sourceTree = "<group>"; };
-		4A2620B718A1E68D00E973EC /* ABScreenCapturer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScreenCapturer.m; sourceTree = "<group>"; };
+		4A2620B618A1E68D00E973EC /* ABScreenCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABScreenCapture.h; sourceTree = "<group>"; };
+		4A2620B718A1E68D00E973EC /* ABScreenCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScreenCapture.m; sourceTree = "<group>"; };
 		4A6B73FD5BF94E7FA3648D8C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		4A72CC5418A29D7A00B41533 /* ABScreenCaptureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABScreenCaptureController.h; sourceTree = "<group>"; };
+		4A72CC5518A29D7A00B41533 /* ABScreenCaptureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScreenCaptureController.m; sourceTree = "<group>"; };
 		541525D46F964201A2684BB6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -124,7 +127,9 @@
 		4A26208518A1DB3400E973EC /* Airbug */ = {
 			isa = PBXGroup;
 			children = (
-				4A2620B518A1E67D00E973EC /* Model */,
+				4A2620B518A1E67D00E973EC /* Models */,
+				4A72CC5318A29D6700B41533 /* Controllers */,
+				4A72CC4F18A29CBB00B41533 /* Views */,
 				4A26209118A1DB3400E973EC /* ABAppDelegate.h */,
 				4A26209218A1DB3400E973EC /* ABAppDelegate.m */,
 				4A26209418A1DB3400E973EC /* MainMenu.xib */,
@@ -164,13 +169,29 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		4A2620B518A1E67D00E973EC /* Model */ = {
+		4A2620B518A1E67D00E973EC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4A2620B618A1E68D00E973EC /* ABScreenCapturer.h */,
-				4A2620B718A1E68D00E973EC /* ABScreenCapturer.m */,
+				4A2620B618A1E68D00E973EC /* ABScreenCapture.h */,
+				4A2620B718A1E68D00E973EC /* ABScreenCapture.m */,
 			);
-			name = Model;
+			name = Models;
+			sourceTree = "<group>";
+		};
+		4A72CC4F18A29CBB00B41533 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		4A72CC5318A29D6700B41533 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4A72CC5418A29D7A00B41533 /* ABScreenCaptureController.h */,
+				4A72CC5518A29D7A00B41533 /* ABScreenCaptureController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,7 +329,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A26208C18A1DB3400E973EC /* main.m in Sources */,
-				4A2620B818A1E68D00E973EC /* ABScreenCapturer.m in Sources */,
+				4A2620B818A1E68D00E973EC /* ABScreenCapture.m in Sources */,
+				4A72CC5618A29D7A00B41533 /* ABScreenCaptureController.m in Sources */,
 				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
