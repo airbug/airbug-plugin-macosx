@@ -7,10 +7,12 @@
 //
 
 #import "ABAppDelegate.h"
+#import "ABScreenCapturer.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
 @property (strong, nonatomic) NSStatusItem *statusItem;
+@property (strong, nonatomic) ABScreenCapturer *capturer;
 @end
 
 @implementation ABAppDelegate
@@ -29,16 +31,19 @@
     self.statusItem.title = @"";
     self.statusItem.highlightMode = YES;
     self.statusItem.menu = self.statusMenu;
+    
+    self.capturer = [[ABScreenCapturer alloc] init];
 }
 
 #pragma mark - IBAction
 
 - (IBAction)takeScreenshot:(id)sender {
-    CGImageRef image = CGDisplayCreateImage(kCGDirectMainDisplay);
-    NSImage *screenshot = [[NSImage alloc] initWithCGImage:image size:NSZeroSize];
-    CGImageRelease(image);
-    
+    NSImage *screenshot = [self.capturer captureMainDisplay];
     NSLog(@"screenshot: %@", screenshot);
+}
+
+- (IBAction)captureArea:(id)sender {
+    [self.capturer displayOverlayOnMainDisplay];
 }
 
 - (IBAction)quit:(id)sender {

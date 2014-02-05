@@ -19,6 +19,12 @@
                         <action selector="takeScreenshot:" target="494" id="4AQ-JM-Due"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Capture Area" id="DBA-Yb-Hn4">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="captureArea:" target="494" id="DIw-uU-r5L"/>
+                    </connections>
+                </menuItem>
                 <menuItem isSeparatorItem="YES" id="FH7-aj-k2G"/>
                 <menuItem title="Quit Airbug" id="3jJ-tL-ppV">
                     <modifierMask key="keyEquivalentModifierMask"/>
