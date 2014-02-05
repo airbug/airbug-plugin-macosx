@@ -1,3 +1,5 @@
 platform :osx, "10.6"
 
-pod 'OCMock'
+target 'AirbugTests', :exclusive => true do
+    pod 'OCMock'
+end

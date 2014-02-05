@@ -7,7 +7,12 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 #import "ABScreenCapture.h"
+
+@interface ABScreenCapture ()
+- (NSImage *)imageFromDisplayID:(CGDirectDisplayID)displayID;
+@end
 
 @interface ABScreenCapturerTests : XCTestCase
 {
@@ -25,13 +30,49 @@
 
 #pragma mark - Tests
 
-- (void)testCaptureMainDisplayWhenCalledReturnsNSImage
+- (void)testCaptureMainScreenWhenCalledReturnsImage
+{
+    capturer = [self newScreenCapturer];
+    id stubCapturer = [OCMockObject partialMockForObject:capturer];
+    NSImage *image = [[NSImage alloc] init];
+    [[[[stubCapturer stub] ignoringNonObjectArgs] andReturn:image] imageFromDisplayID:0];
+    
+    NSImage *captureImage = [capturer captureMainScreen];
+    
+    XCTAssertEqualObjects(captureImage, image);
+}
+
+- (void)testCaptureScreenWithNilScreenReturnsNil
 {
     capturer = [self newScreenCapturer];
     
-    NSImage *captureImage = [capturer captureMainDisplay];
+    NSImage *captureImage = [capturer captureScreen:nil];
     
-    XCTAssertNotNil(captureImage);
+    XCTAssertNil(captureImage);
+}
+
+- (void)testCaptureScreenWithAnInvalidScreenReturnsNil
+{
+    capturer = [self newScreenCapturer];
+    NSScreen *invalidScreen = [[NSScreen alloc] init];
+    
+    NSImage *captureImage = [capturer captureScreen:invalidScreen];
+    
+    XCTAssertNil(captureImage);
+}
+
+- (void)testCaptureScreenWhenCalledReturnsTheCorrectImage
+{
+    capturer = [self newScreenCapturer];
+    id stubCapturer = [OCMockObject partialMockForObject:capturer];
+    NSScreen *screen = [NSScreen mainScreen];
+    CGDirectDisplayID screenID = [screen.deviceDescription[@"NSScreenNumber"] intValue];
+    NSImage *image = [[NSImage alloc] init];
+    [[[[stubCapturer stub] ignoringNonObjectArgs] andReturn:image] imageFromDisplayID:screenID];
+    
+    NSImage *captureImage = [capturer captureScreen:screen];
+    
+    XCTAssertEqualObjects(captureImage, image);
 }
 
 @end

@@ -14,18 +14,23 @@
 
 @implementation ABScreenCapture
 
-- (NSImage *)captureMainDisplay
+#pragma mark - Public
+
+- (NSImage *)captureMainScreen
 {
-    CGImageRef image = CGDisplayCreateImage(kCGDirectMainDisplay);
-    NSImage *screenshot = [[NSImage alloc] initWithCGImage:image size:NSZeroSize];
-    CGImageRelease(image);
-    
-    return screenshot;
+    return [self captureScreen:[NSScreen mainScreen]];
 }
 
-- (void)animationDidEnd:(NSAnimation *)animation
+- (NSImage *)captureScreen:(NSScreen *)screen
 {
-    [self.window close];
+    if (!screen) return nil;
+    NSArray *screens = [NSScreen screens];
+    NSUInteger idx = [screens indexOfObject:screen];
+    if (idx == NSNotFound) return nil;
+    
+    NSDictionary *dictionary = screen.deviceDescription;
+    CGDirectDisplayID displayID = [dictionary[@"NSScreenNumber"] intValue];
+    return [self imageFromDisplayID:displayID];
 }
 
 - (void)displayOverlayOnMainDisplay
@@ -47,6 +52,16 @@
     [window makeKeyAndOrderFront:nil];
     [NSThread sleepForTimeInterval:1.0];
     [window close];
+}
+
+#pragma mark - Private
+
+- (NSImage *)imageFromDisplayID:(CGDirectDisplayID)displayID
+{
+    CGImageRef imageRef = CGDisplayCreateImage(displayID);
+    NSImage *image = [[NSImage alloc] initWithCGImage:imageRef size:NSZeroSize];
+    CGImageRelease(imageRef);
+    return image;
 }
 
 @end

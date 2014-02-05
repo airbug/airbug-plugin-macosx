@@ -28,9 +28,20 @@
 
 - (void)takeScreenshot
 {
-    NSImage *screenshot = [self.capture captureMainDisplay];
+    NSImage *screenshot = [self.capture captureMainScreen];
     [self startFlashWindowAnimation];
     NSLog(@"Screenshot taken: %@", screenshot);
+    
+    // TODO: Let user mouse over to chosen display?
+    NSPoint mouseLoc = [NSEvent mouseLocation];
+    NSArray *screens = [NSScreen screens];
+    for (NSScreen *screen in screens) {
+        if (NSMouseInRect(mouseLoc, screen.frame, NO)) {
+            NSLog(@"Current screen the mouse is in: %@", screen.deviceDescription[@"NSScreenNumber"]);
+        }
+    }
+    
+    // TODO: Upload screenshot?
 }
 
 - (void)captureArea
@@ -59,7 +70,8 @@
     NSDictionary *fadeAnimation = @{NSViewAnimationTargetKey : self.flashWindow,
                                     NSViewAnimationEffectKey : NSViewAnimationFadeOutEffect};
     NSViewAnimation *animation = [[NSViewAnimation alloc] initWithViewAnimations:@[fadeAnimation]];
-    animation.duration = 1.0;
+    animation.duration = 1.5;
+    animation.animationCurve = NSAnimationEaseInOut;
     animation.delegate = self;
     [animation startAnimation];
 }
