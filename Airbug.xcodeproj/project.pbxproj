@@ -1,0 +1,480 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4A26208018A1DB3400E973EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A26207F18A1DB3400E973EC /* Cocoa.framework */; };
+		4A26208A18A1DB3400E973EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A26208818A1DB3400E973EC /* InfoPlist.strings */; };
+		4A26208C18A1DB3400E973EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A26208B18A1DB3400E973EC /* main.m */; };
+		4A26209018A1DB3400E973EC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4A26208E18A1DB3400E973EC /* Credits.rtf */; };
+		4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A26209218A1DB3400E973EC /* ABAppDelegate.m */; };
+		4A26209618A1DB3400E973EC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A26209418A1DB3400E973EC /* MainMenu.xib */; };
+		4A26209818A1DB3400E973EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A26209718A1DB3400E973EC /* Images.xcassets */; };
+		4A26209F18A1DB3400E973EC /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A26209E18A1DB3400E973EC /* XCTest.framework */; };
+		4A2620A018A1DB3400E973EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A26207F18A1DB3400E973EC /* Cocoa.framework */; };
+		4A2620A818A1DB3400E973EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A2620A618A1DB3400E973EC /* InfoPlist.strings */; };
+		4A2620AA18A1DB3400E973EC /* AirbugTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2620A918A1DB3400E973EC /* AirbugTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4A2620A118A1DB3400E973EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A26207418A1DB3400E973EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4A26207B18A1DB3400E973EC;
+			remoteInfo = Airbug;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4A26207C18A1DB3400E973EC /* Airbug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Airbug.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A26207F18A1DB3400E973EC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		4A26208218A1DB3400E973EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		4A26208318A1DB3400E973EC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4A26208418A1DB3400E973EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4A26208718A1DB3400E973EC /* Airbug-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Airbug-Info.plist"; sourceTree = "<group>"; };
+		4A26208918A1DB3400E973EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4A26208B18A1DB3400E973EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4A26208D18A1DB3400E973EC /* Airbug-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Airbug-Prefix.pch"; sourceTree = "<group>"; };
+		4A26208F18A1DB3400E973EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		4A26209118A1DB3400E973EC /* ABAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ABAppDelegate.h; sourceTree = "<group>"; };
+		4A26209218A1DB3400E973EC /* ABAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ABAppDelegate.m; sourceTree = "<group>"; };
+		4A26209518A1DB3400E973EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		4A26209718A1DB3400E973EC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4A26209D18A1DB3400E973EC /* AirbugTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AirbugTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A26209E18A1DB3400E973EC /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		4A2620A518A1DB3400E973EC /* AirbugTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AirbugTests-Info.plist"; sourceTree = "<group>"; };
+		4A2620A718A1DB3400E973EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4A2620A918A1DB3400E973EC /* AirbugTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AirbugTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4A26207918A1DB3400E973EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A26208018A1DB3400E973EC /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A26209A18A1DB3400E973EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A2620A018A1DB3400E973EC /* Cocoa.framework in Frameworks */,
+				4A26209F18A1DB3400E973EC /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4A26207318A1DB3400E973EC = {
+			isa = PBXGroup;
+			children = (
+				4A26208518A1DB3400E973EC /* Airbug */,
+				4A2620A318A1DB3400E973EC /* AirbugTests */,
+				4A26207E18A1DB3400E973EC /* Frameworks */,
+				4A26207D18A1DB3400E973EC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4A26207D18A1DB3400E973EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A26207C18A1DB3400E973EC /* Airbug.app */,
+				4A26209D18A1DB3400E973EC /* AirbugTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4A26207E18A1DB3400E973EC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A26207F18A1DB3400E973EC /* Cocoa.framework */,
+				4A26209E18A1DB3400E973EC /* XCTest.framework */,
+				4A26208118A1DB3400E973EC /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4A26208118A1DB3400E973EC /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A26208218A1DB3400E973EC /* AppKit.framework */,
+				4A26208318A1DB3400E973EC /* CoreData.framework */,
+				4A26208418A1DB3400E973EC /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		4A26208518A1DB3400E973EC /* Airbug */ = {
+			isa = PBXGroup;
+			children = (
+				4A26209118A1DB3400E973EC /* ABAppDelegate.h */,
+				4A26209218A1DB3400E973EC /* ABAppDelegate.m */,
+				4A26209418A1DB3400E973EC /* MainMenu.xib */,
+				4A26209718A1DB3400E973EC /* Images.xcassets */,
+				4A26208618A1DB3400E973EC /* Supporting Files */,
+			);
+			path = Airbug;
+			sourceTree = "<group>";
+		};
+		4A26208618A1DB3400E973EC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4A26208718A1DB3400E973EC /* Airbug-Info.plist */,
+				4A26208818A1DB3400E973EC /* InfoPlist.strings */,
+				4A26208B18A1DB3400E973EC /* main.m */,
+				4A26208D18A1DB3400E973EC /* Airbug-Prefix.pch */,
+				4A26208E18A1DB3400E973EC /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4A2620A318A1DB3400E973EC /* AirbugTests */ = {
+			isa = PBXGroup;
+			children = (
+				4A2620A918A1DB3400E973EC /* AirbugTests.m */,
+				4A2620A418A1DB3400E973EC /* Supporting Files */,
+			);
+			path = AirbugTests;
+			sourceTree = "<group>";
+		};
+		4A2620A418A1DB3400E973EC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4A2620A518A1DB3400E973EC /* AirbugTests-Info.plist */,
+				4A2620A618A1DB3400E973EC /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4A26207B18A1DB3400E973EC /* Airbug */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A2620AD18A1DB3400E973EC /* Build configuration list for PBXNativeTarget "Airbug" */;
+			buildPhases = (
+				4A26207818A1DB3400E973EC /* Sources */,
+				4A26207918A1DB3400E973EC /* Frameworks */,
+				4A26207A18A1DB3400E973EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Airbug;
+			productName = Airbug;
+			productReference = 4A26207C18A1DB3400E973EC /* Airbug.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4A26209C18A1DB3400E973EC /* AirbugTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A2620B018A1DB3400E973EC /* Build configuration list for PBXNativeTarget "AirbugTests" */;
+			buildPhases = (
+				4A26209918A1DB3400E973EC /* Sources */,
+				4A26209A18A1DB3400E973EC /* Frameworks */,
+				4A26209B18A1DB3400E973EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4A2620A218A1DB3400E973EC /* PBXTargetDependency */,
+			);
+			name = AirbugTests;
+			productName = AirbugTests;
+			productReference = 4A26209D18A1DB3400E973EC /* AirbugTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4A26207418A1DB3400E973EC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = AB;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = Airbug;
+				TargetAttributes = {
+					4A26209C18A1DB3400E973EC = {
+						TestTargetID = 4A26207B18A1DB3400E973EC;
+					};
+				};
+			};
+			buildConfigurationList = 4A26207718A1DB3400E973EC /* Build configuration list for PBXProject "Airbug" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4A26207318A1DB3400E973EC;
+			productRefGroup = 4A26207D18A1DB3400E973EC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4A26207B18A1DB3400E973EC /* Airbug */,
+				4A26209C18A1DB3400E973EC /* AirbugTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4A26207A18A1DB3400E973EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A26208A18A1DB3400E973EC /* InfoPlist.strings in Resources */,
+				4A26209818A1DB3400E973EC /* Images.xcassets in Resources */,
+				4A26209018A1DB3400E973EC /* Credits.rtf in Resources */,
+				4A26209618A1DB3400E973EC /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A26209B18A1DB3400E973EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A2620A818A1DB3400E973EC /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4A26207818A1DB3400E973EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A26208C18A1DB3400E973EC /* main.m in Sources */,
+				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A26209918A1DB3400E973EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A2620AA18A1DB3400E973EC /* AirbugTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4A2620A218A1DB3400E973EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4A26207B18A1DB3400E973EC /* Airbug */;
+			targetProxy = 4A2620A118A1DB3400E973EC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4A26208818A1DB3400E973EC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4A26208918A1DB3400E973EC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4A26208E18A1DB3400E973EC /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4A26208F18A1DB3400E973EC /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		4A26209418A1DB3400E973EC /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4A26209518A1DB3400E973EC /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		4A2620A618A1DB3400E973EC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4A2620A718A1DB3400E973EC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4A2620AB18A1DB3400E973EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		4A2620AC18A1DB3400E973EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		4A2620AE18A1DB3400E973EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Airbug/Airbug-Prefix.pch";
+				INFOPLIST_FILE = "Airbug/Airbug-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4A2620AF18A1DB3400E973EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Airbug/Airbug-Prefix.pch";
+				INFOPLIST_FILE = "Airbug/Airbug-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		4A2620B118A1DB3400E973EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Airbug.app/Contents/MacOS/Airbug";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Airbug/Airbug-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "AirbugTests/AirbugTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		4A2620B218A1DB3400E973EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Airbug.app/Contents/MacOS/Airbug";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Airbug/Airbug-Prefix.pch";
+				INFOPLIST_FILE = "AirbugTests/AirbugTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4A26207718A1DB3400E973EC /* Build configuration list for PBXProject "Airbug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A2620AB18A1DB3400E973EC /* Debug */,
+				4A2620AC18A1DB3400E973EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4A2620AD18A1DB3400E973EC /* Build configuration list for PBXNativeTarget "Airbug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A2620AE18A1DB3400E973EC /* Debug */,
+				4A2620AF18A1DB3400E973EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		4A2620B018A1DB3400E973EC /* Build configuration list for PBXNativeTarget "AirbugTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A2620B118A1DB3400E973EC /* Debug */,
+				4A2620B218A1DB3400E973EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4A26207418A1DB3400E973EC /* Project object */;
+}
