@@ -10,26 +10,37 @@
 #import "ABScreenCapture.h"
 
 @interface ABScreenCaptureController ()
-@property (strong, nonatomic) ABScreenCapture *capture;
 @property (strong, nonatomic) NSWindow *flashWindow;
 @end
 
 @implementation ABScreenCaptureController
 
+#pragma mark - Lifecycle
+
 - (id)init
 {
     if (self = [super init]) {
-        self.capture = [[ABScreenCapture alloc] init];
+        self.capturer = [[ABScreenCapture alloc] init];
     }
     return self;
+}
+
+#pragma mark - Custom accessors
+
+- (void)setDelegate:(id<ABScreenCaptureControllerDelegate>)delegate
+{
+    if (![delegate conformsToProtocol:@protocol(ABScreenCaptureControllerDelegate)]) {
+        [NSException raise:@"Nonconforming delegate" format:@"Delegate must conform to ABScreenCaptureControllerDelegate protocol"];
+    }
+    _delegate = delegate;
 }
 
 #pragma mark - Public
 
 - (void)takeScreenshot
 {
-    NSImage *screenshot = [self.capture captureMainScreen];
-    [self startFlashWindowAnimation];
+    NSImage *screenshot = [self.capturer captureMainScreen];
+    //[self startFlashWindowAnimation];
     NSLog(@"Screenshot taken: %@", screenshot);
     
     // TODO: Let user mouse over to chosen display?
@@ -42,6 +53,7 @@
     }
     
     // TODO: Upload screenshot?
+    [self.delegate didTakeScreenshot:screenshot];
 }
 
 - (void)captureArea

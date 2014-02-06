@@ -7,10 +7,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ABScreenCapture.h"
 
-@interface ABScreenCaptureController : NSWindow <NSAnimationDelegate>
+@protocol ABScreenCaptureControllerDelegate <NSObject>
+- (void)didTakeScreenshot:(NSImage *)image;
+- (void)didCaptureArea:(NSImage *)image;
+@end
+
+@interface ABScreenCaptureController : NSObject <NSAnimationDelegate>
 
 - (void)takeScreenshot;
 - (void)captureArea;
+
+@property (weak, nonatomic) id <ABScreenCaptureControllerDelegate> delegate;
+@property (strong, nonatomic) ABScreenCapture *capturer;
 
 @end
