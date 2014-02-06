@@ -80,4 +80,11 @@
     [self cancelOperation:notification];
 }
 
+#pragma mark - Protocol conformance
+#pragma mark ABCaptureAreaViewDelegate
+
+- (void)didCaptureArea:(CGRect)rect
+{
+}
+
 @end

@@ -27,17 +27,18 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    // Fill background
-    NSColor *backgroundColor = [NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:0.5];
-    [backgroundColor setFill];
-    NSRectFill(dirtyRect);
-    
     // Draw white outline around contentRect
     NSBezierPath *path = [NSBezierPath bezierPathWithRect:self.captureRect];
     [path setLineWidth:1.0];
     [[NSColor whiteColor] setStroke];
     [path stroke];
-    
+
+    // Fill everything *but* contextRect
+    NSBezierPath *clipPath = [NSBezierPath bezierPathWithRect:self.bounds];
+    [clipPath appendBezierPathWithRect:self.captureRect];
+    clipPath.windingRule = NSEvenOddWindingRule;
+    [[NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:0.5] setFill];
+    [clipPath fill];
     
 #ifdef DEBUG
     NSString *captureRectString = [NSString stringWithFormat:@"Rect: (%d, %d, %d, %d)", (int)self.captureRect.origin.x, (int)self.captureRect.origin.y, abs((int)self.captureRect.size.width), abs((int)self.captureRect.size.height)];
@@ -47,7 +48,7 @@
 #endif
 }
 
-- (void) resetCursorRects
+- (void)resetCursorRects
 {
     [self addCursorRect:self.bounds cursor:[NSCursor crosshairCursor]];
 }
@@ -80,5 +81,7 @@
     [self setNeedsDisplay:YES];
 #endif
 }
+
+// TODO: How to handle when mouse moves out of screen...?
 
 @end

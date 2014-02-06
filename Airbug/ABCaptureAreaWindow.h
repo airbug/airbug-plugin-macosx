@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ABCaptureAreaView.h"
 
-@interface ABCaptureAreaWindow : NSWindow
+@interface ABCaptureAreaWindow : NSWindow <ABCaptureAreaViewDelegate>
 
 @end

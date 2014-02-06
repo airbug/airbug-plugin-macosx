@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+@protocol ABCaptureAreaViewDelegate <NSObject>
+- (void)didCaptureArea:(CGRect)rect;
+@end
+
 @interface ABCaptureAreaView : NSView
 
 @end
