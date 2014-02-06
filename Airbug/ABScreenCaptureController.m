@@ -9,6 +9,7 @@
 #import "ABScreenCaptureController.h"
 #import "ABScreenCapture.h"
 #import "ABCaptureAreaWindow.h"
+#import "NSImage+Crop.h"
 
 @interface ABScreenCaptureController ()
 @property (strong, nonatomic) NSWindow *flashWindow;
@@ -60,6 +61,10 @@
 - (void)captureArea
 {
     [self displayOverlayOnMainDisplay];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(capturedArea:)
+                                                 name:ABCaptureAreaWindowDidCaptureAreaNotification
+                                               object:nil];
 }
 
 #pragma mark - Private
@@ -100,6 +105,18 @@
     [self.areaCaptureWindow setReleasedWhenClosed:NO];
     [self.areaCaptureWindow makeKeyAndOrderFront:nil];
     [self.areaCaptureWindow makeFirstResponder:nil];
+}
+
+- (void)capturedArea:(NSNotification *)notification
+{
+    NSValue *value = (NSValue *)notification.object;
+    
+    NSRect captureRect = [value rectValue];
+    NSImage *captureImage = [self.capturer captureMainScreen];
+    NSImage *croppedImage = [captureImage cropToRect:captureRect];
+    [self.delegate didCaptureArea:croppedImage];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ABCaptureAreaWindowDidCaptureAreaNotification object:nil];
 }
 
 #pragma mark - Protocol conformance

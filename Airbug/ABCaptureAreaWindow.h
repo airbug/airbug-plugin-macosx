@@ -11,4 +11,6 @@
 
 @interface ABCaptureAreaWindow : NSWindow <ABCaptureAreaViewDelegate>
 
+extern NSString * const ABCaptureAreaWindowDidCaptureAreaNotification;
+
 @end

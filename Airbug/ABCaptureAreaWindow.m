@@ -11,6 +11,8 @@
 
 @implementation ABCaptureAreaWindow
 
+NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureAreaWindowDidCaptureArea";
+
 #pragma mark - Lifecycle
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag screen:(NSScreen *)screen
@@ -65,8 +67,9 @@
     [self setOpaque:NO];
     [self setIgnoresMouseEvents:NO];
     
-    ABCaptureAreaView *contentView = [[ABCaptureAreaView alloc] initWithFrame:NSZeroRect];
-    [self setContentView:contentView];
+    ABCaptureAreaView *captureAreaView = [[ABCaptureAreaView alloc] initWithFrame:NSZeroRect];
+    captureAreaView.delegate = self;
+    [self setContentView:captureAreaView];
 }
 
 - (void)subscribeToNotifications
@@ -77,14 +80,17 @@
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-    [self cancelOperation:notification];
+    [self close];
 }
 
 #pragma mark - Protocol conformance
 #pragma mark ABCaptureAreaViewDelegate
 
-- (void)didCaptureArea:(CGRect)rect
+- (void)didCaptureArea:(NSRect)rect
 {
+    [self close];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:ABCaptureAreaWindowDidCaptureAreaNotification object:[NSValue valueWithRect:rect]];
 }
 
 @end

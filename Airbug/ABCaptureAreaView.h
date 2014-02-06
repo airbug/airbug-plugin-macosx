@@ -9,9 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 @protocol ABCaptureAreaViewDelegate <NSObject>
-- (void)didCaptureArea:(CGRect)rect;
+- (void)didCaptureArea:(NSRect)rect;
 @end
 
 @interface ABCaptureAreaView : NSView
+
+@property (weak, nonatomic) id <ABCaptureAreaViewDelegate> delegate;
 
 @end

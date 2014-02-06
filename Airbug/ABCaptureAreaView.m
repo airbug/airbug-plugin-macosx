@@ -59,7 +59,8 @@
     
     // Click point inside rect, so capture!
     if (CGRectContainsPoint(self.captureRect, pointInView)) {
-        NSLog(@"Capturing area!");
+        NSRect convertedRect = [self convertToNonNegativeRect:self.captureRect];
+        [self.delegate didCaptureArea:convertedRect];
     }
     
     // Click point not inside rect, so make new capture rect
@@ -80,6 +81,18 @@
 #ifdef DEBUG
     [self setNeedsDisplay:YES];
 #endif
+}
+
+#pragma mark - Private
+
+- (NSRect)convertToNonNegativeRect:(NSRect)rect
+{
+    if (rect.size.width > 0 && rect.size.height > 0) return rect;
+
+    CGFloat originX = MIN(rect.origin.x, rect.origin.x + rect.size.width);
+    CGFloat originY = MIN(rect.origin.y, rect.origin.y + rect.size.height);
+    NSRect convertedRect = NSMakeRect(originX, originY, abs(rect.size.width), abs(rect.size.height));
+    return convertedRect;
 }
 
 // TODO: How to handle when mouse moves out of screen...?
