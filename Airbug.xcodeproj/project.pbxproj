@@ -23,6 +23,7 @@
 		4A72CC5618A29D7A00B41533 /* ABScreenCaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5518A29D7A00B41533 /* ABScreenCaptureController.m */; };
 		4A72CC5818A307D500B41533 /* ABScreenCaptureControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5718A307D500B41533 /* ABScreenCaptureControllerTests.m */; };
 		4A72CC5C18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5B18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.m */; };
+		4A9AE73D18A3F45500D06721 /* ABCaptureAreaWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73C18A3F45500D06721 /* ABCaptureAreaWindow.m */; };
 		A880C1BEAAA24C9A905BF4D0 /* libPods-AirbugTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA186A99EBFC4090BF0013C6 /* libPods-AirbugTests.a */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,8 @@
 		4A72CC5718A307D500B41533 /* ABScreenCaptureControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScreenCaptureControllerTests.m; sourceTree = "<group>"; };
 		4A72CC5A18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeABScreenCaptureControllerDelegate.h; sourceTree = "<group>"; };
 		4A72CC5B18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeABScreenCaptureControllerDelegate.m; sourceTree = "<group>"; };
+		4A9AE73B18A3F45500D06721 /* ABCaptureAreaWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureAreaWindow.h; sourceTree = "<group>"; };
+		4A9AE73C18A3F45500D06721 /* ABCaptureAreaWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureAreaWindow.m; sourceTree = "<group>"; };
 		533C6D2BC68D40A8B00F8672 /* Pods-AirbugTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirbugTests.xcconfig"; path = "Pods/Pods-AirbugTests.xcconfig"; sourceTree = "<group>"; };
 		541525D46F964201A2684BB6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA186A99EBFC4090BF0013C6 /* libPods-AirbugTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AirbugTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,6 +197,8 @@
 		4A72CC4F18A29CBB00B41533 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4A9AE73B18A3F45500D06721 /* ABCaptureAreaWindow.h */,
+				4A9AE73C18A3F45500D06721 /* ABCaptureAreaWindow.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -386,6 +391,7 @@
 				4A2620B818A1E68D00E973EC /* ABScreenCapture.m in Sources */,
 				4A72CC5618A29D7A00B41533 /* ABScreenCaptureController.m in Sources */,
 				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
+				4A9AE73D18A3F45500D06721 /* ABCaptureAreaWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

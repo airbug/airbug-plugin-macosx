@@ -45,11 +45,6 @@
     XCTAssertThrows(controller.delegate = nonConformingObj);
 }
 
-- (void)testTakeScreenshotWhenCalledPlaysFlashAnimation
-{
-
-}
-
 - (void)testTakeScreenshotWhenUserTakesScreenshotCallsDelegateDidTakeScreenshot
 {
     controller = [self newScreenCaptureController];

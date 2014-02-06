@@ -12,6 +12,5 @@
 
 - (NSImage *)captureMainScreen;
 - (NSImage *)captureScreen:(NSScreen *)screen;
-//- (void)displayOverlayOnMainDisplay;
 
 @end

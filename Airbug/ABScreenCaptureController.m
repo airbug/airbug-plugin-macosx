@@ -8,9 +8,11 @@
 
 #import "ABScreenCaptureController.h"
 #import "ABScreenCapture.h"
+#import "ABCaptureAreaWindow.h"
 
 @interface ABScreenCaptureController ()
 @property (strong, nonatomic) NSWindow *flashWindow;
+@property (strong, nonatomic) ABCaptureAreaWindow *areaCaptureWindow;
 @end
 
 @implementation ABScreenCaptureController
@@ -40,8 +42,7 @@
 - (void)takeScreenshot
 {
     NSImage *screenshot = [self.capturer captureMainScreen];
-    //[self startFlashWindowAnimation];
-    NSLog(@"Screenshot taken: %@", screenshot);
+    [self startFlashWindowAnimation];
     
     // TODO: Let user mouse over to chosen display?
     NSPoint mouseLoc = [NSEvent mouseLocation];
@@ -58,7 +59,7 @@
 
 - (void)captureArea
 {
-    NSLog(@"Capture area!");
+    [self displayOverlayOnMainDisplay];
 }
 
 #pragma mark - Private
@@ -88,12 +89,26 @@
     [animation startAnimation];
 }
 
+- (void)displayOverlayOnMainDisplay
+{
+    NSScreen *screen = [NSScreen screens][0];
+    self.areaCaptureWindow = [[ABCaptureAreaWindow alloc] initWithContentRect:screen.frame
+                                                                    styleMask:NSBorderlessWindowMask
+                                                                      backing:NSBackingStoreBuffered
+                                                                        defer:NO
+                                                                       screen:screen];
+    [self.areaCaptureWindow setReleasedWhenClosed:NO];
+    [self.areaCaptureWindow makeKeyAndOrderFront:nil];
+    [self.areaCaptureWindow makeFirstResponder:nil];
+}
+
 #pragma mark - Protocol conformance
 #pragma mark NSAnimationDelegate
 
 - (void)animationDidEnd:(NSAnimation *)animation
 {
     [self.flashWindow close];
+    self.flashWindow = nil;
 }
 
 @end
