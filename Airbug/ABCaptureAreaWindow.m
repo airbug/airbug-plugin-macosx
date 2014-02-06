@@ -7,6 +7,7 @@
 //
 
 #import "ABCaptureAreaWindow.h"
+#import "ABCaptureAreaView.h"
 
 @implementation ABCaptureAreaWindow
 
@@ -44,6 +45,10 @@
     return YES;
 }
 
+- (BOOL)acceptsFirstResponder {
+    return YES;
+}
+
 // Commenting this out -- not necessary to support cancelOperation:
 //- (BOOL)canBecomeMainWindow {
 //    return YES;
@@ -53,12 +58,15 @@
 
 - (void)setUp
 {
-    self.backgroundColor = [NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:0.5];
+    self.backgroundColor = [NSColor clearColor];
     int windowLevel = CGShieldingWindowLevel();
     [self setLevel:windowLevel];
     [self setAlphaValue:1.0];
     [self setOpaque:NO];
     [self setIgnoresMouseEvents:NO];
+    
+    ABCaptureAreaView *contentView = [[ABCaptureAreaView alloc] initWithFrame:NSZeroRect];
+    [self setContentView:contentView];
 }
 
 - (void)subscribeToNotifications
