@@ -57,7 +57,7 @@
 
 - (void)displayImageInPreviewWindow:(NSImage *)image
 {
-    ABImageUploadWindowController *controller = [[ABImageUploadWindowController alloc] initWithWindowNibName:@"ABImageUploadWindow"];
+    ABImageUploadWindowController *controller = [[ABImageUploadWindowController alloc] init];
     controller.delegate = self;
     controller.image = image;
     [controller showWindow:nil];

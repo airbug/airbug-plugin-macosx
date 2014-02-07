@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="ABImageUploadWindowController">
             <connections>
                 <outlet property="imageView" destination="qqs-WR-gjW" id="Jsz-Ju-naN"/>
+                <outlet property="window" destination="1" id="kR6-P8-Zcz"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>

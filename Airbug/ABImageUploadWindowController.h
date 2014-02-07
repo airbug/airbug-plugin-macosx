@@ -11,6 +11,9 @@
 
 @interface ABImageUploadWindowController : NSWindowController <NSWindowDelegate>
 
+// Designated initializer
+- (id)init;
+
 /**
  The image to upload
  */

@@ -10,16 +10,15 @@
 
 @interface ABImageUploadWindowController ()
 @property (weak) IBOutlet NSImageView *imageView;
-
 @end
 
 @implementation ABImageUploadWindowController
 
-- (id)initWithWindow:(NSWindow *)window
+- (id)init
 {
-    self = [super initWithWindow:window];
+    self = [super initWithWindowNibName:@"ABImageUploadWindow" owner:self];
     if (self) {
-        // Initialization code here.
+        // ...
     }
     return self;
 }
@@ -28,8 +27,11 @@
 {
     [super windowDidLoad];
     
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     self.imageView.image = self.image;
+    
+    static NSPoint cascadeLocation = {20, 20};
+    NSPoint nextPoint = [self.window cascadeTopLeftFromPoint:cascadeLocation];
+    cascadeLocation = nextPoint;
 }
 
 #pragma mark - Custom accessors
