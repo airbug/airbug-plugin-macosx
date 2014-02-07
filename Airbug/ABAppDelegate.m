@@ -7,12 +7,14 @@
 //
 
 #import "ABAppDelegate.h"
+#import "ABImageUploadWindowController.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
 @property (strong, nonatomic) NSStatusItem *statusItem;
 @property (strong, nonatomic) ABScreenCaptureController *captureController;
-@property (strong, nonatomic) NSWindow *imagePreviewWindow;
+//@property (strong, nonatomic) NSWindow *imagePreviewWindow;
+@property (strong, nonatomic) ABImageUploadWindowController *imageUploadController;
 @end
 
 @implementation ABAppDelegate
@@ -34,6 +36,8 @@
     
     self.captureController = [[ABScreenCaptureController alloc] init];
     self.captureController.delegate = self;
+    
+    self.imageUploadController = [[ABImageUploadWindowController alloc] initWithWindowNibName:@"ABImageUploadWindow"];
 }
 
 #pragma mark - IBAction
@@ -55,21 +59,8 @@
 
 - (void)displayImageInPreviewWindow:(NSImage *)image
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-    NSScreen *mainScreen = [NSScreen mainScreen];
-    NSRect centeredRect = NSMakeRect((mainScreen.frame.size.width / 2.0) - 200,
-                                     (mainScreen.frame.size.height / 2.0) - 200, 400.0, 400.0);
-    self.imagePreviewWindow = [[NSWindow alloc] initWithContentRect:centeredRect
-                                                          styleMask:NSClosableWindowMask|NSTitledWindowMask
-                                                            backing:NSBackingStoreBuffered
-                                                              defer:NO
-                                                             screen:mainScreen];
-    NSImageView *imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 400.0, 400.0)];
-    imageView.imageScaling = NSImageScaleProportionallyUpOrDown;
-    imageView.image = image;
-    self.imagePreviewWindow.contentView = imageView;
-    [self.imagePreviewWindow orderFront:nil];
-    });
+    self.imageUploadController.image = image;
+    [self.imageUploadController showWindow:nil];
 }
 
 #pragma mark - Protocol conformance

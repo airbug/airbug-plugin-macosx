@@ -26,6 +26,8 @@
 		4A9AE73D18A3F45500D06721 /* ABCaptureAreaWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73C18A3F45500D06721 /* ABCaptureAreaWindow.m */; };
 		4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */; };
 		4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE74318A42C3200D06721 /* NSImage+Crop.m */; };
+		4A9AE74918A5400500D06721 /* ABImageUploadWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A9AE74818A5400500D06721 /* ABImageUploadWindow.xib */; };
+		4A9AE74C18A541C900D06721 /* ABImageUploadWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE74B18A541C900D06721 /* ABImageUploadWindowController.m */; };
 		A880C1BEAAA24C9A905BF4D0 /* libPods-AirbugTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA186A99EBFC4090BF0013C6 /* libPods-AirbugTests.a */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +75,9 @@
 		4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureAreaView.m; sourceTree = "<group>"; };
 		4A9AE74218A42C3200D06721 /* NSImage+Crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Crop.h"; sourceTree = "<group>"; };
 		4A9AE74318A42C3200D06721 /* NSImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Crop.m"; sourceTree = "<group>"; };
+		4A9AE74818A5400500D06721 /* ABImageUploadWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ABImageUploadWindow.xib; sourceTree = "<group>"; };
+		4A9AE74A18A541C900D06721 /* ABImageUploadWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABImageUploadWindowController.h; sourceTree = "<group>"; };
+		4A9AE74B18A541C900D06721 /* ABImageUploadWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABImageUploadWindowController.m; sourceTree = "<group>"; };
 		533C6D2BC68D40A8B00F8672 /* Pods-AirbugTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirbugTests.xcconfig"; path = "Pods/Pods-AirbugTests.xcconfig"; sourceTree = "<group>"; };
 		541525D46F964201A2684BB6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA186A99EBFC4090BF0013C6 /* libPods-AirbugTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AirbugTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +159,7 @@
 				4A26209118A1DB3400E973EC /* ABAppDelegate.h */,
 				4A26209218A1DB3400E973EC /* ABAppDelegate.m */,
 				4A26209418A1DB3400E973EC /* MainMenu.xib */,
+				4A9AE74818A5400500D06721 /* ABImageUploadWindow.xib */,
 				4A26209718A1DB3400E973EC /* Images.xcassets */,
 				4A26208618A1DB3400E973EC /* Supporting Files */,
 			);
@@ -217,6 +223,8 @@
 			children = (
 				4A72CC5418A29D7A00B41533 /* ABScreenCaptureController.h */,
 				4A72CC5518A29D7A00B41533 /* ABScreenCaptureController.m */,
+				4A9AE74A18A541C900D06721 /* ABImageUploadWindowController.h */,
+				4A9AE74B18A541C900D06721 /* ABImageUploadWindowController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -322,6 +330,7 @@
 			files = (
 				4A26208A18A1DB3400E973EC /* InfoPlist.strings in Resources */,
 				4A26209818A1DB3400E973EC /* Images.xcassets in Resources */,
+				4A9AE74918A5400500D06721 /* ABImageUploadWindow.xib in Resources */,
 				4A26209018A1DB3400E973EC /* Credits.rtf in Resources */,
 				4A26209618A1DB3400E973EC /* MainMenu.xib in Resources */,
 			);
@@ -406,6 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A26208C18A1DB3400E973EC /* main.m in Sources */,
+				4A9AE74C18A541C900D06721 /* ABImageUploadWindowController.m in Sources */,
 				4A2620B818A1E68D00E973EC /* ABScreenCapture.m in Sources */,
 				4A72CC5618A29D7A00B41533 /* ABScreenCaptureController.m in Sources */,
 				4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */,
