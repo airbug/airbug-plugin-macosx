@@ -8,7 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ABScreenCaptureController.h"
+#import "ABImageUploadWindowController.h"
 
-@interface ABAppDelegate : NSObject <NSApplicationDelegate, ABScreenCaptureControllerDelegate>
+@interface ABAppDelegate : NSObject <NSApplicationDelegate, ABScreenCaptureControllerDelegate, ABImageUploadWindowControllerDelegate>
 
 @end

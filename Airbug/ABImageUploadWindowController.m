@@ -39,4 +39,12 @@
     self.imageView.image = image;
 }
 
+#pragma mark - Protocol conformance
+#pragma mark NSWindowDelegate
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [self.delegate imageUploadControllerWillClose:self];
+}
+
 @end

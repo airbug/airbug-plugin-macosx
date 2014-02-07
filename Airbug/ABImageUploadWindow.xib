@@ -35,6 +35,9 @@
                     <constraint firstItem="qqs-WR-gjW" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="vIT-oz-aRi"/>
                 </constraints>
             </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="OoG-lK-ZoZ"/>
+            </connections>
         </window>
     </objects>
 </document>

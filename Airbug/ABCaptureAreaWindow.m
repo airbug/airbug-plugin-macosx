@@ -70,6 +70,8 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
     ABCaptureAreaView *captureAreaView = [[ABCaptureAreaView alloc] initWithFrame:NSZeroRect];
     captureAreaView.delegate = self;
     [self setContentView:captureAreaView];
+    
+//    NSViewAnimation *animation = [NSViewAnimation 
 }
 
 - (void)subscribeToNotifications
@@ -78,6 +80,7 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:self];
 }
 
+// Lost window focus, so go away!
 - (void)windowDidResignKey:(NSNotification *)notification
 {
     [self close];

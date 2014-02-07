@@ -7,14 +7,12 @@
 //
 
 #import "ABAppDelegate.h"
-#import "ABImageUploadWindowController.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
 @property (strong, nonatomic) NSStatusItem *statusItem;
 @property (strong, nonatomic) ABScreenCaptureController *captureController;
-//@property (strong, nonatomic) NSWindow *imagePreviewWindow;
-@property (strong, nonatomic) ABImageUploadWindowController *imageUploadController;
+@property (strong, nonatomic) NSMutableArray *imageUploadControllers;
 @end
 
 @implementation ABAppDelegate
@@ -37,7 +35,7 @@
     self.captureController = [[ABScreenCaptureController alloc] init];
     self.captureController.delegate = self;
     
-    self.imageUploadController = [[ABImageUploadWindowController alloc] initWithWindowNibName:@"ABImageUploadWindow"];
+    self.imageUploadControllers = [NSMutableArray array];
 }
 
 #pragma mark - IBAction
@@ -59,8 +57,11 @@
 
 - (void)displayImageInPreviewWindow:(NSImage *)image
 {
-    self.imageUploadController.image = image;
-    [self.imageUploadController showWindow:nil];
+    ABImageUploadWindowController *controller = [[ABImageUploadWindowController alloc] initWithWindowNibName:@"ABImageUploadWindow"];
+    controller.delegate = self;
+    controller.image = image;
+    [controller showWindow:nil];
+    [self.imageUploadControllers addObject:controller];
 }
 
 #pragma mark - Protocol conformance
@@ -76,6 +77,13 @@
 {
     NSLog(@"Captured area: %@", image);
     [self displayImageInPreviewWindow:image];
+}
+
+#pragma mark ABImageUploadWindowControllerDelegate
+
+- (void)imageUploadControllerWillClose:(ABImageUploadWindowController *)controller
+{
+    [self.imageUploadControllers removeObject:controller];
 }
 
 @end

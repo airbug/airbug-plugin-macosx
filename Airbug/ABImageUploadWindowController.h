@@ -7,9 +7,18 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ABImageUploadWindowControllerDelegate.h"
 
-@interface ABImageUploadWindowController : NSWindowController
+@interface ABImageUploadWindowController : NSWindowController <NSWindowDelegate>
 
+/**
+ The image to upload
+ */
 @property (strong, nonatomic) NSImage *image;
+
+/**
+ The optional delegate for this window controller
+ */
+@property (weak, nonatomic) id <ABImageUploadWindowControllerDelegate> delegate;
 
 @end
