@@ -32,6 +32,10 @@
 		4A9AE75818A5BCBB00D06721 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9AE75718A5BCBB00D06721 /* CFNetwork.framework */; };
 		4A9AE75A18A5BCC300D06721 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9AE75918A5BCC300D06721 /* Security.framework */; };
 		4A9AE75B18A5BCCB00D06721 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A26208418A1DB3400E973EC /* Foundation.framework */; };
+		4A9AE75E18A5E73700D06721 /* ABAirbugManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE75D18A5E73700D06721 /* ABAirbugManager.m */; };
+		4A9AE76118A5E74D00D06721 /* ABAirbugCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE76018A5E74D00D06721 /* ABAirbugCommunicator.m */; };
+		4A9AE76418A69C5F00D06721 /* ABIncomingDataBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */; };
+		4A9AE76718A69C6600D06721 /* ABOutgoingDataBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE76618A69C6600D06721 /* ABOutgoingDataBuilder.m */; };
 		A880C1BEAAA24C9A905BF4D0 /* libPods-AirbugTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA186A99EBFC4090BF0013C6 /* libPods-AirbugTests.a */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +92,14 @@
 		4A9AE75518A5BCB300D06721 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		4A9AE75718A5BCBB00D06721 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		4A9AE75918A5BCC300D06721 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4A9AE75C18A5E73700D06721 /* ABAirbugManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAirbugManager.h; sourceTree = "<group>"; };
+		4A9AE75D18A5E73700D06721 /* ABAirbugManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAirbugManager.m; sourceTree = "<group>"; };
+		4A9AE75F18A5E74D00D06721 /* ABAirbugCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAirbugCommunicator.h; sourceTree = "<group>"; };
+		4A9AE76018A5E74D00D06721 /* ABAirbugCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAirbugCommunicator.m; sourceTree = "<group>"; };
+		4A9AE76218A69C5F00D06721 /* ABIncomingDataBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABIncomingDataBuilder.h; sourceTree = "<group>"; };
+		4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABIncomingDataBuilder.m; sourceTree = "<group>"; };
+		4A9AE76518A69C6600D06721 /* ABOutgoingDataBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABOutgoingDataBuilder.h; sourceTree = "<group>"; };
+		4A9AE76618A69C6600D06721 /* ABOutgoingDataBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABOutgoingDataBuilder.m; sourceTree = "<group>"; };
 		533C6D2BC68D40A8B00F8672 /* Pods-AirbugTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirbugTests.xcconfig"; path = "Pods/Pods-AirbugTests.xcconfig"; sourceTree = "<group>"; };
 		541525D46F964201A2684BB6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA186A99EBFC4090BF0013C6 /* libPods-AirbugTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AirbugTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,6 +234,14 @@
 			children = (
 				4A2620B618A1E68D00E973EC /* ABScreenCapture.h */,
 				4A2620B718A1E68D00E973EC /* ABScreenCapture.m */,
+				4A9AE75C18A5E73700D06721 /* ABAirbugManager.h */,
+				4A9AE75D18A5E73700D06721 /* ABAirbugManager.m */,
+				4A9AE75F18A5E74D00D06721 /* ABAirbugCommunicator.h */,
+				4A9AE76018A5E74D00D06721 /* ABAirbugCommunicator.m */,
+				4A9AE76518A69C6600D06721 /* ABOutgoingDataBuilder.h */,
+				4A9AE76618A69C6600D06721 /* ABOutgoingDataBuilder.m */,
+				4A9AE76218A69C5F00D06721 /* ABIncomingDataBuilder.h */,
+				4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -435,12 +455,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A26208C18A1DB3400E973EC /* main.m in Sources */,
+				4A9AE76418A69C5F00D06721 /* ABIncomingDataBuilder.m in Sources */,
+				4A9AE76118A5E74D00D06721 /* ABAirbugCommunicator.m in Sources */,
+				4A9AE75E18A5E73700D06721 /* ABAirbugManager.m in Sources */,
 				4A9AE74C18A541C900D06721 /* ABImageUploadWindowController.m in Sources */,
 				4A2620B818A1E68D00E973EC /* ABScreenCapture.m in Sources */,
 				4A72CC5618A29D7A00B41533 /* ABScreenCaptureController.m in Sources */,
 				4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */,
 				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
 				4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */,
+				4A9AE76718A69C6600D06721 /* ABOutgoingDataBuilder.m in Sources */,
 				4A9AE73D18A3F45500D06721 /* ABCaptureAreaWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
