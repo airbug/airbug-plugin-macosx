@@ -91,6 +91,9 @@
         NSRect convertedRect = [self convertToNonNegativeRect:self.captureRect];
         if (convertedRect.size.width > 0 && convertedRect.size.height > 0) {
             [self.delegate didCaptureArea:convertedRect];
+        } else {
+            [self clearCaptureRect];
+            [self setNeedsDisplay:YES];
         }
     }
 }
