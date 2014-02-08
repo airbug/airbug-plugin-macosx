@@ -4,10 +4,10 @@ PODS:
 
 DEPENDENCIES:
   - OCMock
-  - SocketRocket
+  - SocketRocket (~> 0.3.1-beta2)
 
 SPEC CHECKSUMS:
   OCMock: ffba68873fd32cfd35d885bddad23bfa816da4a3
-  SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae
+  SocketRocket: 50ed18fa823e61ea4825127fa24b63fd4de363de
 
 COCOAPODS: 0.29.0

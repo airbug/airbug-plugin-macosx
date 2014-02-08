@@ -4,4 +4,4 @@ target 'AirbugTests', :exclusive => true do
     pod 'OCMock'
 end
 
-pod 'SocketRocket'
+pod 'SocketRocket', '~> 0.3.1-beta2'
