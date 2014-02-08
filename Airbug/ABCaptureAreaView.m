@@ -61,7 +61,31 @@
     [[NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:0.5] setFill];
     [clipPath fill];
     
+    // Draw the capture rect dimensions next to the cursor but away from the capture rect
+    NSSize dimensions = [self convertToNonNegativeRect:self.captureRect].size;
+    NSString *dimensionsString = [NSString stringWithFormat:@"(%d, %d)", (int)dimensions.width, (int)dimensions.height];
+    NSDictionary *attributes = @{NSFontAttributeName : [NSFont systemFontOfSize:9.0],
+                                 NSForegroundColorAttributeName : [NSColor whiteColor]};
+    NSAttributedString *dimensionsAttributedString = [[NSAttributedString alloc] initWithString:dimensionsString
+                                                                                     attributes:attributes];
+    NSSize stringSize = [dimensionsAttributedString size];
+    CGFloat xOffset, yOffset;
+    if (self.captureRect.size.width < 0) {
+        xOffset = -15 - stringSize.width;
+    } else {
+        xOffset = 15;
+    }
+    if (self.captureRect.size.height < 0) {
+        yOffset = -stringSize.height;
+    } else {
+        yOffset = 5;
+    }
+    NSPoint cursorPoint = [self.window mouseLocationOutsideOfEventStream];
+    NSRect captureSizeRect = NSMakeRect(cursorPoint.x + xOffset, cursorPoint.y + yOffset, stringSize.width, stringSize.height);
+    [dimensionsAttributedString drawInRect:captureSizeRect];
+    
 #ifdef DEBUG
+    // Draw debug info
     NSString *captureRectString = [NSString stringWithFormat:@"Rect: (%d, %d, %d, %d)", (int)self.captureRect.origin.x, (int)self.captureRect.origin.y, abs((int)self.captureRect.size.width), abs((int)self.captureRect.size.height)];
     NSDictionary *stringAttributes = @{NSFontAttributeName : [NSFont systemFontOfSize:11.0],
                                        NSForegroundColorAttributeName : [NSColor whiteColor]};
