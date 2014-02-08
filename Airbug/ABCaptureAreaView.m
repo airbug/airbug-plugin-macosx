@@ -9,21 +9,41 @@
 #import "ABCaptureAreaView.h"
 
 @interface ABCaptureAreaView ()
-@property (nonatomic) CGRect captureRect;
+@property (nonatomic) NSRect captureRect;
 @end
 
 @implementation ABCaptureAreaView
 
+// TODO: Explain!
+#define UNINITIALIZED_CAPTURE_RECT NSMakeRect(-1.0, -1.0, 0, 0)
+
 #pragma mark - Lifecycle
 
-- (id)initWithFrame:(NSRect)frame
+- (id)init
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
+    if (self = [super init]) {
+        [self clearCaptureRect];
     }
     return self;
 }
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder]) {
+        [self clearCaptureRect];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(NSRect)frameRect
+{
+    if (self = [super initWithFrame:frameRect]) {
+        [self clearCaptureRect];
+    }
+    return self;
+}
+
+#pragma mark - Public
 
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -55,36 +75,58 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    CGPoint pointInView = [theEvent locationInWindow];
-    
-    // Click point inside rect, so capture!
-    if (CGRectContainsPoint(self.captureRect, pointInView)) {
-        NSRect convertedRect = [self convertToNonNegativeRect:self.captureRect];
-        [self.delegate didCaptureArea:convertedRect];
-    }
-    
-    // Click point not inside rect, so make new capture rect
-    self.captureRect = CGRectMake(pointInView.x, pointInView.y, 0.0, 0.0);
+    NSPoint pointInView = [theEvent locationInWindow];
+    [self startCaptureRectAtPoint:pointInView];
     [self setNeedsDisplay:YES];
+    
+    // Pass the mouseDown: event up the responder chain so that the window has an opportunity to respond
+    // to the user drawing a rect (e.g. hiding the instructions).
+    [super mouseDown:theEvent];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    
+    if ([self startedCaptureRect]) {
+        NSRect convertedRect = [self convertToNonNegativeRect:self.captureRect];
+        if (convertedRect.size.width > 0 && convertedRect.size.height > 0) {
+            [self.delegate didCaptureArea:convertedRect];
+        }
+    }
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    CGPoint pointInView = [theEvent locationInWindow];
-    self.captureRect = CGRectMake(self.captureRect.origin.x, self.captureRect.origin.y, pointInView.x - self.captureRect.origin.x, pointInView.y - self.captureRect.origin.y);
+    // If the user hits the ESC key while dragging, the capture rect gets cleared. If the user continues to drag,
+    // need to make sure that the cleared capture rect doesn't add stuff
+    if (![self startedCaptureRect]) return;
+    
+    NSPoint pointInView = [theEvent locationInWindow];
+    [self updateCaptureRectToPoint:pointInView];
     
 #ifdef DEBUG
     [self setNeedsDisplay:YES];
 #endif
 }
 
+- (void)keyDown:(NSEvent *)theEvent
+{
+    // If a rect is drawing while ESC is pressed, reset the rectangle to zero
+    if ([theEvent keyCode] == 53 && [self startedCaptureRect]) {
+        [self clearCaptureRect];
+        [self setNeedsDisplay:YES];
+        return;
+    }
+    [super keyDown:theEvent];
+}
+
+// Must override to receive keyDown: event
+- (BOOL)acceptsFirstResponder {
+    return YES;
+}
+
 #pragma mark - Private
 
+// Converts rect so that its origin is in the bottom-left corner so that its width and height are positive
 - (NSRect)convertToNonNegativeRect:(NSRect)rect
 {
     if (rect.size.width > 0 && rect.size.height > 0) return rect;
@@ -93,6 +135,28 @@
     CGFloat originY = MIN(rect.origin.y, rect.origin.y + rect.size.height);
     NSRect convertedRect = NSMakeRect(originX, originY, abs(rect.size.width), abs(rect.size.height));
     return convertedRect;
+}
+
+- (BOOL)startedCaptureRect {
+    return (self.captureRect.origin.x > 0 && self.captureRect.origin.y > 0);
+}
+
+-(void)startCaptureRectAtPoint:(NSPoint)point
+{
+    self.captureRect = NSMakeRect(point.x, point.y, 0, 0);
+}
+
+- (void)updateCaptureRectToPoint:(NSPoint)point
+{
+    NSRect newRect;
+    newRect.origin = self.captureRect.origin;
+    newRect.size = NSMakeSize(point.x - newRect.origin.x, point.y - newRect.origin.y);
+    self.captureRect = newRect;
+}
+
+- (void)clearCaptureRect
+{
+    self.captureRect = UNINITIALIZED_CAPTURE_RECT; //NSMakeRect(-1.0, -1.0, 0, 0);
 }
 
 // TODO: How to handle when mouse moves out of screen...?

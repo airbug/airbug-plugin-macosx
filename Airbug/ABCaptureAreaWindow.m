@@ -9,6 +9,10 @@
 #import "ABCaptureAreaWindow.h"
 #import "ABCaptureAreaView.h"
 
+@interface ABCaptureAreaWindow ()
+@property (strong, nonatomic) NSTextField *instructionsTextField;
+@end
+
 @implementation ABCaptureAreaWindow
 
 NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureAreaWindowDidCaptureArea";
@@ -56,6 +60,11 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
 //    return YES;
 //}
 
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    [self.instructionsTextField setAlphaValue:0.0];
+}
+
 #pragma mark - Private
 
 - (void)setUp
@@ -71,7 +80,19 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
     captureAreaView.delegate = self;
     [self setContentView:captureAreaView];
     
-//    NSViewAnimation *animation = [NSViewAnimation 
+    NSDictionary *attributes = @{NSFontAttributeName : [NSFont boldSystemFontOfSize:48.0],
+                                 NSForegroundColorAttributeName : [NSColor whiteColor]};
+    NSAttributedString *instructions = [[NSAttributedString alloc] initWithString: @"Click and drag to capture, ESC to cancel" attributes:attributes];
+    
+    self.instructionsTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(400, 400, 500, 500)];
+    [self.instructionsTextField setEditable:NO];
+    [self.instructionsTextField setSelectable:NO];
+    [self.instructionsTextField setBordered:NO];
+    [self.instructionsTextField setDrawsBackground:NO];
+    [self.instructionsTextField setAttributedStringValue:instructions];
+    [self.instructionsTextField sizeToFit];
+    [self.instructionsTextField setAlphaValue:0.5];
+    [captureAreaView addSubview:self.instructionsTextField];
 }
 
 - (void)subscribeToNotifications
