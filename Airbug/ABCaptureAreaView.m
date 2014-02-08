@@ -14,7 +14,8 @@
 
 @implementation ABCaptureAreaView
 
-// TODO: Explain!
+// To keep track of the capture rect's state (started, changed, ended, not started), I've chosen an uninitialized
+// capture rect to be at origin (-1.0, -1.0). This knowledge is used in startedCaptureRect:.
 #define UNINITIALIZED_CAPTURE_RECT NSMakeRect(-1.0, -1.0, 0, 0)
 
 #pragma mark - Lifecycle
@@ -126,7 +127,7 @@
 
 #pragma mark - Private
 
-// Converts rect so that its origin is in the bottom-left corner so that its width and height are positive
+// Convert rect to origin in bottom-left corner so that its width and height are always positive
 - (NSRect)convertToNonNegativeRect:(NSRect)rect
 {
     if (rect.size.width > 0 && rect.size.height > 0) return rect;
@@ -156,7 +157,7 @@
 
 - (void)clearCaptureRect
 {
-    self.captureRect = UNINITIALIZED_CAPTURE_RECT; //NSMakeRect(-1.0, -1.0, 0, 0);
+    self.captureRect = UNINITIALIZED_CAPTURE_RECT;
 }
 
 // TODO: How to handle when mouse moves out of screen...?
