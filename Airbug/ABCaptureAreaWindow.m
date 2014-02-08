@@ -55,11 +55,6 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
     return YES;
 }
 
-// Commenting this out -- not necessary to support cancelOperation:
-//- (BOOL)canBecomeMainWindow {
-//    return YES;
-//}
-
 - (void)mouseDown:(NSEvent *)theEvent
 {
     [self.instructionsTextField setAlphaValue:0.0];
@@ -69,39 +64,43 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
 
 - (void)setUp
 {
-    self.backgroundColor = [NSColor clearColor];
+    // Set this up to be a full-screen, shielding, clear window
     int windowLevel = CGShieldingWindowLevel();
     [self setLevel:windowLevel];
-    [self setAlphaValue:1.0];
+    self.backgroundColor = [NSColor clearColor];
     [self setOpaque:NO];
-    [self setIgnoresMouseEvents:NO];
     
+    // Add capture overlay view
     ABCaptureAreaView *captureAreaView = [[ABCaptureAreaView alloc] initWithFrame:NSZeroRect];
     captureAreaView.delegate = self;
     [self setContentView:captureAreaView];
     
+    // Add "instructions" view
     NSDictionary *attributes = @{NSFontAttributeName : [NSFont boldSystemFontOfSize:48.0],
                                  NSForegroundColorAttributeName : [NSColor whiteColor]};
     NSAttributedString *instructions = [[NSAttributedString alloc] initWithString: @"Click and drag to capture, ESC to cancel" attributes:attributes];
-    
-    self.instructionsTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(400, 400, 500, 500)];
+    self.instructionsTextField = [[NSTextField alloc] initWithFrame:NSZeroRect];
     [self.instructionsTextField setEditable:NO];
     [self.instructionsTextField setSelectable:NO];
     [self.instructionsTextField setBordered:NO];
     [self.instructionsTextField setDrawsBackground:NO];
     [self.instructionsTextField setAttributedStringValue:instructions];
+    [self.instructionsTextField setAlphaValue:0.7];
     [self.instructionsTextField sizeToFit];
-    [self.instructionsTextField setAlphaValue:0.5];
+    NSSize size = self.instructionsTextField.frame.size;
+    CGFloat originX = (self.frame.size.width / 2.0) - (size.width / 2.0);
+    CGFloat originY = (1.0/5.0) * self.frame.size.height;
+    self.instructionsTextField.frame = NSMakeRect(originX, originY, size.width, size.height);
     [captureAreaView addSubview:self.instructionsTextField];
 }
 
+// We subscribe to these notifications so that if capture window loses focus, it closes itself.
 - (void)subscribeToNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignMainNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:self];
 }
 
-// Lost window focus, so go away!
 - (void)windowDidResignKey:(NSNotification *)notification
 {
     [self close];
@@ -113,7 +112,6 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
 - (void)didCaptureArea:(NSRect)rect
 {
     [self close];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:ABCaptureAreaWindowDidCaptureAreaNotification object:[NSValue valueWithRect:rect]];
 }
 
