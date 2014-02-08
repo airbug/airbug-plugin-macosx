@@ -12,28 +12,45 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
-        <window title="airbug" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
+        <window title="Upload to airbug" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="480"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
-            <view key="contentView" id="2">
+            <view key="contentView" horizontalHuggingPriority="252" verticalHuggingPriority="252" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qqs-WR-gjW">
-                        <rect key="frame" x="-3" y="177" width="486" height="306"/>
+                    <box autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="251" boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="g4F-ki-vqb">
+                        <rect key="frame" x="20" y="160" width="440" height="300"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView">
+                            <rect key="frame" x="1" y="1" width="438" height="298"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <imageView translatesAutoresizingMaskIntoConstraints="NO" id="qqs-WR-gjW">
+                                    <rect key="frame" x="-1" y="-1" width="440" height="300"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="syt-aC-M2f"/>
+                                </imageView>
+                            </subviews>
+                        </view>
                         <constraints>
-                            <constraint firstAttribute="height" constant="300" id="Sra-Nd-6AE"/>
+                            <constraint firstItem="qqs-WR-gjW" firstAttribute="leading" secondItem="g4F-ki-vqb" secondAttribute="leading" id="7dV-7c-iuG"/>
+                            <constraint firstAttribute="trailing" secondItem="qqs-WR-gjW" secondAttribute="trailing" id="Idy-ML-yno"/>
+                            <constraint firstItem="qqs-WR-gjW" firstAttribute="top" secondItem="g4F-ki-vqb" secondAttribute="top" id="MXb-8J-Jmi"/>
+                            <constraint firstAttribute="width" constant="440" id="UuY-pc-XM7"/>
+                            <constraint firstAttribute="bottom" secondItem="qqs-WR-gjW" secondAttribute="bottom" id="VgY-c0-uKy"/>
+                            <constraint firstAttribute="height" constant="300" id="d1E-Te-thL"/>
                         </constraints>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" imageFrameStyle="grayBezel" id="syt-aC-M2f"/>
-                    </imageView>
+                        <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="fillColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                    </box>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="qqs-WR-gjW" secondAttribute="trailing" id="DKm-HY-HEe"/>
-                    <constraint firstItem="qqs-WR-gjW" firstAttribute="top" secondItem="2" secondAttribute="top" id="qRS-SH-onB"/>
-                    <constraint firstItem="qqs-WR-gjW" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="vIT-oz-aRi"/>
+                    <constraint firstAttribute="trailing" secondItem="g4F-ki-vqb" secondAttribute="trailing" constant="20" symbolic="YES" id="IPy-pR-ZQI"/>
+                    <constraint firstItem="g4F-ki-vqb" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="epR-Vq-Aqh"/>
+                    <constraint firstItem="g4F-ki-vqb" firstAttribute="top" secondItem="2" secondAttribute="top" constant="20" symbolic="YES" id="jmU-Qz-pFW"/>
                 </constraints>
             </view>
             <connections>
