@@ -88,7 +88,7 @@
     NSDictionary *fadeAnimation = @{NSViewAnimationTargetKey : self.flashWindow,
                                     NSViewAnimationEffectKey : NSViewAnimationFadeOutEffect};
     NSViewAnimation *animation = [[NSViewAnimation alloc] initWithViewAnimations:@[fadeAnimation]];
-    animation.duration = 1.5;
+    animation.duration = 1.0;
     animation.animationCurve = NSAnimationEaseInOut;
     animation.delegate = self;
     [animation startAnimation];
