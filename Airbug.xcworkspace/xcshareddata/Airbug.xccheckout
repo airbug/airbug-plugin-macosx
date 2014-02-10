@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>24367861-5814-44F9-A3B7-EC5EAAD1A033</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Airbug</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>914CCC37-CAC7-4F17-8C0C-2934A4607CBA</key>
+		<string>https://github.com/airbug/airbug-plugin-macosx.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Airbug.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>914CCC37-CAC7-4F17-8C0C-2934A4607CBA</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/airbug/airbug-plugin-macosx.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>914CCC37-CAC7-4F17-8C0C-2934A4607CBA</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>914CCC37-CAC7-4F17-8C0C-2934A4607CBA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Airbug</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -16,6 +16,8 @@
 @implementation ABCaptureAreaWindow
 
 NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureAreaWindowDidCaptureArea";
+NSString * const ABCaptureAreaWindowScreenKey = @"ABCaptureAreaWindowScreenKey";
+NSString * const ABCaptureAreaWindowRectKey = @"ABCaptureAreaWindowRectKey";
 
 #pragma mark - Lifecycle
 
@@ -29,6 +31,7 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
     if (self) {
         [self setUp];
         [self subscribeToNotifications];
+        self.acceptsMouseMovedEvents = YES;
     }
     
     return self;
@@ -60,6 +63,29 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
     [self.instructionsTextField setAlphaValue:0.0];
 }
 
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+    [super mouseMoved:theEvent];
+    
+    // If user mouses over to a different screen, move window to that screen
+    NSPoint mouseLoc = [NSEvent mouseLocation];
+    if (NSMouseInRect(mouseLoc, self.screen.frame, NO)) {
+        return;
+    }
+    
+    NSArray *screens = [NSScreen screens];
+    NSScreen *newScreen;
+    for (NSScreen *screen in screens) {
+        if (NSMouseInRect(mouseLoc, screen.frame, NO)) {
+            newScreen = screen;
+            break;
+        }
+    }
+    
+    [self setFrame:newScreen.frame display:YES];
+    [self setUpInstructionsTextFieldPosition];
+}
+
 #pragma mark - Private
 
 - (void)setUp
@@ -87,11 +113,9 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
     [self.instructionsTextField setAttributedStringValue:instructions];
     [self.instructionsTextField setAlphaValue:0.7];
     [self.instructionsTextField sizeToFit];
-    NSSize size = self.instructionsTextField.frame.size;
-    CGFloat originX = (self.frame.size.width / 2.0) - (size.width / 2.0);
-    CGFloat originY = (1.0/5.0) * self.frame.size.height;
-    self.instructionsTextField.frame = NSMakeRect(originX, originY, size.width, size.height);
     [captureAreaView addSubview:self.instructionsTextField];
+    
+    [self setUpInstructionsTextFieldPosition];
 }
 
 // We subscribe to these notifications so that if capture window loses focus, it closes itself.
@@ -106,13 +130,24 @@ NSString * const ABCaptureAreaWindowDidCaptureAreaNotification = @"ABCaptureArea
     [self close];
 }
 
+- (void)setUpInstructionsTextFieldPosition
+{
+    NSSize size = self.instructionsTextField.frame.size;
+    CGFloat originX = (self.frame.size.width / 2.0) - (size.width / 2.0);
+    CGFloat originY = (1.0/5.0) * self.frame.size.height;
+    self.instructionsTextField.frame = NSMakeRect(originX, originY, size.width, size.height);
+}
+
 #pragma mark - Protocol conformance
 #pragma mark ABCaptureAreaViewDelegate
 
 - (void)didCaptureArea:(NSRect)rect
 {
     [self close];
-    [[NSNotificationCenter defaultCenter] postNotificationName:ABCaptureAreaWindowDidCaptureAreaNotification object:[NSValue valueWithRect:rect]];
+    NSDictionary *captureDictionary = @{ABCaptureAreaWindowRectKey : [NSValue valueWithRect:rect],
+                                        ABCaptureAreaWindowScreenKey : self.screen};
+    [[NSNotificationCenter defaultCenter] postNotificationName:ABCaptureAreaWindowDidCaptureAreaNotification
+                                                        object:captureDictionary];
 }
 
 @end

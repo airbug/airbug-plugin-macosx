@@ -11,7 +11,6 @@
 
 @implementation ABAirbugCommunicator
 
-
 // TODO: With WebSockets, is it an endpoint URL? There are different endpoint URLs?
 // We want to build the communicator to be responsible for handling communication to and from the server, so I may
 // want to build this class to support a few different endpoints and use this in iOS as well.

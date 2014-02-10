@@ -45,21 +45,12 @@
     NSImage *screenshot = [self.capturer captureMainScreen];
     [self startFlashWindowAnimation];
     
-    // TODO: Let user mouse over to chosen display?
-    NSPoint mouseLoc = [NSEvent mouseLocation];
-    NSArray *screens = [NSScreen screens];
-    for (NSScreen *screen in screens) {
-        if (NSMouseInRect(mouseLoc, screen.frame, NO)) {
-            NSLog(@"Current screen the mouse is in: %@", screen.deviceDescription[@"NSScreenNumber"]);
-        }
-    }
-    
     // TODO: Upload screenshot?
     [self.delegate didTakeScreenshot:screenshot];
 }
 
 - (void)captureArea
-{
+{    
     [self displayOverlayOnMainDisplay];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(capturedArea:)
@@ -109,10 +100,10 @@
 
 - (void)capturedArea:(NSNotification *)notification
 {
-    NSValue *value = (NSValue *)notification.object;
-    
-    NSRect captureRect = [value rectValue];
-    NSImage *captureImage = [self.capturer captureMainScreen];
+    NSDictionary *captureDictionary = (NSDictionary *)notification.object;
+    NSRect captureRect = [captureDictionary[ABCaptureAreaWindowRectKey] rectValue];
+    NSScreen *captureScreen = captureDictionary[ABCaptureAreaWindowScreenKey];
+    NSImage *captureImage = [self.capturer captureScreen:captureScreen];
     NSImage *croppedImage = [captureImage cropToRect:captureRect];
     [self.delegate didCaptureArea:croppedImage];
     
