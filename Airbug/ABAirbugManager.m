@@ -35,17 +35,15 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 // a model class and have that be a completion handler block parameter.
 - (void)uploadImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler
 {
-    [self.communicator sendImageData:imageData onCompletion:^(NSData *data, NSError *communicatorError) {
+    [self.communicator sendPNGImageData:imageData onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
         if (communicatorError) {
-            NSLog(@"Error from communicator: %@", [communicatorError localizedDescription]);
             NSError *error = [[NSError alloc] initWithDomain:ABAirbugManagerError
                                                         code:ABAirbugManagerCommunicationError
                                                     userInfo:@{NSUnderlyingErrorKey : communicatorError}];
             completionHandler(nil, error);
         } else {
-            // TODO: send data to incomingDataBuilder... something like:
-            // NSURL *url = [self.incomingBuilder URLFromData:data];
-            NSURL *url = [NSURL URLWithString:@"stub URL"];
+//            NSURL *url = [self.incomingBuilder imageURLFromJSONDictionary:jsonDictionary];
+            NSURL *url = [NSURL URLWithString:@"http://stub.url/this_is"];
             completionHandler(url, nil);
         }
     }];

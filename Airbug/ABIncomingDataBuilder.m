@@ -10,4 +10,12 @@
 
 @implementation ABIncomingDataBuilder
 
+- (NSURL *)imageURLFromJSONDictionary:(NSDictionary *)jsonDictionary
+{
+    NSParameterAssert(jsonDictionary);
+    
+    NSString *imageURL = jsonDictionary[@"imageURL"];
+    return [NSURL URLWithString:imageURL];
+}
+
 @end

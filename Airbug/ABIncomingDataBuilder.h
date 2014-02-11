@@ -10,4 +10,6 @@
 
 @interface ABIncomingDataBuilder : NSObject
 
+- (NSURL *)imageURLFromJSONDictionary:(NSDictionary *)jsonDictionary;
+
 @end

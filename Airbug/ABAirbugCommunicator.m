@@ -7,16 +7,31 @@
 //
 
 #import "ABAirbugCommunicator.h"
+#import "AFNetworking.h"
 
 @implementation ABAirbugCommunicator
 
-// TODO: With WebSockets, is it an endpoint URL? There are different endpoint URLs?
-// We want to build the communicator to be responsible for handling communication to and from the server, so I may
-// want to build this class to support a few different endpoints and use this in iOS as well.
-- (void)sendImageData:(NSData *)imageData onCompletion:(void (^)(NSData *, NSError *))completionHandler
+NSString *const ABAirbugCommunicatorError = @"ABAirbugCommunicatorError";
+NSString * const AirbugImageUploadURL = @"";
+
+#pragma mark - Public
+
+- (void)sendPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
 {
-    // TODO: Do something with WebSockets
-    completionHandler([NSData data], nil);
+    NSParameterAssert(imageData);
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *parameters = @{};
+    NSString *fileName = [[NSDate date] descriptionWithCalendarFormat:NSCalendarIdentifierISO8601 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"] locale:nil];
+    [manager POST:AirbugImageUploadURL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/png"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@", responseObject);
+        completionHandler(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error with status code %ld: %@", operation.response.statusCode, error);
+        completionHandler(nil, error);
+    }];
 }
 
 @end

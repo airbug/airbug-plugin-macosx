@@ -16,10 +16,13 @@
 
 @interface ABAirbugCommunicator : NSObject
 
+extern NSString *const ABAirbugCommunicatorError;
+
 /**
  Upload image data to the image endpoint.
- @param imageData Image data to upload. Cannot be nil. Having it be NSData allows
+ @param imageData PNG image data to upload. Cannot be nil.
+ @param completionHandler On success, returns JSON server response as an NSDictionary. NSError is nil if no error
  */
-- (void)sendImageData:(NSData *)imageData onCompletion:(void (^)(NSData *, NSError *))completionHandler;
+- (void)sendPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler;
 
 @end
