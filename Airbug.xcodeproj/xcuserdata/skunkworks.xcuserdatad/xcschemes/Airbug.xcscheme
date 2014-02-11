@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4A26207B18A1DB3400E973EC"
-               BuildableName = "Airbug.app"
+               BuildableName = "airbug.app"
                BlueprintName = "airbug"
                ReferencedContainer = "container:Airbug.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4A26207B18A1DB3400E973EC"
-            BuildableName = "Airbug.app"
+            BuildableName = "airbug.app"
             BlueprintName = "airbug"
             ReferencedContainer = "container:Airbug.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4A26207B18A1DB3400E973EC"
-            BuildableName = "Airbug.app"
+            BuildableName = "airbug.app"
             BlueprintName = "airbug"
             ReferencedContainer = "container:Airbug.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4A26207B18A1DB3400E973EC"
-            BuildableName = "Airbug.app"
+            BuildableName = "airbug.app"
             BlueprintName = "airbug"
             ReferencedContainer = "container:Airbug.xcodeproj">
          </BuildableReference>

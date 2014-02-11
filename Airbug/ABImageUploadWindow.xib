@@ -21,36 +21,58 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="251" boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="g4F-ki-vqb">
-                        <rect key="frame" x="20" y="160" width="440" height="300"/>
+                    <imageView placeholderIntrinsicWidth="440" placeholderIntrinsicHeight="248" translatesAutoresizingMaskIntoConstraints="NO" id="qqs-WR-gjW">
+                        <rect key="frame" x="20" y="212" width="440" height="248"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <view key="contentView">
-                            <rect key="frame" x="1" y="1" width="438" height="298"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <imageView translatesAutoresizingMaskIntoConstraints="NO" id="qqs-WR-gjW">
-                                    <rect key="frame" x="-1" y="-1" width="440" height="300"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="syt-aC-M2f"/>
-                                </imageView>
-                            </subviews>
-                        </view>
                         <constraints>
-                            <constraint firstItem="qqs-WR-gjW" firstAttribute="leading" secondItem="g4F-ki-vqb" secondAttribute="leading" id="7dV-7c-iuG"/>
-                            <constraint firstAttribute="trailing" secondItem="qqs-WR-gjW" secondAttribute="trailing" id="Idy-ML-yno"/>
-                            <constraint firstItem="qqs-WR-gjW" firstAttribute="top" secondItem="g4F-ki-vqb" secondAttribute="top" id="MXb-8J-Jmi"/>
-                            <constraint firstAttribute="width" constant="440" id="UuY-pc-XM7"/>
-                            <constraint firstAttribute="bottom" secondItem="qqs-WR-gjW" secondAttribute="bottom" id="VgY-c0-uKy"/>
-                            <constraint firstAttribute="height" constant="300" id="d1E-Te-thL"/>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="440" id="3jW-Uy-H1g"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="248" id="vVl-py-SzH"/>
                         </constraints>
-                        <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                        <color key="fillColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </box>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="syt-aC-M2f"/>
+                    </imageView>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FlY-I6-jbM">
+                        <rect key="frame" x="198" y="13" width="85" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Upload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ErO-Yc-QYB">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="upload:" target="-2" id="RS8-oH-GHB"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="63F-7I-8ej">
+                        <rect key="frame" x="57" y="49" width="403" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="f9U-TG-SPR">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="12O-PG-uJg">
+                        <rect key="frame" x="18" y="52" width="33" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="URL:" id="7cf-WM-Ufk">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="g4F-ki-vqb" secondAttribute="trailing" constant="20" symbolic="YES" id="IPy-pR-ZQI"/>
-                    <constraint firstItem="g4F-ki-vqb" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="epR-Vq-Aqh"/>
-                    <constraint firstItem="g4F-ki-vqb" firstAttribute="top" secondItem="2" secondAttribute="top" constant="20" symbolic="YES" id="jmU-Qz-pFW"/>
+                    <constraint firstItem="12O-PG-uJg" firstAttribute="centerY" secondItem="63F-7I-8ej" secondAttribute="centerY" constant="-0.5" id="4mY-aa-XEG"/>
+                    <constraint firstAttribute="centerX" secondItem="qqs-WR-gjW" secondAttribute="centerX" id="JGF-vj-rMq"/>
+                    <constraint firstItem="63F-7I-8ej" firstAttribute="leading" secondItem="12O-PG-uJg" secondAttribute="trailing" constant="8" id="ZNe-yI-cOx"/>
+                    <constraint firstAttribute="centerX" secondItem="FlY-I6-jbM" secondAttribute="centerX" id="ZcJ-8m-iKa"/>
+                    <constraint firstItem="FlY-I6-jbM" firstAttribute="top" secondItem="63F-7I-8ej" secondAttribute="bottom" constant="8" id="fbs-Vo-3qM"/>
+                    <constraint firstItem="12O-PG-uJg" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="gLi-QM-arT"/>
+                    <constraint firstItem="qqs-WR-gjW" firstAttribute="top" secondItem="2" secondAttribute="top" constant="20" id="p0B-Z8-ev5"/>
+                    <constraint firstAttribute="trailing" secondItem="63F-7I-8ej" secondAttribute="trailing" constant="20" id="pEJ-U2-TvE"/>
+                    <constraint firstAttribute="bottom" secondItem="FlY-I6-jbM" secondAttribute="bottom" constant="20" id="wXm-Ks-4Aq"/>
                 </constraints>
             </view>
             <connections>

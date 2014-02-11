@@ -33,6 +33,7 @@
     NSPoint nextPoint = [self.window cascadeTopLeftFromPoint:cascadeLocation];
     cascadeLocation = nextPoint;
     
+    // To allow ESC button to close window
     self.eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent *(NSEvent *event)
     {
         NSWindow *targetWindow = event.window;
@@ -52,6 +53,15 @@
 - (void)setImage:(NSImage *)image {
     _image = image;
     self.imageView.image = image;
+}
+
+#pragma mark - IBAction
+
+- (IBAction)upload:(NSButton *)sender
+{
+    [sender setEnabled:NO];
+    [sender setTitle:@"Uploading..."];
+    // TODO: Start upload
 }
 
 #pragma mark - Protocol conformance
