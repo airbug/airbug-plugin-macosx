@@ -88,7 +88,11 @@
 
 - (void)displayWindow
 {
-    // TODO: Is this necessary?
+    // Necessary to steal focus from other applications, otherwise taking a screenshot requires
+    // one mouse click to bring the capture window into focus, and another mouse click to start the
+    // actual capture process.
+    [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+    // Necessary, otherwise accessing the window a second time causes a crash.
     [self.captureWindow setReleasedWhenClosed:NO];
     [self.captureWindow makeKeyAndOrderFront:nil];
     [self.captureWindow makeFirstResponder:nil];
