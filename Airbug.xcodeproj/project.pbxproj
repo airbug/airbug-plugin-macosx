@@ -305,9 +305,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4A26207B18A1DB3400E973EC /* Airbug */ = {
+		4A26207B18A1DB3400E973EC /* airbug */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4A2620AD18A1DB3400E973EC /* Build configuration list for PBXNativeTarget "Airbug" */;
+			buildConfigurationList = 4A2620AD18A1DB3400E973EC /* Build configuration list for PBXNativeTarget "airbug" */;
 			buildPhases = (
 				5C021F500AE74A82A5A1D35D /* Check Pods Manifest.lock */,
 				4A26207818A1DB3400E973EC /* Sources */,
@@ -319,7 +319,7 @@
 			);
 			dependencies = (
 			);
-			name = Airbug;
+			name = airbug;
 			productName = Airbug;
 			productReference = 4A26207C18A1DB3400E973EC /* Airbug.app */;
 			productType = "com.apple.product-type.application";
@@ -372,7 +372,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4A26207B18A1DB3400E973EC /* Airbug */,
+				4A26207B18A1DB3400E973EC /* airbug */,
 				4A26209C18A1DB3400E973EC /* AirbugTests */,
 			);
 		};
@@ -502,7 +502,7 @@
 /* Begin PBXTargetDependency section */
 		4A2620A218A1DB3400E973EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4A26207B18A1DB3400E973EC /* Airbug */;
+			target = 4A26207B18A1DB3400E973EC /* airbug */;
 			targetProxy = 4A2620A118A1DB3400E973EC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -643,7 +643,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 533C6D2BC68D40A8B00F8672 /* Pods-AirbugTests.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Airbug.app/Contents/MacOS/Airbug";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/airbug.app/Contents/MacOS/airbug";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -666,7 +666,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 533C6D2BC68D40A8B00F8672 /* Pods-AirbugTests.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Airbug.app/Contents/MacOS/Airbug";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/airbug.app/Contents/MacOS/airbug";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -693,7 +693,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4A2620AD18A1DB3400E973EC /* Build configuration list for PBXNativeTarget "Airbug" */ = {
+		4A2620AD18A1DB3400E973EC /* Build configuration list for PBXNativeTarget "airbug" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A2620AE18A1DB3400E973EC /* Debug */,
