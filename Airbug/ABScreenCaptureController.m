@@ -8,12 +8,13 @@
 
 #import "ABScreenCaptureController.h"
 #import "ABScreenCapture.h"
-#import "ABCaptureAreaWindow.h"
+#import "ABScreenshotWindow.h"
+#import "ABTargetedScreenshotWindow.h"
 #import "NSImage+Crop.h"
 
 @interface ABScreenCaptureController ()
 @property (strong, nonatomic) NSWindow *flashWindow;
-@property (strong, nonatomic) ABCaptureAreaWindow *areaCaptureWindow;
+@property (strong, nonatomic) ABCaptureWindow *captureWindow;
 @end
 
 @implementation ABScreenCaptureController
@@ -24,8 +25,17 @@
 {
     if (self = [super init]) {
         self.capturer = [[ABScreenCapture alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(tookScreenshot:)
+                                                     name:ABCaptureWindowDidCaptureNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Custom accessors
@@ -40,34 +50,75 @@
 
 #pragma mark - Public
 
-- (void)takeScreenshot
-{
-    NSImage *screenshot = [self.capturer captureMainScreen];
-    [self startFlashWindowAnimation];
-    
-    // TODO: Upload screenshot?
-    [self.delegate didTakeScreenshot:screenshot];
+- (void)takeScreenshot {
+    [self displayScreenshotWindow];
 }
 
-- (void)captureArea
-{    
-    [self displayOverlayOnMainDisplay];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(capturedArea:)
-                                                 name:ABCaptureAreaWindowDidCaptureAreaNotification
-                                               object:nil];
+- (void)captureArea {
+    [self displayTargetedScreenshotWindow];
 }
 
 #pragma mark - Private
 
-- (void)startFlashWindowAnimation
+- (void)displayScreenshotWindow
 {
-    NSScreen *screen = [NSScreen screens][0];
+    NSScreen *mainScreen = [NSScreen mainScreen];
+    self.captureWindow = [[ABScreenshotWindow alloc] initWithContentRect:mainScreen.frame
+                                                                  styleMask:NSBorderlessWindowMask
+                                                                    backing:NSBackingStoreBuffered
+                                                                      defer:NO
+                                                                     screen:mainScreen];
+    NSAttributedString *instructions = [[NSAttributedString alloc] initWithString:@"Click to capture screenshot, ESC to cancel" attributes:@{NSFontAttributeName : [NSFont boldSystemFontOfSize:48.0], NSForegroundColorAttributeName : [NSColor whiteColor]}];
+    self.captureWindow.instructions = instructions;
+    [self displayWindow];
+}
+
+- (void)displayTargetedScreenshotWindow
+{
+    NSScreen *mainScreen = [NSScreen mainScreen];
+    self.captureWindow = [[ABTargetedScreenshotWindow alloc] initWithContentRect:mainScreen.frame
+                                                                    styleMask:NSBorderlessWindowMask
+                                                                      backing:NSBackingStoreBuffered
+                                                                        defer:NO
+                                                                       screen:mainScreen];
+    NSAttributedString *instructions = [[NSAttributedString alloc] initWithString:@"Drag to capture area, ESC to cancel" attributes:@{NSFontAttributeName : [NSFont boldSystemFontOfSize:48.0], NSForegroundColorAttributeName : [NSColor whiteColor]}];
+    self.captureWindow.instructions = instructions;
+    [self displayWindow];
+}
+
+- (void)displayWindow
+{
+    // TODO: Is this necessary?
+    [self.captureWindow setReleasedWhenClosed:NO];
+    [self.captureWindow makeKeyAndOrderFront:nil];
+    [self.captureWindow makeFirstResponder:nil];
+}
+
+- (void)tookScreenshot:(NSNotification *)notification
+{
+    [self.captureWindow close];
+    
+    NSDictionary *captureDictionary = (NSDictionary *)notification.object;
+    NSRect captureRect = [captureDictionary[ABCaptureWindowRectKey] rectValue];
+    NSScreen *captureScreen = captureDictionary[ABCaptureWindowScreenKey];
+    NSImage *captureImage = [self.capturer captureScreen:captureScreen];
+
+    // Check if capture rect requires us to crop the image
+    if (!NSEqualSizes(captureRect.size, captureScreen.frame.size)) {
+        captureImage = [captureImage cropToRect:captureRect];
+    }
+    
+    [self startFlashAnimationOnScreen:captureScreen];
+    [self.delegate didCaptureArea:captureImage];
+}
+
+- (void)startFlashAnimationOnScreen:(NSScreen *)screen
+{
     self.flashWindow = [[NSWindow alloc] initWithContentRect:screen.frame
-                                              styleMask:NSBorderlessWindowMask
-                                                backing:NSBackingStoreBuffered
-                                                  defer:NO
-                                                 screen:screen];
+                                                   styleMask:NSBorderlessWindowMask
+                                                     backing:NSBackingStoreBuffered
+                                                       defer:NO
+                                                      screen:screen];
     self.flashWindow.backgroundColor = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     self.flashWindow.level = CGShieldingWindowLevel();
     self.flashWindow.alphaValue = 1.0;
@@ -83,31 +134,6 @@
     animation.animationCurve = NSAnimationEaseInOut;
     animation.delegate = self;
     [animation startAnimation];
-}
-
-- (void)displayOverlayOnMainDisplay
-{
-    NSScreen *screen = [NSScreen screens][0];
-    self.areaCaptureWindow = [[ABCaptureAreaWindow alloc] initWithContentRect:screen.frame
-                                                                    styleMask:NSBorderlessWindowMask
-                                                                      backing:NSBackingStoreBuffered
-                                                                        defer:NO
-                                                                       screen:screen];
-    [self.areaCaptureWindow setReleasedWhenClosed:NO];
-    [self.areaCaptureWindow makeKeyAndOrderFront:nil];
-    [self.areaCaptureWindow makeFirstResponder:nil];
-}
-
-- (void)capturedArea:(NSNotification *)notification
-{
-    NSDictionary *captureDictionary = (NSDictionary *)notification.object;
-    NSRect captureRect = [captureDictionary[ABCaptureAreaWindowRectKey] rectValue];
-    NSScreen *captureScreen = captureDictionary[ABCaptureAreaWindowScreenKey];
-    NSImage *captureImage = [self.capturer captureScreen:captureScreen];
-    NSImage *croppedImage = [captureImage cropToRect:captureRect];
-    [self.delegate didCaptureArea:croppedImage];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:ABCaptureAreaWindowDidCaptureAreaNotification object:nil];
 }
 
 #pragma mark - Protocol conformance
