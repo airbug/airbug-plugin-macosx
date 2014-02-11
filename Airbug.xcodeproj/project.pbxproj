@@ -53,7 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4A26207C18A1DB3400E973EC /* Airbug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Airbug.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A26207C18A1DB3400E973EC /* airbug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = airbug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A26207F18A1DB3400E973EC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		4A26208218A1DB3400E973EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		4A26208318A1DB3400E973EC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -156,7 +156,7 @@
 		4A26207D18A1DB3400E973EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4A26207C18A1DB3400E973EC /* Airbug.app */,
+				4A26207C18A1DB3400E973EC /* airbug.app */,
 				4A26209D18A1DB3400E973EC /* AirbugTests.xctest */,
 			);
 			name = Products;
@@ -321,7 +321,7 @@
 			);
 			name = airbug;
 			productName = Airbug;
-			productReference = 4A26207C18A1DB3400E973EC /* Airbug.app */;
+			productReference = 4A26207C18A1DB3400E973EC /* airbug.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4A26209C18A1DB3400E973EC /* AirbugTests */ = {

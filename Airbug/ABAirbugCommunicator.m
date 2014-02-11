@@ -7,7 +7,6 @@
 //
 
 #import "ABAirbugCommunicator.h"
-#import "SRWebSocket.h"
 
 @implementation ABAirbugCommunicator
 

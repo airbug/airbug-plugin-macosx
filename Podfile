@@ -1,7 +1,7 @@
-platform :osx, "10.6"
+platform :osx, "10.8"
 
 target 'AirbugTests', :exclusive => true do
     pod 'OCMock'
 end
 
-pod 'SocketRocket', '~> 0.3.1-beta2'
+pod 'AFNetworking'
