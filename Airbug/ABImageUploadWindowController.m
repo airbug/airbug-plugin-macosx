@@ -10,6 +10,7 @@
 
 @interface ABImageUploadWindowController ()
 @property (weak) IBOutlet NSImageView *imageView;
+@property (nonatomic) id eventMonitor;
 @end
 
 @implementation ABImageUploadWindowController
@@ -18,7 +19,6 @@
 {
     self = [super initWithWindowNibName:@"ABImageUploadWindow" owner:self];
     if (self) {
-        // ...
     }
     return self;
 }
@@ -32,6 +32,19 @@
     static NSPoint cascadeLocation = {20, 20};
     NSPoint nextPoint = [self.window cascadeTopLeftFromPoint:cascadeLocation];
     cascadeLocation = nextPoint;
+    
+    self.eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent *(NSEvent *event)
+    {
+        NSWindow *targetWindow = event.window;
+        if (targetWindow != self.window) {
+            return event;
+        }
+        if (event.keyCode == 53) {
+            [self.window close];
+            event = nil;
+        }
+        return event;
+    }];
 }
 
 #pragma mark - Custom accessors
@@ -47,6 +60,7 @@
 - (void)windowWillClose:(NSNotification *)notification
 {
     [self.delegate imageUploadControllerWillClose:self];
+    [NSEvent removeMonitor:self.eventMonitor];
 }
 
 @end

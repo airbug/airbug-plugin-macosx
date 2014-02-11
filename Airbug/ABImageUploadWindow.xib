@@ -44,7 +44,7 @@
                             <constraint firstAttribute="height" constant="300" id="d1E-Te-thL"/>
                         </constraints>
                         <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                        <color key="fillColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                        <color key="fillColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </box>
                 </subviews>
                 <constraints>
