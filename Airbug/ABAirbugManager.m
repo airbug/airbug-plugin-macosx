@@ -30,10 +30,7 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
     return self;
 }
 
-// TODO: For now, I'm assuming that the data we're interested in after uploading an image is the URL of the image.
-// Will we be receiving anything else interesting? If so, we may want to wrap the URL and this add'l data into
-// a model class and have that be a completion handler block parameter.
-- (void)uploadImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler
+- (void)uploadPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler
 {
     [self.communicator sendPNGImageData:imageData onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
         if (communicatorError) {
@@ -42,8 +39,7 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
                                                     userInfo:@{NSUnderlyingErrorKey : communicatorError}];
             completionHandler(nil, error);
         } else {
-//            NSURL *url = [self.incomingBuilder imageURLFromJSONDictionary:jsonDictionary];
-            NSURL *url = [NSURL URLWithString:@"http://stub.url/this_is"];
+            NSURL *url = [self.incomingBuilder imageURLFromJSONDictionary:jsonDictionary];
             completionHandler(url, nil);
         }
     }];

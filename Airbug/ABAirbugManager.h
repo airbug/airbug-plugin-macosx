@@ -35,14 +35,13 @@
 /**
  Upload image to Airbug.
  @param image
-        Image data to upload. Must not be nil. Only accepts @c NSData because @c ABAirbugManager cannot be resopnsible
-        for how to encode the image.
+        Image data to upload. Must not be nil.
  @param completionHandler
         Block to execute when upload has completed successfully or unsuccessfully. The @c NSURL parameter contains
         the URL of the uploaded image if successful, nil otherwise. The @c NSError parameter contains information
         on any reasons for upload failure.
  */
-- (void)uploadImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler;
+- (void)uploadPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler;
 
 typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
     ABAirbugManagerCommunicationError,

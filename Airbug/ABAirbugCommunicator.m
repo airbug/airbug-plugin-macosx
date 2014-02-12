@@ -12,7 +12,7 @@
 @implementation ABAirbugCommunicator
 
 NSString *const ABAirbugCommunicatorError = @"ABAirbugCommunicatorError";
-NSString * const AirbugImageUploadURL = @"";
+NSString * const AirbugImageUploadURL = @"http://localhost:3000/imageupload";
 
 #pragma mark - Public
 

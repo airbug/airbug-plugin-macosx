@@ -14,7 +14,7 @@
 {
     NSParameterAssert(jsonDictionary);
     
-    NSString *imageURL = jsonDictionary[@"imageURL"];
+    NSString *imageURL = jsonDictionary[@"url"];
     return [NSURL URLWithString:imageURL];
 }
 

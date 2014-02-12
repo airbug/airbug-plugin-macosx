@@ -7,12 +7,14 @@
 //
 
 #import "ABAppDelegate.h"
+#import "ABAirbugManager.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
 @property (strong, nonatomic) NSStatusItem *statusItem;
 @property (strong, nonatomic) ABScreenCaptureController *captureController;
 @property (strong, nonatomic) NSMutableArray *imageUploadControllers;
+@property (strong, nonatomic) ABAirbugManager *manager;
 @end
 
 @implementation ABAppDelegate
@@ -36,6 +38,10 @@
     self.captureController.delegate = self;
     
     self.imageUploadControllers = [NSMutableArray array];
+    
+    self.manager = [[ABAirbugManager alloc] initWithCommunicator:[[ABAirbugCommunicator alloc] init]
+                                             incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
+                                             outgoingDataBuilder:[[ABOutgoingDataBuilder alloc] init]];
 }
 
 #pragma mark - IBAction
@@ -57,7 +63,7 @@
 
 - (void)displayImageInPreviewWindow:(NSImage *)image
 {
-    ABImageUploadWindowController *controller = [[ABImageUploadWindowController alloc] init];
+    ABImageUploadWindowController *controller = [[ABImageUploadWindowController alloc] initWithManager:self.manager];
     controller.delegate = self;
     controller.image = image;
     [controller showWindow:nil];
