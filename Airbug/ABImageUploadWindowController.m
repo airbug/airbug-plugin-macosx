@@ -80,7 +80,7 @@
             [self updateUIForUploadFailureWithError:error];
         } else {
             [self updateUIForUploadSuccess:[imageURL absoluteString]];
-            [[NSWorkspace sharedWorkspace] openURL:imageURL];
+            [[NSWorkspace sharedWorkspace] performSelector:@selector(openURL:) withObject:imageURL afterDelay:2.0];
         }
     }];
 }
@@ -88,7 +88,6 @@
 - (void)updateUIForUploadStart
 {
     [self.uploadButton setEnabled:NO];
-    [self.uploadButton setTitle:@"Uploading..."];
     [self.uploadProgressTextField setStringValue:@"Uploading..."];
     [self.uploadProgressIndicator startAnimation:nil];
 }
@@ -104,7 +103,6 @@
 
 - (void)updateUIForUploadSuccess:(NSString *)url
 {
-    [self.uploadButton setTitle:@"Uploaded!"];
     [self.uploadProgressTextField setStringValue:@"Upload successful!"];
     [self.urlTextField setHidden:NO];
     [self.urlTextField setStringValue:url];
