@@ -10,4 +10,10 @@
 
 @implementation ABOutgoingDataBuilder
 
+- (NSDictionary *)parametersForImage:(NSData *)imageData
+{
+    // Returns empty dictionary for now -- no parameters
+    return @{};
+}
+
 @end

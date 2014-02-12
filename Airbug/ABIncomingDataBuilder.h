@@ -10,6 +10,10 @@
 
 @interface ABIncomingDataBuilder : NSObject
 
-- (NSURL *)imageURLFromJSONDictionary:(NSDictionary *)jsonDictionary;
+/**
+ Reads JSON dictionary and returns the image's URL. Returns nil if JSON is malformed or missing.
+ @param JSONDictionary A JSON dictionary.
+ */
+- (NSURL *)imageURLFromJSONDictionary:(NSDictionary *)JSONDictionary;
 
 @end

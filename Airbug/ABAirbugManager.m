@@ -32,7 +32,8 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 
 - (void)uploadPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler
 {
-    [self.communicator sendPNGImageData:imageData onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
+    NSDictionary *parameters = [self.outgoingBuilder parametersForImage:imageData];
+    [self.communicator sendPNGImageData:imageData withParameters:parameters onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
         if (communicatorError) {
             NSError *error = [[NSError alloc] initWithDomain:ABAirbugManagerError
                                                         code:ABAirbugManagerCommunicationError
@@ -40,7 +41,15 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             completionHandler(nil, error);
         } else {
             NSURL *url = [self.incomingBuilder imageURLFromJSONDictionary:jsonDictionary];
-            completionHandler(url, nil);
+            NSError *error;
+            if (!url) {
+                NSString *errorMessage = [NSString stringWithFormat:@"Malformed or missing JSON response from server"];
+                error = [[NSError alloc] initWithDomain:ABAirbugManagerError
+                                                   code:ABAirbugManagerDataError
+                                               userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
+                NSLog(@"Malformed or missing JSON: %@", jsonDictionary);
+            }
+            completionHandler(url, error);
         }
     }];
 }

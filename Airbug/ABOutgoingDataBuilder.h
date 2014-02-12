@@ -10,4 +10,10 @@
 
 @interface ABOutgoingDataBuilder : NSObject
 
+/**
+ Returns a dictionary of parameters to send during image upload.
+ @param imageData The image data
+ */
+- (NSDictionary *)parametersForImage:(NSData *)imageData;
+
 @end

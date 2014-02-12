@@ -16,20 +16,17 @@ NSString * const AirbugImageUploadURL = @"http://localhost:3000/imageupload";
 
 #pragma mark - Public
 
-- (void)sendPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
+- (void)sendPNGImageData:(NSData *)imageData withParameters:(NSDictionary *)parameters onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
 {
     NSParameterAssert(imageData);
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{};
     NSString *fileName = [[NSDate date] descriptionWithCalendarFormat:NSCalendarIdentifierISO8601 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"] locale:nil];
     [manager POST:AirbugImageUploadURL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/png"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success: %@", responseObject);
         completionHandler(responseObject, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error with status code %ld: %@", operation.response.statusCode, error);
         completionHandler(nil, error);
     }];
 }
