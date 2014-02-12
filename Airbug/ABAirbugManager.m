@@ -35,9 +35,11 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
     NSDictionary *parameters = [self.outgoingBuilder parametersForImage:imageData];
     [self.communicator sendPNGImageData:imageData withParameters:parameters onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
         if (communicatorError) {
+            NSString *errorMessage = [NSString stringWithFormat:@"Failed to communicate with server. Check network connection and try again."];
             NSError *error = [[NSError alloc] initWithDomain:ABAirbugManagerError
                                                         code:ABAirbugManagerCommunicationError
-                                                    userInfo:@{NSUnderlyingErrorKey : communicatorError}];
+                                                    userInfo:@{NSUnderlyingErrorKey : communicatorError,
+                                                               NSLocalizedDescriptionKey : errorMessage}];
             completionHandler(nil, error);
         } else {
             NSURL *url = [self.incomingBuilder imageURLFromJSONDictionary:jsonDictionary];

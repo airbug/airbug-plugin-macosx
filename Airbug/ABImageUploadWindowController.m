@@ -96,9 +96,10 @@
 {
     [self.uploadButton setEnabled:YES];
     [self.uploadButton setTitle:@"Upload"];
-    NSString *errorMessage = [NSString stringWithFormat:@"Upload failed. %@", [error localizedDescription]];
-    [self.uploadProgressTextField setStringValue:errorMessage];
+    [self.uploadProgressTextField setStringValue:@"Upload failed"];
     [self.uploadProgressIndicator stopAnimation:nil];
+    NSAlert *alert = [NSAlert alertWithError:error];
+    [alert runModal];
 }
 
 - (void)updateUIForUploadSuccess:(NSString *)url
