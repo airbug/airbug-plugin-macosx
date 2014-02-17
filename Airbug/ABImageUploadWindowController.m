@@ -14,7 +14,6 @@
 @property (weak) IBOutlet NSTextField *urlTextField;
 @property (weak) IBOutlet NSButton *uploadButton;
 @property (weak) IBOutlet NSProgressIndicator *uploadProgressIndicator;
-@property (weak) IBOutlet NSTextField *uploadProgressTextField;
 @property (nonatomic) id eventMonitor;
 @end
 
@@ -80,7 +79,7 @@
             [self updateUIForUploadFailureWithError:error];
         } else {
             [self updateUIForUploadSuccess:[imageURL absoluteString]];
-            [[NSWorkspace sharedWorkspace] performSelector:@selector(openURL:) withObject:imageURL afterDelay:2.0];
+            [self launchBrowserToURL:imageURL];
         }
     }];
 }
@@ -88,7 +87,6 @@
 - (void)updateUIForUploadStart
 {
     [self.uploadButton setEnabled:NO];
-    [self.uploadProgressTextField setStringValue:@"Uploading..."];
     [self.uploadProgressIndicator startAnimation:nil];
 }
 
@@ -96,7 +94,6 @@
 {
     [self.uploadButton setEnabled:YES];
     [self.uploadButton setTitle:@"Upload"];
-    [self.uploadProgressTextField setStringValue:@"Upload failed"];
     [self.uploadProgressIndicator stopAnimation:nil];
     NSAlert *alert = [NSAlert alertWithError:error];
     [alert runModal];
@@ -104,10 +101,14 @@
 
 - (void)updateUIForUploadSuccess:(NSString *)url
 {
-    [self.uploadProgressTextField setStringValue:@"Upload successful!"];
     [self.urlTextField setHidden:NO];
     [self.urlTextField setStringValue:url];
-    [self.uploadProgressIndicator stopAnimation:nil];
+}
+
+- (void)launchBrowserToURL:(NSURL *)url {
+    // Upload progress indicator gets stopped here when browser launches (after delay). Better UI feedback for user.
+    [self.uploadProgressIndicator performSelector:@selector(stopAnimation:) withObject:nil afterDelay:1.0];
+    [[NSWorkspace sharedWorkspace] performSelector:@selector(openURL:) withObject:url afterDelay:2.0];
 }
 
 #pragma mark - Protocol conformance

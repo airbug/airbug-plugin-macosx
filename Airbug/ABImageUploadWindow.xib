@@ -9,7 +9,6 @@
                 <outlet property="imageView" destination="qqs-WR-gjW" id="Jsz-Ju-naN"/>
                 <outlet property="uploadButton" destination="FlY-I6-jbM" id="JYF-Er-fal"/>
                 <outlet property="uploadProgressIndicator" destination="W4a-3v-ShB" id="dj6-VJ-4hP"/>
-                <outlet property="uploadProgressTextField" destination="2PL-4f-4eh" id="YSZ-T6-QiU"/>
                 <outlet property="urlTextField" destination="63F-7I-8ej" id="RUP-hg-7EP"/>
                 <outlet property="window" destination="1" id="kR6-P8-Zcz"/>
             </connections>
@@ -19,14 +18,14 @@
         <window title="Upload to airbug" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="436"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="379"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
             <view key="contentView" horizontalHuggingPriority="252" verticalHuggingPriority="252" id="2">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="436"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="379"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView placeholderIntrinsicWidth="440" placeholderIntrinsicHeight="248" translatesAutoresizingMaskIntoConstraints="NO" id="qqs-WR-gjW">
-                        <rect key="frame" x="20" y="168" width="440" height="248"/>
+                        <rect key="frame" x="20" y="111" width="440" height="248"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="440" id="3jW-Uy-H1g"/>
@@ -35,7 +34,7 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="syt-aC-M2f"/>
                     </imageView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FlY-I6-jbM">
-                        <rect key="frame" x="198" y="120" width="85" height="32"/>
+                        <rect key="frame" x="198" y="63" width="85" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Upload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ErO-Yc-QYB">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -58,31 +57,20 @@ DQ
                         </textFieldCell>
                     </textField>
                     <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="W4a-3v-ShB">
-                        <rect key="frame" x="224" y="75" width="32" height="32"/>
+                        <rect key="frame" x="285" y="64" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </progressIndicator>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2PL-4f-4eh">
-                        <rect key="frame" x="238" y="50" width="4" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="" id="ZdN-z3-G0W">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="63F-7I-8ej" firstAttribute="top" secondItem="2PL-4f-4eh" secondAttribute="bottom" constant="8" id="8b3-18-j58"/>
+                    <constraint firstItem="W4a-3v-ShB" firstAttribute="leading" secondItem="FlY-I6-jbM" secondAttribute="trailing" constant="8" id="8zA-Wb-c1U"/>
                     <constraint firstItem="FlY-I6-jbM" firstAttribute="top" secondItem="qqs-WR-gjW" secondAttribute="bottom" constant="20" id="9wT-2O-jUy"/>
+                    <constraint firstAttribute="bottom" secondItem="63F-7I-8ej" secondAttribute="bottom" constant="20" id="CUE-bw-cA3"/>
                     <constraint firstAttribute="centerX" secondItem="qqs-WR-gjW" secondAttribute="centerX" id="JGF-vj-rMq"/>
+                    <constraint firstItem="W4a-3v-ShB" firstAttribute="centerY" secondItem="FlY-I6-jbM" secondAttribute="centerY" constant="0.5" id="JeC-tU-Utf"/>
                     <constraint firstAttribute="centerX" secondItem="FlY-I6-jbM" secondAttribute="centerX" id="ZcJ-8m-iKa"/>
-                    <constraint firstItem="2PL-4f-4eh" firstAttribute="top" secondItem="W4a-3v-ShB" secondAttribute="bottom" constant="8" id="fUV-4i-ktx"/>
-                    <constraint firstAttribute="centerX" secondItem="W4a-3v-ShB" secondAttribute="centerX" id="jh2-Q1-mYB"/>
                     <constraint firstItem="qqs-WR-gjW" firstAttribute="top" secondItem="2" secondAttribute="top" constant="20" id="p0B-Z8-ev5"/>
                     <constraint firstAttribute="trailing" secondItem="63F-7I-8ej" secondAttribute="trailing" constant="20" id="pEJ-U2-TvE"/>
                     <constraint firstItem="63F-7I-8ej" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="sMg-yZ-nDP"/>
-                    <constraint firstItem="W4a-3v-ShB" firstAttribute="top" secondItem="FlY-I6-jbM" secondAttribute="bottom" constant="20" id="uOI-Mi-Rq5"/>
-                    <constraint firstAttribute="centerX" secondItem="2PL-4f-4eh" secondAttribute="centerX" id="yVT-SG-4M6"/>
                 </constraints>
             </view>
             <connections>
