@@ -10,10 +10,13 @@
 
 @implementation ABOutgoingDataBuilder
 
-- (NSDictionary *)parametersForImage:(NSData *)imageData
+- (NSDictionary *)parametersForPNGImage:(NSData *)imageData
 {
     // Returns empty dictionary for now -- no parameters
     return @{};
 }
 
+- (NSDictionary *)parametersForQuickTimeVideo:(NSData *)videoData {
+    return @{};
+}
 @end

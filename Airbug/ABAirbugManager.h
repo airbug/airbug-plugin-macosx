@@ -43,6 +43,18 @@
  */
 - (void)uploadPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler;
 
+/**
+ Upload video to Airbug.
+ @param videoData
+ Video data to upload. Must not be nil.
+ @param completionHandler
+ Block to execute when upload has completed successfully or unsuccessfully. The @c NSURL parameter contains
+ the URL of the uploaded image if successful, nil otherwise. The @c NSError parameter contains information
+ on any reasons for upload failure.
+ */
+- (void)uploadQuickTimeVideoData:(NSData *)videoData onCompletion:(void (^)(NSURL *, NSError *))completionHandler;
+
+
 typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
     ABAirbugManagerCommunicationError,
     ABAirbugManagerDataError

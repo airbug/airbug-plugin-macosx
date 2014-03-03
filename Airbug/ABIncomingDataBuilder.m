@@ -10,12 +10,20 @@
 
 @implementation ABIncomingDataBuilder
 
-NSString * const ImageURLKey = @"url";
+NSString * const ImageURLKeyPath = @"url";
+NSString * const VideoURLKeyPath = @"url";
 
 - (NSURL *)imageURLFromJSONDictionary:(NSDictionary *)JSONDictionary
 {
-    NSString *imageURL = JSONDictionary[ImageURLKey];
+    NSString *imageURL = [JSONDictionary valueForKeyPath:ImageURLKeyPath];
     return [NSURL URLWithString:imageURL];
 }
+
+- (NSURL *)videoURLFromJSONDictionary:(NSDictionary *)JSONDictionary
+{
+    NSString *imageURL = JSONDictionary[VideoURLKeyPath];
+    return [NSURL URLWithString:imageURL];
+}
+
 
 @end

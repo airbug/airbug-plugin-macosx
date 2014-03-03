@@ -14,6 +14,12 @@
  Returns a dictionary of parameters to send during image upload.
  @param imageData The image data
  */
-- (NSDictionary *)parametersForImage:(NSData *)imageData;
+- (NSDictionary *)parametersForPNGImage:(NSData *)imageData;
+
+/**
+ Returns a dictionary of parameters to send during image upload.
+ @param imageData The image data
+ */
+- (NSDictionary *)parametersForQuickTimeVideo:(NSData *)videoData;
 
 @end

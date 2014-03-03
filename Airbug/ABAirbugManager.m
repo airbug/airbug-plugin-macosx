@@ -32,7 +32,7 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 
 - (void)uploadPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler
 {
-    NSDictionary *parameters = [self.outgoingBuilder parametersForImage:imageData];
+    NSDictionary *parameters = [self.outgoingBuilder parametersForPNGImage:imageData];
     [self.communicator sendPNGImageData:imageData withParameters:parameters onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
         if (communicatorError) {
             NSString *errorMessage = [NSString stringWithFormat:@"Failed to communicate with server. Check network connection and try again."];
@@ -54,6 +54,33 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             completionHandler(url, error);
         }
     }];
+}
+
+- (void)uploadQuickTimeVideoData:(NSData *)videoData onCompletion:(void (^)(NSURL *, NSError *))completionHandler
+{
+    NSDictionary *parameters = [self.outgoingBuilder parametersForQuickTimeVideo:videoData];
+    [self.communicator sendQuickTimeVideoData:videoData withParameters:parameters onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
+        if (communicatorError) {
+            NSString *errorMessage = [NSString stringWithFormat:@"Failed to communicate with server. Check network connection and try again."];
+            NSError *error = [[NSError alloc] initWithDomain:ABAirbugManagerError
+                                                        code:ABAirbugManagerCommunicationError
+                                                    userInfo:@{NSUnderlyingErrorKey : communicatorError,
+                                                               NSLocalizedDescriptionKey : errorMessage}];
+            completionHandler(nil, error);
+        } else {
+            NSURL *url = [self.incomingBuilder videoURLFromJSONDictionary:jsonDictionary];
+            NSError *error;
+            if (!url) {
+                NSString *errorMessage = [NSString stringWithFormat:@"Malformed or missing JSON response from server"];
+                error = [[NSError alloc] initWithDomain:ABAirbugManagerError
+                                                   code:ABAirbugManagerDataError
+                                               userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
+                NSLog(@"Malformed or missing JSON: %@", jsonDictionary);
+            }
+            completionHandler(url, error);
+        }
+    }];
+
 }
 
 @end

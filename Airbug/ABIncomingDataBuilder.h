@@ -16,4 +16,10 @@
  */
 - (NSURL *)imageURLFromJSONDictionary:(NSDictionary *)JSONDictionary;
 
+/**
+ Reads JSON dictionary and returns the video's URL. Returns nil if JSON is malformed or missing.
+ @param JSONDictionary A JSON dictionary.
+ */
+- (NSURL *)videoURLFromJSONDictionary:(NSDictionary *)JSONDictionary;
+
 @end
