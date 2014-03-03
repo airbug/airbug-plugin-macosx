@@ -21,6 +21,7 @@
     self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO screen:screen];
     if (self) {
         [self setUp];
+        [self closeWhenFocusLost:YES];
     }
     
     return self;
@@ -38,12 +39,6 @@
 
 - (void)setUp
 {
-    // Set this up to be a full-screen, shielding, clear window
-    int windowLevel = CGShieldingWindowLevel();
-    [self setLevel:windowLevel];
-    self.backgroundColor = [NSColor clearColor];
-    [self setOpaque:NO];
-    
     // Add capture overlay view
     self.captureAreaView = [[ABCaptureAreaView alloc] initWithFrame:NSZeroRect];
     self.captureAreaView.delegate = self;

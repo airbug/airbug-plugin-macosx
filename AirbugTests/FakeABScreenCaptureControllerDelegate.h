@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ABScreenCaptureController.h"
+#import "ABCaptureManager.h"
 
-@interface FakeABScreenCaptureControllerDelegate : NSObject <ABScreenCaptureControllerDelegate>
+@interface FakeABScreenCaptureControllerDelegate : NSObject <ABCaptureManagerDelegate>
 
 @end

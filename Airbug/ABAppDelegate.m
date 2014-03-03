@@ -8,12 +8,15 @@
 
 #import "ABAppDelegate.h"
 #import "ABAirbugManager.h"
+#import "ABImageUploadWindowController.h"
+#import "ABVideoUploadWindowController.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
-@property (strong, nonatomic) NSStatusItem *statusItem;
-@property (strong, nonatomic) ABScreenCaptureController *captureController;
-@property (strong, nonatomic) NSMutableArray *imageUploadControllers;
+@property (strong, nonatomic) NSStatusItem *mainStatusItem;
+@property (strong, nonatomic) NSStatusItem *stopRecordingStatusItem;
+@property (strong, nonatomic) ABCaptureManager *captureController;
+@property (strong, nonatomic) NSMutableArray *uploadControllers;
 @property (strong, nonatomic) ABAirbugManager *manager;
 @end
 
@@ -28,16 +31,16 @@
 - (void)awakeFromNib
 {
     NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
-    self.statusItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
-    self.statusItem.image = [NSImage imageNamed:@"StatusMenuIcon"];
-    self.statusItem.title = @"";
-    self.statusItem.highlightMode = YES;
-    self.statusItem.menu = self.statusMenu;
+    self.mainStatusItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
+    self.mainStatusItem.image = [NSImage imageNamed:@"StatusMenuIcon"];
+    self.mainStatusItem.title = @"";
+    self.mainStatusItem.highlightMode = YES;
+    self.mainStatusItem.menu = self.statusMenu;
     
-    self.captureController = [[ABScreenCaptureController alloc] init];
+    self.captureController = [[ABCaptureManager alloc] init];
     self.captureController.delegate = self;
     
-    self.imageUploadControllers = [NSMutableArray array];
+    self.uploadControllers = [NSMutableArray array];
     
     self.manager = [[ABAirbugManager alloc] initWithCommunicator:[[ABAirbugCommunicator alloc] init]
                                              incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
@@ -47,16 +50,33 @@
 #pragma mark - IBAction
 
 - (IBAction)takeScreenshot:(id)sender {
-    [self.captureController takeScreenshot];
+    [self.captureController captureScreenshot];
 }
 
 - (IBAction)captureArea:(id)sender {
-    [self.captureController captureArea];
+    [self.captureController captureTargetedScreenshot];
 }
 
 - (IBAction)quit:(id)sender {
-    [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
+    [[NSStatusBar systemStatusBar] removeStatusItem:self.mainStatusItem];
     [[NSApplication sharedApplication] stop:nil];
+}
+
+- (IBAction)captureScreenRecording:(id)sender {
+    [self.captureController startVideoScreenCapture];
+
+    NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
+    self.stopRecordingStatusItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
+    self.stopRecordingStatusItem.image = [NSImage imageNamed:@"StopCaptureIcon"];
+    self.stopRecordingStatusItem.title = @"Click to stop recording";
+    self.stopRecordingStatusItem.target = self;
+    self.stopRecordingStatusItem.action = @selector(stopRecording:);
+}
+
+- (void)stopRecording:(id)sender {
+    [[NSStatusBar systemStatusBar] removeStatusItem:self.stopRecordingStatusItem];
+    self.stopRecordingStatusItem = nil;
+    [self.captureController stopVideoScreenCapture];
 }
 
 #pragma mark - Private
@@ -67,29 +87,40 @@
     controller.delegate = self;
     controller.image = image;
     [controller showWindow:nil];
-    [self.imageUploadControllers addObject:controller];
+    [self.uploadControllers addObject:controller];
+}
+
+- (void)displayVideoInPreviewWindow:(NSURL *)file
+{
+    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:file];
+    AVPlayer *player = [AVPlayer playerWithPlayerItem:item];
+    
+    ABVideoUploadWindowController *controller = [[ABVideoUploadWindowController alloc] initWithManager:self.manager];
+    controller.delegate = self;
+    controller.player = player;
+    [controller showWindow:nil];
+    [self.uploadControllers addObject:controller];
 }
 
 #pragma mark - Protocol conformance
 #pragma mark ABScreenCaptureControllerDelegate
 
-- (void)didTakeScreenshot:(NSImage *)image
+- (void)didCaptureImage:(NSImage *)image
 {
-    NSLog(@"Took screenshot: %@", image);
     [self displayImageInPreviewWindow:image];
 }
 
-- (void)didCaptureArea:(NSImage *)image
+- (void)didCaptureFile:(NSURL *)file
 {
-    NSLog(@"Captured area: %@", image);
-    [self displayImageInPreviewWindow:image];
+    [self displayVideoInPreviewWindow:file];
+    NSLog(@"Captured file: %@", file);
 }
 
-#pragma mark ABImageUploadWindowControllerDelegate
+#pragma mark ABUploadWindowControllerDelegate
 
-- (void)imageUploadControllerWillClose:(ABImageUploadWindowController *)controller
+- (void)uploadWindowControllerWillClose:(ABUploadWindowController *)controller
 {
-    [self.imageUploadControllers removeObject:controller];
+    [self.uploadControllers removeObject:controller];
 }
 
 @end

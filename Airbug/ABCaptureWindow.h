@@ -10,8 +10,7 @@
 #import "ABCaptureAreaView.h"
 
 /**
- Displays an overlay on the screen to allow users to capture a specific area. When an area is captured, it sends
- the capture data (screen, rect) in an @c NSDictionary object.
+ Displays an overlay on the screen to allow users to capture some screen data.
  */
 @interface ABCaptureWindow : NSWindow
 
@@ -23,5 +22,7 @@ extern NSString * const ABCaptureWindowRectKey;
  The string content for the instructions label
  */
 @property (copy, nonatomic) NSAttributedString *instructions;
+
+- (void)closeWhenFocusLost:(BOOL)shouldClose;
 
 @end

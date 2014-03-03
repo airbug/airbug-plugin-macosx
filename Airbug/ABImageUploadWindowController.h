@@ -7,27 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "ABImageUploadWindowControllerDelegate.h"
-#import "ABAirbugManager.h"
+#import "ABUploadWindowController.h"
 
-@interface ABImageUploadWindowController : NSWindowController <NSWindowDelegate>
-
-// Designated initializer
-- (id)initWithManager:(ABAirbugManager *)manager;
+@interface ABImageUploadWindowController : ABUploadWindowController <NSWindowDelegate>
 
 /**
  The image to upload
  */
 @property (strong, nonatomic) NSImage *image;
-
-/**
- The object that manages all interaction with airbug services.
- */
-@property (strong, nonatomic) ABAirbugManager *manager;
-
-/**
- The optional delegate for this window controller
- */
-@property (weak, nonatomic) id <ABImageUploadWindowControllerDelegate> delegate;
 
 @end

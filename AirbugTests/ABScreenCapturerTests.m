@@ -8,15 +8,15 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import "ABScreenCapture.h"
+#import "ABScreenCapturer.h"
 
-@interface ABScreenCapture ()
+@interface ABScreenCapturer ()
 - (NSImage *)imageFromDisplayID:(CGDirectDisplayID)displayID;
 @end
 
 @interface ABScreenCapturerTests : XCTestCase
 {
-    ABScreenCapture *capturer;
+    ABScreenCapturer *capturer;
 }
 @end
 
@@ -24,8 +24,8 @@
 
 #pragma mark - Utility methods
 
-- (ABScreenCapture *)newScreenCapturer {
-    return [[ABScreenCapture alloc] init];
+- (ABScreenCapturer *)newScreenCapturer {
+    return [[ABScreenCapturer alloc] init];
 }
 
 #pragma mark - Tests

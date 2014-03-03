@@ -8,9 +8,11 @@
 
 #import "ABCaptureWindow.h"
 #import "ABCaptureAreaView.h"
+#import "ABCaptureView.h"
 
 @interface ABCaptureWindow ()
 @property (strong, nonatomic) NSTextField *instructionsTextField;
+@property (strong, nonatomic) ABCaptureView *overlayView;
 @end
 
 @implementation ABCaptureWindow
@@ -25,8 +27,8 @@ NSString * const ABCaptureWindowRectKey = @"ABCaptureWindowRectKey";
 {
     self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO screen:screen];
     if (self) {
-        [self subscribeToWindowFocusNotifications];
         self.acceptsMouseMovedEvents = YES;
+        [self setUpWindow];
     }
     return self;
 }
@@ -103,13 +105,26 @@ NSString * const ABCaptureWindowRectKey = @"ABCaptureWindowRectKey";
     [self repositionInstructions];
 }
 
+- (void)closeWhenFocusLost:(BOOL)shouldClose
+{
+    if (shouldClose) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignMainNotification object:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:self];
+    } else {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignMainNotification object:self];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignKeyNotification object:self];
+    }
+}
+
 #pragma mark - Private
 
-// We subscribe to these notifications so that if capture window loses focus, it closes itself.
-- (void)subscribeToWindowFocusNotifications
+- (void)setUpWindow
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignMainNotification object:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:self];
+    // Set this up to be a full-screen, shielding, clear window
+    int windowLevel = CGShieldingWindowLevel();
+    [self setLevel:windowLevel];
+    self.backgroundColor = [NSColor clearColor];
+    [self setOpaque:NO];
 }
 
 - (void)repositionInstructions

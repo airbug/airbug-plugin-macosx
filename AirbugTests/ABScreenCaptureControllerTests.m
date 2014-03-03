@@ -8,12 +8,12 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import "ABScreenCaptureController.h"
+#import "ABCaptureManager.h"
 #import "FakeABScreenCaptureControllerDelegate.h"
 
 @interface ABScreenCaptureControllerTests : XCTestCase
 {
-    ABScreenCaptureController *controller;
+    ABCaptureManager *controller;
 }
 @end
 
@@ -21,8 +21,8 @@
 
 #pragma mark - Utility
 
-- (ABScreenCaptureController *)newScreenCaptureController {
-    return [[ABScreenCaptureController alloc] init];
+- (ABCaptureManager *)newScreenCaptureController {
+    return [[ABCaptureManager alloc] init];
 }
 
 #pragma mark - Tests
@@ -40,7 +40,7 @@
 - (void)testDelegateWhenAssignedToNonConformingObjectThrowsException
 {
     controller = [self newScreenCaptureController];
-    id <ABScreenCaptureControllerDelegate> nonConformingObj = (id <ABScreenCaptureControllerDelegate>)[NSNull null];
+    id <ABCaptureManagerDelegate> nonConformingObj = (id <ABCaptureManagerDelegate>)[NSNull null];
 
     XCTAssertThrows(controller.delegate = nonConformingObj);
 }
@@ -49,14 +49,14 @@
 {
     controller = [self newScreenCaptureController];
     NSImage *image = [[NSImage alloc] init];
-    id stubCapturer = [OCMockObject mockForClass:[ABScreenCapture class]];
+    id stubCapturer = [OCMockObject mockForClass:[ABScreenCapturer class]];
     [[[stubCapturer stub] andReturn:image] captureMainScreen];
     controller.capturer = stubCapturer;
     id mockDelegate = [OCMockObject partialMockForObject:[[FakeABScreenCaptureControllerDelegate alloc] init]];
     [[mockDelegate expect] didTakeScreenshot:image];
     controller.delegate = mockDelegate;
     
-    [controller takeScreenshot];
+    [controller captureScreenshot];
     
     [mockDelegate verify];
 }

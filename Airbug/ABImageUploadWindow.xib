@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
@@ -34,9 +34,13 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="syt-aC-M2f"/>
                     </imageView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FlY-I6-jbM">
-                        <rect key="frame" x="198" y="63" width="85" height="32"/>
+                        <rect key="frame" x="170" y="56" width="140" height="35"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Upload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ErO-Yc-QYB">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="140" id="Qo2-1h-bqO"/>
+                            <constraint firstAttribute="height" constant="35" id="nQt-AY-et6"/>
+                        </constraints>
+                        <buttonCell key="cell" type="square" title="Upload" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ErO-Yc-QYB">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
@@ -57,16 +61,20 @@ DQ
                         </textFieldCell>
                     </textField>
                     <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="W4a-3v-ShB">
-                        <rect key="frame" x="285" y="64" width="32" height="32"/>
+                        <rect key="frame" x="277" y="61" width="25" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="25" id="TH2-Qb-Rmy"/>
+                            <constraint firstAttribute="height" constant="25" id="uZD-Ew-0A3"/>
+                        </constraints>
                     </progressIndicator>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="W4a-3v-ShB" firstAttribute="leading" secondItem="FlY-I6-jbM" secondAttribute="trailing" constant="8" id="8zA-Wb-c1U"/>
                     <constraint firstItem="FlY-I6-jbM" firstAttribute="top" secondItem="qqs-WR-gjW" secondAttribute="bottom" constant="20" id="9wT-2O-jUy"/>
                     <constraint firstAttribute="bottom" secondItem="63F-7I-8ej" secondAttribute="bottom" constant="20" id="CUE-bw-cA3"/>
+                    <constraint firstItem="FlY-I6-jbM" firstAttribute="trailing" secondItem="W4a-3v-ShB" secondAttribute="trailing" constant="8" id="Gno-Ct-SGP"/>
                     <constraint firstAttribute="centerX" secondItem="qqs-WR-gjW" secondAttribute="centerX" id="JGF-vj-rMq"/>
-                    <constraint firstItem="W4a-3v-ShB" firstAttribute="centerY" secondItem="FlY-I6-jbM" secondAttribute="centerY" constant="0.5" id="JeC-tU-Utf"/>
+                    <constraint firstItem="W4a-3v-ShB" firstAttribute="centerY" secondItem="FlY-I6-jbM" secondAttribute="centerY" id="JeC-tU-Utf"/>
                     <constraint firstAttribute="centerX" secondItem="FlY-I6-jbM" secondAttribute="centerX" id="ZcJ-8m-iKa"/>
                     <constraint firstItem="qqs-WR-gjW" firstAttribute="top" secondItem="2" secondAttribute="top" constant="20" id="p0B-Z8-ev5"/>
                     <constraint firstAttribute="trailing" secondItem="63F-7I-8ej" secondAttribute="trailing" constant="20" id="pEJ-U2-TvE"/>

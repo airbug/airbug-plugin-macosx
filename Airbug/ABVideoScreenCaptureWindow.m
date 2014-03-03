@@ -1,20 +1,20 @@
 //
-//  ABScreenshotWindow.m
+//  ABScreenVideoCaptureWindow.m
 //  Airbug
 //
-//  Created by Richard Shin on 2/10/14.
+//  Created by Richard Shin on 2/28/14.
 //  Copyright (c) 2014 Airbug. All rights reserved.
 //
 
-#import "ABScreenshotWindow.h"
-#import "ABScreenCapturer.h"
+#import "ABVideoScreenCaptureWindow.h"
 #import "ABCaptureView.h"
 
-@interface ABScreenshotWindow ()
+@interface ABVideoScreenCaptureWindow ()
 @property (strong, nonatomic) ABCaptureView *overlayView;
+@property (nonatomic) BOOL isRecording;
 @end
 
-@implementation ABScreenshotWindow
+@implementation ABVideoScreenCaptureWindow
 
 #pragma mark - Lifecycle
 
@@ -23,12 +23,18 @@
     self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag screen:screen];
     if (self) {
         [self setUp];
-        [self closeWhenFocusLost:YES];
     }
     return self;
 }
 
 #pragma mark - Public
+
+#pragma mark NSWindow
+
+- (void)windowDidResignMain:(NSNotification *)notification
+{
+    [self setLevel:NSStatusWindowLevel];
+}
 
 - (void)setFrame:(NSRect)frameRect display:(BOOL)flag
 {
@@ -36,24 +42,25 @@
     [super setFrame:frameRect display:flag];
 }
 
+#pragma mark NSResponder
+
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    [self sendNotification];
     [super mouseDown:theEvent];
+}
+
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+    // We want to allow window to move to different screens ONLY if recording hasn't started yet.
+    if (self.isRecording) return;
+    [super mouseMoved:theEvent];
 }
 
 #pragma mark - Private
 
 - (void)setUp
 {
-    self.overlayView = [[ABCaptureView alloc] initWithFrame:NSMakeRect(0, 0, self.frame.size.width, self.frame.size.height)];
-    [self.contentView addSubview:self.overlayView];
-}
-
-- (void)sendNotification
-{
-    NSDictionary *captureDictionary = @{ABCaptureWindowScreenKey : self.screen, ABCaptureWindowRectKey : [NSValue valueWithRect:self.screen.frame]};
-    [[NSNotificationCenter defaultCenter] postNotificationName:ABCaptureWindowDidCaptureNotification object:captureDictionary];
+    self.level = NSStatusWindowLevel;
 }
 
 @end

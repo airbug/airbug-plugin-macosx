@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Airbug. All rights reserved.
 //
 
-#import "ABScreenCapture.h"
+#import "ABScreenCapturer.h"
 
-@interface ABScreenCapture ()
+@interface ABScreenCapturer ()
 @property (strong, nonatomic) NSWindow *window;
 @end
 
-@implementation ABScreenCapture
+@implementation ABScreenCapturer
 
 #pragma mark - Public
 

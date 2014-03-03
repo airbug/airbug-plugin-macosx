@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ABScreenCapture : NSObject
+@interface ABScreenCapturer : NSObject
 
 - (NSImage *)captureMainScreen;
 - (NSImage *)captureScreen:(NSScreen *)screen;

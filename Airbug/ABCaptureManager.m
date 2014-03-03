@@ -1,30 +1,31 @@
 //
-//  ABScreenCaptureController.m
+//  ABCaptureManager.m
 //  Airbug
 //
 //  Created by Richard Shin on 2/5/14.
 //  Copyright (c) 2014 Airbug. All rights reserved.
 //
 
-#import "ABScreenCaptureController.h"
-#import "ABScreenCapture.h"
+#import "ABCaptureManager.h"
 #import "ABScreenshotWindow.h"
 #import "ABTargetedScreenshotWindow.h"
+#import "ABVideoScreenCaptureWindow.h"
 #import "NSImage+Crop.h"
 
-@interface ABScreenCaptureController ()
+@interface ABCaptureManager ()
 @property (strong, nonatomic) NSWindow *flashWindow;
 @property (strong, nonatomic) ABCaptureWindow *captureWindow;
 @end
 
-@implementation ABScreenCaptureController
+@implementation ABCaptureManager
 
 #pragma mark - Lifecycle
 
 - (id)init
 {
     if (self = [super init]) {
-        self.capturer = [[ABScreenCapture alloc] init];
+        _capturer = [[ABScreenCapturer alloc] init];
+        _videoCapturer = [[ABVideoScreenCapturer alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(tookScreenshot:)
                                                      name:ABCaptureWindowDidCaptureNotification
@@ -40,9 +41,9 @@
 
 #pragma mark - Custom accessors
 
-- (void)setDelegate:(id<ABScreenCaptureControllerDelegate>)delegate
+- (void)setDelegate:(id<ABCaptureManagerDelegate>)delegate
 {
-    if (![delegate conformsToProtocol:@protocol(ABScreenCaptureControllerDelegate)]) {
+    if (![delegate conformsToProtocol:@protocol(ABCaptureManagerDelegate)]) {
         [NSException raise:@"Nonconforming delegate" format:@"Delegate must conform to ABScreenCaptureControllerDelegate protocol"];
     }
     _delegate = delegate;
@@ -50,12 +51,30 @@
 
 #pragma mark - Public
 
-- (void)takeScreenshot {
+- (void)captureScreenshot {
     [self displayScreenshotWindow];
 }
 
-- (void)captureArea {
+- (void)captureTargetedScreenshot {
     [self displayTargetedScreenshotWindow];
+}
+
+- (void)startVideoScreenCapture {
+    NSLog(@"ABCaptureManager - start video screen capture");
+    [self displayVideoScreenCaptureWindow];
+    NSURL *destPath = [self URLForVideoCaptureFile];
+    [self.videoCapturer startCapturingForScreen:[NSScreen mainScreen] toOutputFile:destPath sessionPreset:AVCaptureSessionPresetHigh maxTime:30 onCompletion:^(NSURL *outputFile, NSError *error) {
+        if (error) {
+            NSLog(@"Error capturing screen video: %@", [error localizedDescription]);
+        } else {
+            [self.delegate didCaptureFile:outputFile];
+        }
+    }];
+}
+
+- (void)stopVideoScreenCapture {
+    NSLog(@"ABCaptureManager - stop video screen capture");
+    [self.videoCapturer stopCapturing];
 }
 
 #pragma mark - Private
@@ -70,7 +89,7 @@
                                                                      screen:mainScreen];
     NSAttributedString *instructions = [[NSAttributedString alloc] initWithString:@"Click to capture screenshot, ESC to cancel" attributes:@{NSFontAttributeName : [NSFont boldSystemFontOfSize:48.0], NSForegroundColorAttributeName : [NSColor whiteColor]}];
     self.captureWindow.instructions = instructions;
-    [self displayWindow];
+    [self displayCaptureWindow:self.captureWindow];
 }
 
 - (void)displayTargetedScreenshotWindow
@@ -83,19 +102,30 @@
                                                                        screen:mainScreen];
     NSAttributedString *instructions = [[NSAttributedString alloc] initWithString:@"Drag to capture area, ESC to cancel" attributes:@{NSFontAttributeName : [NSFont boldSystemFontOfSize:48.0], NSForegroundColorAttributeName : [NSColor whiteColor]}];
     self.captureWindow.instructions = instructions;
-    [self displayWindow];
+    [self displayCaptureWindow:self.captureWindow];
 }
 
-- (void)displayWindow
+- (void)displayVideoScreenCaptureWindow
+{
+    NSScreen *mainScreen = [NSScreen mainScreen];
+    self.captureWindow = [[ABVideoScreenCaptureWindow alloc] initWithContentRect:mainScreen.frame
+                                                                       styleMask:NSBorderlessWindowMask
+                                                                         backing:NSBackingStoreBuffered
+                                                                           defer:NO
+                                                                          screen:mainScreen];
+    [self displayCaptureWindow:self.captureWindow];
+}
+
+- (void)displayCaptureWindow:(ABCaptureWindow *)captureWindow
 {
     // Necessary to steal focus from other applications, otherwise taking a screenshot requires
     // one mouse click to bring the capture window into focus, and another mouse click to start the
     // actual capture process.
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
     // Necessary, otherwise accessing the window a second time causes a crash.
-    [self.captureWindow setReleasedWhenClosed:NO];
-    [self.captureWindow makeKeyAndOrderFront:nil];
-    [self.captureWindow makeFirstResponder:nil];
+    [captureWindow setReleasedWhenClosed:NO];
+    [captureWindow makeKeyAndOrderFront:nil];
+    [captureWindow makeFirstResponder:nil];
 }
 
 - (void)tookScreenshot:(NSNotification *)notification
@@ -113,7 +143,7 @@
     }
     
     [self startFlashAnimationOnScreen:captureScreen];
-    [self.delegate didCaptureArea:captureImage];
+    [self.delegate didCaptureImage:captureImage];
 }
 
 - (void)startFlashAnimationOnScreen:(NSScreen *)screen
@@ -138,6 +168,30 @@
     animation.animationCurve = NSAnimationEaseInOut;
     animation.delegate = self;
     [animation startAnimation];
+}
+
+- (NSURL *)URLForVideoCaptureFile
+{
+    NSString *filename = [NSString stringWithFormat:@"airbug Screen Capture %@.mov", [NSDate date]];
+    NSString *tempFileTemplate = [NSTemporaryDirectory() stringByAppendingPathComponent:filename];
+    const char *tempFileTemplateCString = [tempFileTemplate fileSystemRepresentation];
+    char *tempFileNameCString = (char *)malloc(strlen(tempFileTemplateCString) + 1);
+    strcpy(tempFileNameCString, tempFileTemplateCString);
+    int fileDescriptor = mkstemp(tempFileNameCString);
+    
+    if (fileDescriptor == -1) {
+        NSLog(@"Failed to create file descriptor");
+        return nil;
+    }
+    
+    // This is the file name if you need to access the file by name, otherwise you can remove
+    // this line.
+    NSString *tempFileName = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:tempFileNameCString
+     length:strlen(tempFileNameCString)];
+    
+    free(tempFileNameCString);
+    
+    return [NSURL fileURLWithPath:tempFileName];
 }
 
 #pragma mark - Protocol conformance
