@@ -28,10 +28,10 @@ extern NSString *const ABAirbugCommunicatorError;
 
 /**
  Upload video data to the image endpoint.
- @param videoData Quicktime video data to upload. Cannot be nil.
+ @param fileURL URL to the Quicktime video file to upload. Cannot be nil.
  @param parameters Parameters to be encoded and sent to the server
  @param completionHandler On success, returns JSON server response as an NSDictionary. NSError is nil if no error.
  */
-- (void)sendQuickTimeVideoData:(NSData *)videoData withParameters:(NSDictionary *)parameters onCompletion:(void (^)(NSDictionary *jsonDictionary, NSError *error))completionHandler;
+- (void)sendQuickTimeVideoFile:(NSURL *)fileURL withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler;
 
 @end

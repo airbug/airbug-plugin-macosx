@@ -16,7 +16,7 @@
     return @{};
 }
 
-- (NSDictionary *)parametersForQuickTimeVideo:(NSData *)videoData {
+- (NSDictionary *)parametersForQuickTimeVideo:(NSURL *)fileURL {
     return @{};
 }
 @end

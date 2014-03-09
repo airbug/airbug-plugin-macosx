@@ -56,10 +56,11 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
     }];
 }
 
-- (void)uploadQuickTimeVideoData:(NSData *)videoData onCompletion:(void (^)(NSURL *, NSError *))completionHandler
+- (void)uploadQuickTimeVideoFile:(NSURL *)fileURL progress:(NSProgress **)progress onCompletion:(void (^)(NSURL *, NSError *))completionHandler
 {
-    NSDictionary *parameters = [self.outgoingBuilder parametersForQuickTimeVideo:videoData];
-    [self.communicator sendQuickTimeVideoData:videoData withParameters:parameters onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
+    NSDictionary *parameters = [self.outgoingBuilder parametersForQuickTimeVideo:fileURL];
+    [self.communicator sendQuickTimeVideoFile:fileURL withParameters:parameters progress:progress onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError)
+    {
         if (communicatorError) {
             NSString *errorMessage = [NSString stringWithFormat:@"Failed to communicate with server. Check network connection and try again."];
             NSError *error = [[NSError alloc] initWithDomain:ABAirbugManagerError
@@ -80,7 +81,6 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             completionHandler(url, error);
         }
     }];
-
 }
 
 @end

@@ -20,6 +20,6 @@
  Returns a dictionary of parameters to send during image upload.
  @param imageData The image data
  */
-- (NSDictionary *)parametersForQuickTimeVideo:(NSData *)videoData;
+- (NSDictionary *)parametersForQuickTimeVideo:(NSURL *)fileURL;
 
 @end

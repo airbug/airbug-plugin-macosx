@@ -25,9 +25,9 @@ NSString * const AirbugVideoUploadURL = @"http://localhost:3000/videoupload";
     }];
 }
 
-- (void)sendQuickTimeVideoData:(NSData *)videoData withParameters:(NSDictionary *)parameters onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
+- (void)sendQuickTimeVideoFile:(NSURL *)fileURL withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
 {
-    [self sendFileData:videoData mimeType:@"video/quicktime" toURL:AirbugVideoUploadURL withParameters:parameters onCompletion:^(NSDictionary *jsonDictionary, NSError *error) {
+    [self sendFile:fileURL mimeType:@"video/quicktime" toURL:AirbugVideoUploadURL withParameters:parameters progress:progress onCompletion:^(NSDictionary *jsonDictionary, NSError *error) {
         completionHandler(jsonDictionary, error);
     }];
 }
@@ -40,6 +40,7 @@ NSString * const AirbugVideoUploadURL = @"http://localhost:3000/videoupload";
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *fileName = [[NSDate date] descriptionWithCalendarFormat:NSCalendarIdentifierISO8601 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"] locale:nil];
+    
     [manager POST:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:mimeType];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -47,7 +48,26 @@ NSString * const AirbugVideoUploadURL = @"http://localhost:3000/videoupload";
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completionHandler(nil, error);
     }];
+}
 
+- (void)sendFile:(NSURL *)fileURL mimeType:(NSString *)mimeType toURL:(NSString *)urlString withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
+{
+    NSString *fileName = [[NSDate date] descriptionWithCalendarFormat:NSCalendarIdentifierISO8601 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"] locale:nil];
+
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileURL:[NSURL fileURLWithPath:[fileURL path]] name:@"file" fileName:fileName mimeType:mimeType error:nil];
+    } error:nil];
+
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (error) {
+            completionHandler(nil, error);
+        } else {
+            completionHandler(responseObject, nil);
+        }
+    }];
+    
+    [uploadTask resume];
 }
 
 @end

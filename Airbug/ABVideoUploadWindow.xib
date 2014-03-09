@@ -45,6 +45,9 @@
 DQ
 </string>
                         </buttonCell>
+                        <connections>
+                            <action selector="upload:" target="-2" id="hE7-UW-uk2"/>
+                        </connections>
                     </button>
                     <textField hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XHG-UY-g8c">
                         <rect key="frame" x="20" y="20" width="440" height="22"/>
