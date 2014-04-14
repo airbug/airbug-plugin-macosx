@@ -8,8 +8,10 @@
 
 #import "ABAppDelegate.h"
 #import "ABAirbugManager.h"
+#import "ABAirbugLoginManager.h"
 #import "ABImageUploadWindowController.h"
 #import "ABVideoUploadWindowController.h"
+#import "ABAirbugLoginWindowController.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -18,6 +20,8 @@
 @property (strong, nonatomic) ABCaptureManager *captureController;
 @property (strong, nonatomic) NSMutableArray *uploadControllers;
 @property (strong, nonatomic) ABAirbugManager *manager;
+@property (strong, nonatomic) ABAirbugLoginWindowController *loginController;
+@property (strong, nonatomic) ABAirbugLoginManager *loginManager;
 @end
 
 @implementation ABAppDelegate
@@ -42,12 +46,23 @@
     
     self.uploadControllers = [NSMutableArray array];
     
-    self.manager = [[ABAirbugManager alloc] initWithCommunicator:[[ABAirbugCommunicator alloc] init]
+    ABAirbugCommunicator *communicator = [[ABAirbugCommunicator alloc] init];
+    
+    self.manager = [[ABAirbugManager alloc] initWithCommunicator:communicator
                                              incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
                                              outgoingDataBuilder:[[ABOutgoingDataBuilder alloc] init]];
+ 
+    self.loginManager = [[ABAirbugLoginManager alloc] initWithCommunicator:communicator];
 }
 
 #pragma mark - IBAction
+
+- (IBAction)logIn:(id)sender
+{
+    self.loginController = [[ABAirbugLoginWindowController alloc] initWithManager:self.loginManager];
+//    self.loginController.delegate = self;
+    [self.loginController showWindow:nil];
+}
 
 - (IBAction)takeScreenshot:(id)sender {
     [self.captureController captureScreenshot];

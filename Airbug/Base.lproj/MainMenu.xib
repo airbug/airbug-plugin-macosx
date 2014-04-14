@@ -13,6 +13,12 @@
         <customObject id="-3" userLabel="Application"/>
         <menu id="XVf-kw-2Ca">
             <items>
+                <menuItem title="Sign In" id="PbU-Gk-9us">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="logIn:" target="494" id="6ex-gl-PgK"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Capture Screenshot" id="7Mc-rW-Q1v">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Capture Screenshot" id="Jss-fU-LTt">
