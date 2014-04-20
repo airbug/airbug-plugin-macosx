@@ -20,6 +20,7 @@
 @property (strong, nonatomic) ABCaptureManager *captureController;
 @property (strong, nonatomic) NSMutableArray *uploadControllers;
 @property (strong, nonatomic) ABAirbugManager *manager;
+@property (strong, nonatomic) ABAirbugCommunicator *communicator;
 @property (strong, nonatomic) ABAirbugLoginWindowController *loginController;
 @property (strong, nonatomic) ABAirbugLoginManager *loginManager;
 @end
@@ -46,15 +47,15 @@
     
     self.uploadControllers = [NSMutableArray array];
     
-    ABAirbugCommunicator *communicator = [[ABAirbugCommunicator alloc] init];
-    self.manager = [[ABAirbugManager alloc] initWithCommunicator:communicator
+    self.communicator = [[ABAirbugCommunicator alloc] init];
+    self.manager = [[ABAirbugManager alloc] initWithCommunicator:self.communicator
                                              incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
                                              outgoingDataBuilder:[[ABOutgoingDataBuilder alloc] init]];
-    
-    self.loginManager = [[ABAirbugLoginManager alloc] initWithCommunicator:communicator];
+    self.loginManager = [[ABAirbugLoginManager alloc] initWithCommunicator:self.communicator];
 
     NSHTTPCookie *authCookie = [self authCookie];
     if (authCookie) {
+        self.communicator.authCookie = authCookie;
         [self setUpLoggedInUI];
     } else {
         [self setUpLoggedOutUI];
@@ -71,7 +72,7 @@
     self.loginController.onSuccessfulLogin = ^{
         [weakSelf setUpLoggedInUI];
         // TODO: figure out if HTTP requests automatically contain cookies
-//        weakSelf.manager.authCookie = [weakSelf authCookie];
+        weakSelf.communicator.authCookie = [weakSelf authCookie];
     };
     
     [self.loginController showWindow:nil];
@@ -118,6 +119,7 @@
     }
 
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:authCookie];
+    self.communicator.authCookie = nil;
     
     [self setUpLoggedOutUI];
 }
@@ -153,6 +155,7 @@
     NSDictionary *cookieProperties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"authCookie"];
     if (cookieProperties) {
         authCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+        NSLog(@"Found cookie in user defaults: %@", authCookie);
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:authCookie];
     } else {
         for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {

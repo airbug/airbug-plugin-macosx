@@ -41,6 +41,8 @@ NSString * const AirbugVideoUploadURL = @"http://localhost:3000/videoupload";
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *fileName = [[NSDate date] descriptionWithCalendarFormat:NSCalendarIdentifierISO8601 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"] locale:nil];
     
+    // TODO: add cookie to request. May need to subclass AFHTTPRequestOperationManager to have it always add the auth cookie for requests...
+    
     [manager POST:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:mimeType];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -57,6 +59,9 @@ NSString * const AirbugVideoUploadURL = @"http://localhost:3000/videoupload";
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:[fileURL path]] name:@"file" fileName:fileName mimeType:mimeType error:nil];
     } error:nil];
+    
+    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:@[self.authCookie]];
+    [request setAllHTTPHeaderFields:headers];
 
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {

@@ -19,6 +19,11 @@
 extern NSString *const ABAirbugCommunicatorError;
 
 /**
+ The authentication cookie with which to make all HTTP requests
+ */
+@property (strong, nonatomic) NSHTTPCookie *authCookie;
+
+/**
  Upload image data to the image endpoint.
  @param imageData PNG image data to upload. Cannot be nil.
  @param parameters Parameters to be encoded and sent to the server
