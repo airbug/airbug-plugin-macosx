@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -13,6 +13,12 @@
         <customObject id="-3" userLabel="Application"/>
         <menu id="XVf-kw-2Ca">
             <items>
+                <menuItem title="Sign In" id="PbU-Gk-9us">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="logIn:" target="494" id="6ex-gl-PgK"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Capture Screenshot" id="7Mc-rW-Q1v">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Capture Screenshot" id="Jss-fU-LTt">
@@ -39,6 +45,12 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="FH7-aj-k2G"/>
+                <menuItem title="Log Out" id="ED3-vi-o2v">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="logOut:" target="494" id="2bV-Bb-c6P"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Quit airbug" id="3jJ-tL-ppV">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>

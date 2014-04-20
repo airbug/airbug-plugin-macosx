@@ -31,6 +31,11 @@
 		4A5FB4E118C4449C009B460B /* ABVideoUploadWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4E018C4449C009B460B /* ABVideoUploadWindowController.m */; };
 		4A5FB4E318C4450B009B460B /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5FB4E218C4450B009B460B /* AVKit.framework */; };
 		4A5FB4E618C446DF009B460B /* ABUploadWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4E518C446DF009B460B /* ABUploadWindowController.m */; };
+		4A5FB4E918CD22B9009B460B /* ABAirbugLoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4E818CD22B9009B460B /* ABAirbugLoginWindowController.m */; };
+		4A5FB4EC18CD279C009B460B /* ABAirbugLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4EB18CD279C009B460B /* ABAirbugLoginManager.m */; };
+		4A5FB4EE18CD2A50009B460B /* ABAirbugLoginWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A5FB4ED18CD2A50009B460B /* ABAirbugLoginWindow.xib */; };
+		4A5FB4F018CD2CE3009B460B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5FB4EF18CD2CE3009B460B /* WebKit.framework */; };
+		4A5FB4F218CD4834009B460B /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5FB4F118CD4834009B460B /* JavaScriptCore.framework */; };
 		4A72CC5618A29D7A00B41533 /* ABCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5518A29D7A00B41533 /* ABCaptureManager.m */; };
 		4A72CC5818A307D500B41533 /* ABScreenCaptureControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5718A307D500B41533 /* ABScreenCaptureControllerTests.m */; };
 		4A72CC5C18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5B18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.m */; };
@@ -101,6 +106,13 @@
 		4A5FB4E218C4450B009B460B /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		4A5FB4E418C446DF009B460B /* ABUploadWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ABUploadWindowController.h; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; wrapsLines = 1; };
 		4A5FB4E518C446DF009B460B /* ABUploadWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ABUploadWindowController.m; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; wrapsLines = 1; };
+		4A5FB4E718CD22B9009B460B /* ABAirbugLoginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAirbugLoginWindowController.h; sourceTree = "<group>"; };
+		4A5FB4E818CD22B9009B460B /* ABAirbugLoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAirbugLoginWindowController.m; sourceTree = "<group>"; };
+		4A5FB4EA18CD279C009B460B /* ABAirbugLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAirbugLoginManager.h; sourceTree = "<group>"; };
+		4A5FB4EB18CD279C009B460B /* ABAirbugLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAirbugLoginManager.m; sourceTree = "<group>"; };
+		4A5FB4ED18CD2A50009B460B /* ABAirbugLoginWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ABAirbugLoginWindow.xib; sourceTree = "<group>"; };
+		4A5FB4EF18CD2CE3009B460B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		4A5FB4F118CD4834009B460B /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		4A6B73FD5BF94E7FA3648D8C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		4A72CC5418A29D7A00B41533 /* ABCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureManager.h; sourceTree = "<group>"; };
 		4A72CC5518A29D7A00B41533 /* ABCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureManager.m; sourceTree = "<group>"; };
@@ -139,6 +151,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A5FB4F218CD4834009B460B /* JavaScriptCore.framework in Frameworks */,
+				4A5FB4F018CD2CE3009B460B /* WebKit.framework in Frameworks */,
 				4A5FB4E318C4450B009B460B /* AVKit.framework in Frameworks */,
 				4A5FB4D218C187FD009B460B /* AVFoundation.framework in Frameworks */,
 				4A26208018A1DB3400E973EC /* Cocoa.framework in Frameworks */,
@@ -187,6 +201,8 @@
 		4A26207E18A1DB3400E973EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A5FB4F118CD4834009B460B /* JavaScriptCore.framework */,
+				4A5FB4EF18CD2CE3009B460B /* WebKit.framework */,
 				4A5FB4E218C4450B009B460B /* AVKit.framework */,
 				4A5FB4D118C187FD009B460B /* AVFoundation.framework */,
 				4A9AE75918A5BCC300D06721 /* Security.framework */,
@@ -278,6 +294,8 @@
 				4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */,
 				4A5FB4D918C2C980009B460B /* ABVideoScreenCapturer.h */,
 				4A5FB4DA18C2C980009B460B /* ABVideoScreenCapturer.m */,
+				4A5FB4EA18CD279C009B460B /* ABAirbugLoginManager.h */,
+				4A5FB4EB18CD279C009B460B /* ABAirbugLoginManager.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -312,6 +330,9 @@
 				4A5FB4DF18C4449C009B460B /* ABVideoUploadWindowController.h */,
 				4A5FB4E018C4449C009B460B /* ABVideoUploadWindowController.m */,
 				4A5FB4DC18C44167009B460B /* ABVideoUploadWindow.xib */,
+				4A5FB4E718CD22B9009B460B /* ABAirbugLoginWindowController.h */,
+				4A5FB4E818CD22B9009B460B /* ABAirbugLoginWindowController.m */,
+				4A5FB4ED18CD2A50009B460B /* ABAirbugLoginWindow.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -419,6 +440,7 @@
 			files = (
 				4A26208A18A1DB3400E973EC /* InfoPlist.strings in Resources */,
 				4A26209818A1DB3400E973EC /* Images.xcassets in Resources */,
+				4A5FB4EE18CD2A50009B460B /* ABAirbugLoginWindow.xib in Resources */,
 				4A5FB4DD18C44167009B460B /* ABVideoUploadWindow.xib in Resources */,
 				4A9AE74918A5400500D06721 /* ABImageUploadWindow.xib in Resources */,
 				4A26209018A1DB3400E973EC /* Credits.rtf in Resources */,
@@ -506,6 +528,7 @@
 			files = (
 				4A5FB4DB18C2C980009B460B /* ABVideoScreenCapturer.m in Sources */,
 				4A26208C18A1DB3400E973EC /* main.m in Sources */,
+				4A5FB4EC18CD279C009B460B /* ABAirbugLoginManager.m in Sources */,
 				4A9AE76418A69C5F00D06721 /* ABIncomingDataBuilder.m in Sources */,
 				4A3717EF18AAF2CF0000A905 /* NSImage+Data.m in Sources */,
 				4A9AE76118A5E74D00D06721 /* ABAirbugCommunicator.m in Sources */,
@@ -518,6 +541,7 @@
 				4A72CC5618A29D7A00B41533 /* ABCaptureManager.m in Sources */,
 				4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */,
 				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
+				4A5FB4E918CD22B9009B460B /* ABAirbugLoginWindowController.m in Sources */,
 				4A50E3E218A9AE70008E2D2A /* ABTargetedScreenshotWindow.m in Sources */,
 				4A5FB4D818C18ECD009B460B /* ABVideoScreenCaptureWindow.m in Sources */,
 				4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */,

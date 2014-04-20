@@ -8,8 +8,10 @@
 
 #import "ABAppDelegate.h"
 #import "ABAirbugManager.h"
+#import "ABAirbugLoginManager.h"
 #import "ABImageUploadWindowController.h"
 #import "ABVideoUploadWindowController.h"
+#import "ABAirbugLoginWindowController.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -18,6 +20,8 @@
 @property (strong, nonatomic) ABCaptureManager *captureController;
 @property (strong, nonatomic) NSMutableArray *uploadControllers;
 @property (strong, nonatomic) ABAirbugManager *manager;
+@property (strong, nonatomic) ABAirbugLoginWindowController *loginController;
+@property (strong, nonatomic) ABAirbugLoginManager *loginManager;
 @end
 
 @implementation ABAppDelegate
@@ -42,12 +46,36 @@
     
     self.uploadControllers = [NSMutableArray array];
     
-    self.manager = [[ABAirbugManager alloc] initWithCommunicator:[[ABAirbugCommunicator alloc] init]
+    ABAirbugCommunicator *communicator = [[ABAirbugCommunicator alloc] init];
+    self.manager = [[ABAirbugManager alloc] initWithCommunicator:communicator
                                              incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
                                              outgoingDataBuilder:[[ABOutgoingDataBuilder alloc] init]];
+    
+    self.loginManager = [[ABAirbugLoginManager alloc] initWithCommunicator:communicator];
+
+    NSHTTPCookie *authCookie = [self authCookie];
+    if (authCookie) {
+        [self setUpLoggedInUI];
+    } else {
+        [self setUpLoggedOutUI];
+    }
 }
 
 #pragma mark - IBAction
+
+- (IBAction)logIn:(id)sender
+{
+    self.loginController = [[ABAirbugLoginWindowController alloc] initWithManager:self.loginManager];
+    
+    __weak ABAppDelegate *weakSelf = self;
+    self.loginController.onSuccessfulLogin = ^{
+        [weakSelf setUpLoggedInUI];
+        // TODO: figure out if HTTP requests automatically contain cookies
+//        weakSelf.manager.authCookie = [weakSelf authCookie];
+    };
+    
+    [self.loginController showWindow:nil];
+}
 
 - (IBAction)takeScreenshot:(id)sender {
     [self.captureController captureScreenshot];
@@ -79,6 +107,21 @@
     [self.captureController stopVideoScreenCapture];
 }
 
+- (IBAction)logOut:(id)sender
+{
+    NSHTTPCookie *authCookie;
+    for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        if ([[cookie name] isEqualToString:@"'airbug.sid'"]) {
+            authCookie = cookie;
+            break;
+        }
+    }
+
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:authCookie];
+    
+    [self setUpLoggedOutUI];
+}
+
 #pragma mark - Private
 
 - (void)displayImageInPreviewWindow:(NSImage *)image
@@ -100,6 +143,45 @@
     controller.player = player;
     [controller showWindow:nil];
     [self.uploadControllers addObject:controller];
+}
+
+- (NSHTTPCookie *)authCookie
+{
+    NSHTTPCookie *authCookie;
+
+    // Note: Saving and retrieving the cookie in user defaults may not be necessary if the expiresDate doesn't mater and sessionOnly remains false.
+    NSDictionary *cookieProperties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"authCookie"];
+    if (cookieProperties) {
+        authCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:authCookie];
+    } else {
+        for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+            if ([[cookie name] isEqualToString:@"'airbug.sid'"]) {
+                NSLog(@"%@", cookie);
+                authCookie = cookie;
+                break;
+            }
+        }
+    }
+    return authCookie;
+}
+
+- (void)setUpLoggedOutUI
+{
+    [self setUpUI:NO];
+}
+
+- (void)setUpLoggedInUI
+{
+    [self setUpUI:YES];
+}
+
+- (void)setUpUI:(BOOL)isLoggedIn
+{
+    [[self.statusMenu itemAtIndex:0] setHidden:isLoggedIn];
+    [[self.statusMenu itemAtIndex:1] setHidden:!isLoggedIn];
+    [[self.statusMenu itemAtIndex:2] setHidden:!isLoggedIn];
+    [[self.statusMenu itemAtIndex:4] setHidden:!isLoggedIn];
 }
 
 #pragma mark - Protocol conformance
