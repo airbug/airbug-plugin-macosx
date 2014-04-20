@@ -16,5 +16,6 @@
 
 @property (strong, nonatomic) ABAirbugLoginManager *manager;
 
+@property (copy, nonatomic) void (^onSuccessfulLogin)();
 
 @end
