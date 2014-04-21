@@ -38,18 +38,28 @@ NSString * const AirbugVideoUploadURL = @"http://localhost:3000/videoupload";
 {
     NSParameterAssert(fileData);
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *fileName = [[NSDate date] descriptionWithCalendarFormat:NSCalendarIdentifierISO8601 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"] locale:nil];
-    
-    // TODO: add cookie to request. May need to subclass AFHTTPRequestOperationManager to have it always add the auth cookie for requests...
-    
-    [manager POST:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:mimeType];
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        completionHandler(responseObject, nil);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        completionHandler(nil, error);
+    } error:nil];
+    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:@[self.authCookie]];
+    [request setAllHTTPHeaderFields:headers];
+    
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (error) {
+            completionHandler(nil, error);
+        } else {
+            if (error) {
+                completionHandler(nil, error);
+            } else {
+                completionHandler(responseObject, nil);
+            }
+        }
     }];
+    
+    [dataTask resume];
 }
 
 - (void)sendFile:(NSURL *)fileURL mimeType:(NSString *)mimeType toURL:(NSString *)urlString withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
