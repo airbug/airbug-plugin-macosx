@@ -12,6 +12,6 @@
 
 @interface ABVideoUploadWindowController : ABUploadWindowController
 
-@property (strong, nonatomic) AVPlayer *player;
+@property (strong, nonatomic) NSURL *fileURL;
 
 @end

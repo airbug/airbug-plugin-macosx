@@ -8,9 +8,11 @@
 
 #import "ABVideoUploadWindowController.h"
 #import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface ABVideoUploadWindowController ()
 @property (weak) IBOutlet AVPlayerView *playerView;
+@property (strong, nonatomic) AVPlayer *player;
 @end
 
 @implementation ABVideoUploadWindowController
@@ -20,30 +22,16 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+    
+    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:self.fileURL];
+    self.player = [AVPlayer playerWithPlayerItem:item];
     self.playerView.player = self.player;
-}
-
-#pragma mark - Custom accessors
-
-- (void)setPlayer:(AVPlayer *)player {
-    _player = player;
-    self.playerView.player = player;
 }
 
 #pragma mark - Public
 
-- (void)startUpload
-{
-//    NSData *imageData = [self.image PNGRepresentation];
-//    [self.manager uploadPNGImageData:imageData onCompletion:^(NSURL *imageURL, NSError *error) {
-//        if (error) {
-//            NSLog(@"Error during upload: %@", error);
-//            [self updateUIForUploadFailureWithError:error];
-//        } else {
-//            [self updateUIForUploadSuccess:[imageURL absoluteString]];
-//            [self launchBrowserToURL:imageURL];
-//        }
-//    }];
+- (void)startUpload {
+    [self.manager uploadQuickTimeVideoFile:self.fileURL progress:nil onCompletion:self.completionHandler];
 }
 
 - (NSString *)windowNibName {

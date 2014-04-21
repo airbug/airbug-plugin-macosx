@@ -136,13 +136,10 @@
 }
 
 - (void)displayVideoInPreviewWindow:(NSURL *)file
-{
-    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:file];
-    AVPlayer *player = [AVPlayer playerWithPlayerItem:item];
-    
+{    
     ABVideoUploadWindowController *controller = [[ABVideoUploadWindowController alloc] initWithManager:self.manager];
+    controller.fileURL = file;
     controller.delegate = self;
-    controller.player = player;
     [controller showWindow:nil];
     [self.uploadControllers addObject:controller];
 }
