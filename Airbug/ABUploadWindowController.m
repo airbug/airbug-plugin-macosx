@@ -73,12 +73,6 @@
     // Abstract
 }
 
-- (NSString *)windowNibName
-{
-    // abstract;
-    return nil;
-}
-
 #pragma mark - Private
 
 - (void)updateUIForUploadStart

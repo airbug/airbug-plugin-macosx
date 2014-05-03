@@ -134,8 +134,34 @@ NSString * const AirbugCookieAPITokenKey = @"'airbug.sid'";
 - (void)receivedJSONString:(NSString *)JSONString
 {
     NSLog(@"Received JSON string: %@", JSONString);
+    
+    NSError *error;
+    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+    
+    if (error) {
+        NSLog(@"JSON parsing error in receivedJSONString: %@", error);
+        return;
+    }
+    
+    if ([JSONDictionary[@"type"] isEqualToString:@"notification"]) {
+        NSString *messageText = [JSONDictionary valueForKeyPath:@"data.message"];
+        
+        [self receivedNotification:messageText];
+    }
+}
 
-    // TODO: NSNotification broadcast?
+- (void)receivedNotification:(NSString *)messageText
+{
+    NSLog(@"Received notification: %@", messageText);
+    
+    // TODO: have ABAirbugCommunicator use a notification delegate to send it these notifications. The
+    // delegate will be responsible for displaying these as NSUserNotifications
+    // [self.notificationDelegate didReceiveNotification:userNotification];
+    NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+    userNotification.title = @"Message from server";
+    userNotification.informativeText = messageText;
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
 }
 
 - (void)sendFileData:(NSData *)fileData mimeType:(NSString *)mimeType toURL:(NSString *)urlString withParameters:(NSDictionary *)parameters onCompletion:(void (^)(NSDictionary *jsonDictionary, NSError *error))completionHandler
@@ -193,13 +219,12 @@ NSString * const AirbugCookieAPITokenKey = @"'airbug.sid'";
 // Should there be one class that's responsible for all JSON parsing?
 - (NSString *)createLoginJSONStringForUsername:(NSString *)username password:(NSString *)password
 {
-    NSDictionary *jsonDictionary =
-    @{
-      @"class" : @"currentUserManager",
-      @"action" : @"login",
-      @"username" : username,
-      @"password" : password
-      };
+    NSDictionary *jsonDictionary = @{
+                                     @"class" : @"currentUserManager",
+                                     @"action" : @"login",
+                                     @"username" : username,
+                                     @"password" : password
+                                     };
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary options:NSJSONWritingPrettyPrinted error:NULL];
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }

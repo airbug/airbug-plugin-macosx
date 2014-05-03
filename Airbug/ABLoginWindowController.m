@@ -13,6 +13,7 @@
 @property (weak) IBOutlet NSSecureTextField *passwordTextField;
 @property (weak) IBOutlet NSButton *signInButton;
 @property (weak) IBOutlet NSTextField *messageTextField;
+@property (nonatomic) id eventMonitor;
 @end
 
 @implementation ABLoginWindowController
@@ -28,8 +29,23 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+    
     [NSApp activateIgnoringOtherApps:YES];
     [self.window makeKeyAndOrderFront:self];
+    
+    // To allow ESC button to close window
+    self.eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent *(NSEvent *event)
+                         {
+                             NSWindow *targetWindow = event.window;
+                             if (targetWindow != self.window) {
+                                 return event;
+                             }
+                             if (event.keyCode == 53) {
+                                 [self.window close];
+                                 event = nil;
+                             }
+                             return event;
+                         }];
 }
 
 #pragma mark - IBActions
@@ -70,6 +86,13 @@
 
 - (NSString *)windowNibName {
     return @"ABAirbugLoginWindow";
+}
+
+#pragma mark NSWindowDelegate
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [NSEvent removeMonitor:self.eventMonitor];
 }
 
 @end

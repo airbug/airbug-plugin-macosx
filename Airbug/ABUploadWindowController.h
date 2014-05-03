@@ -30,11 +30,6 @@
 - (void)startUpload;
 
 /**
- Abstract method to allow subclasses to provide their own nibs
- */
-- (NSString *)windowNibName;
-
-/**
  The object that manages all interaction with airbug services.
  */
 @property (strong, nonatomic) ABAirbugManager *manager;
