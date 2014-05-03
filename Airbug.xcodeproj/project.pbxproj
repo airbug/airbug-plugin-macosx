@@ -31,8 +31,7 @@
 		4A5FB4E118C4449C009B460B /* ABVideoUploadWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4E018C4449C009B460B /* ABVideoUploadWindowController.m */; };
 		4A5FB4E318C4450B009B460B /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5FB4E218C4450B009B460B /* AVKit.framework */; };
 		4A5FB4E618C446DF009B460B /* ABUploadWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4E518C446DF009B460B /* ABUploadWindowController.m */; };
-		4A5FB4E918CD22B9009B460B /* ABAirbugLoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4E818CD22B9009B460B /* ABAirbugLoginWindowController.m */; };
-		4A5FB4EC18CD279C009B460B /* ABAirbugLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4EB18CD279C009B460B /* ABAirbugLoginManager.m */; };
+		4A5FB4E918CD22B9009B460B /* ABLoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FB4E818CD22B9009B460B /* ABLoginWindowController.m */; };
 		4A5FB4EE18CD2A50009B460B /* ABAirbugLoginWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A5FB4ED18CD2A50009B460B /* ABAirbugLoginWindow.xib */; };
 		4A5FB4F018CD2CE3009B460B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5FB4EF18CD2CE3009B460B /* WebKit.framework */; };
 		4A5FB4F218CD4834009B460B /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5FB4F118CD4834009B460B /* JavaScriptCore.framework */; };
@@ -106,10 +105,8 @@
 		4A5FB4E218C4450B009B460B /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		4A5FB4E418C446DF009B460B /* ABUploadWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ABUploadWindowController.h; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; wrapsLines = 1; };
 		4A5FB4E518C446DF009B460B /* ABUploadWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ABUploadWindowController.m; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; wrapsLines = 1; };
-		4A5FB4E718CD22B9009B460B /* ABAirbugLoginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAirbugLoginWindowController.h; sourceTree = "<group>"; };
-		4A5FB4E818CD22B9009B460B /* ABAirbugLoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAirbugLoginWindowController.m; sourceTree = "<group>"; };
-		4A5FB4EA18CD279C009B460B /* ABAirbugLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAirbugLoginManager.h; sourceTree = "<group>"; };
-		4A5FB4EB18CD279C009B460B /* ABAirbugLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAirbugLoginManager.m; sourceTree = "<group>"; };
+		4A5FB4E718CD22B9009B460B /* ABLoginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABLoginWindowController.h; sourceTree = "<group>"; };
+		4A5FB4E818CD22B9009B460B /* ABLoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABLoginWindowController.m; sourceTree = "<group>"; };
 		4A5FB4ED18CD2A50009B460B /* ABAirbugLoginWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ABAirbugLoginWindow.xib; sourceTree = "<group>"; };
 		4A5FB4EF18CD2CE3009B460B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		4A5FB4F118CD4834009B460B /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -236,7 +233,7 @@
 				4A2620B518A1E67D00E973EC /* Models */,
 				4A72CC5318A29D6700B41533 /* Controllers */,
 				4A72CC4F18A29CBB00B41533 /* Views */,
-				4A26209418A1DB3400E973EC /* MainMenu.xib */,
+				4A606362190F6B5B00573FC5 /* Nibs */,
 				4A26209118A1DB3400E973EC /* ABAppDelegate.h */,
 				4A26209218A1DB3400E973EC /* ABAppDelegate.m */,
 				4A26209718A1DB3400E973EC /* Images.xcassets */,
@@ -294,10 +291,19 @@
 				4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */,
 				4A5FB4D918C2C980009B460B /* ABVideoScreenCapturer.h */,
 				4A5FB4DA18C2C980009B460B /* ABVideoScreenCapturer.m */,
-				4A5FB4EA18CD279C009B460B /* ABAirbugLoginManager.h */,
-				4A5FB4EB18CD279C009B460B /* ABAirbugLoginManager.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		4A606362190F6B5B00573FC5 /* Nibs */ = {
+			isa = PBXGroup;
+			children = (
+				4A9AE74818A5400500D06721 /* ABImageUploadWindow.xib */,
+				4A5FB4DC18C44167009B460B /* ABVideoUploadWindow.xib */,
+				4A5FB4ED18CD2A50009B460B /* ABAirbugLoginWindow.xib */,
+				4A26209418A1DB3400E973EC /* MainMenu.xib */,
+			);
+			name = Nibs;
 			sourceTree = "<group>";
 		};
 		4A72CC4F18A29CBB00B41533 /* Views */ = {
@@ -326,13 +332,10 @@
 				4A5FB4E518C446DF009B460B /* ABUploadWindowController.m */,
 				4A9AE74A18A541C900D06721 /* ABImageUploadWindowController.h */,
 				4A9AE74B18A541C900D06721 /* ABImageUploadWindowController.m */,
-				4A9AE74818A5400500D06721 /* ABImageUploadWindow.xib */,
 				4A5FB4DF18C4449C009B460B /* ABVideoUploadWindowController.h */,
 				4A5FB4E018C4449C009B460B /* ABVideoUploadWindowController.m */,
-				4A5FB4DC18C44167009B460B /* ABVideoUploadWindow.xib */,
-				4A5FB4E718CD22B9009B460B /* ABAirbugLoginWindowController.h */,
-				4A5FB4E818CD22B9009B460B /* ABAirbugLoginWindowController.m */,
-				4A5FB4ED18CD2A50009B460B /* ABAirbugLoginWindow.xib */,
+				4A5FB4E718CD22B9009B460B /* ABLoginWindowController.h */,
+				4A5FB4E818CD22B9009B460B /* ABLoginWindowController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -528,7 +531,6 @@
 			files = (
 				4A5FB4DB18C2C980009B460B /* ABVideoScreenCapturer.m in Sources */,
 				4A26208C18A1DB3400E973EC /* main.m in Sources */,
-				4A5FB4EC18CD279C009B460B /* ABAirbugLoginManager.m in Sources */,
 				4A9AE76418A69C5F00D06721 /* ABIncomingDataBuilder.m in Sources */,
 				4A3717EF18AAF2CF0000A905 /* NSImage+Data.m in Sources */,
 				4A9AE76118A5E74D00D06721 /* ABAirbugCommunicator.m in Sources */,
@@ -541,7 +543,7 @@
 				4A72CC5618A29D7A00B41533 /* ABCaptureManager.m in Sources */,
 				4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */,
 				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
-				4A5FB4E918CD22B9009B460B /* ABAirbugLoginWindowController.m in Sources */,
+				4A5FB4E918CD22B9009B460B /* ABLoginWindowController.m in Sources */,
 				4A50E3E218A9AE70008E2D2A /* ABTargetedScreenshotWindow.m in Sources */,
 				4A5FB4D818C18ECD009B460B /* ABVideoScreenCaptureWindow.m in Sources */,
 				4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */,
@@ -680,6 +682,7 @@
 			baseConfigurationReference = 4A6B73FD5BF94E7FA3648D8C /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BASE_URL = "http://localhost:8000/";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Airbug/Airbug-Prefix.pch";
@@ -694,6 +697,7 @@
 			baseConfigurationReference = 4A6B73FD5BF94E7FA3648D8C /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BASE_URL = "http://localhost:8000/";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Airbug/Airbug-Prefix.pch";

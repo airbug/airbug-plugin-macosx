@@ -8,10 +8,9 @@
 
 #import "ABAppDelegate.h"
 #import "ABAirbugManager.h"
-#import "ABAirbugLoginManager.h"
 #import "ABImageUploadWindowController.h"
 #import "ABVideoUploadWindowController.h"
-#import "ABAirbugLoginWindowController.h"
+#import "ABLoginWindowController.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -21,8 +20,7 @@
 @property (strong, nonatomic) NSMutableArray *uploadControllers;
 @property (strong, nonatomic) ABAirbugManager *manager;
 @property (strong, nonatomic) ABAirbugCommunicator *communicator;
-@property (strong, nonatomic) ABAirbugLoginWindowController *loginController;
-@property (strong, nonatomic) ABAirbugLoginManager *loginManager;
+@property (strong, nonatomic) ABLoginWindowController *loginWindowController;
 @end
 
 @implementation ABAppDelegate
@@ -51,11 +49,8 @@
     self.manager = [[ABAirbugManager alloc] initWithCommunicator:self.communicator
                                              incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
                                              outgoingDataBuilder:[[ABOutgoingDataBuilder alloc] init]];
-    self.loginManager = [[ABAirbugLoginManager alloc] initWithCommunicator:self.communicator];
 
-    NSHTTPCookie *authCookie = [self authCookie];
-    if (authCookie) {
-        self.communicator.authCookie = authCookie;
+    if (self.communicator.isLoggedIn) {
         [self setUpLoggedInUI];
     } else {
         [self setUpLoggedOutUI];
@@ -66,16 +61,13 @@
 
 - (IBAction)logIn:(id)sender
 {
-    self.loginController = [[ABAirbugLoginWindowController alloc] initWithManager:self.loginManager];
+    self.loginWindowController = [[ABLoginWindowController alloc] initWithCommunicator:self.communicator];
     
     __weak ABAppDelegate *weakSelf = self;
-    self.loginController.onSuccessfulLogin = ^{
+    self.loginWindowController.onSuccessfulLogin = ^{
         [weakSelf setUpLoggedInUI];
-        // TODO: figure out if HTTP requests automatically contain cookies
-        weakSelf.communicator.authCookie = [weakSelf authCookie];
     };
-    
-    [self.loginController showWindow:nil];
+    [self.loginWindowController showWindow:nil];
 }
 
 - (IBAction)takeScreenshot:(id)sender {
@@ -110,17 +102,7 @@
 
 - (IBAction)logOut:(id)sender
 {
-    NSHTTPCookie *authCookie;
-    for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
-        if ([[cookie name] isEqualToString:@"'airbug.sid'"]) {
-            authCookie = cookie;
-            break;
-        }
-    }
-
-    [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:authCookie];
-    self.communicator.authCookie = nil;
-    
+    [self.communicator logOut];
     [self setUpLoggedOutUI];
 }
 
@@ -142,28 +124,6 @@
     controller.delegate = self;
     [controller showWindow:nil];
     [self.uploadControllers addObject:controller];
-}
-
-- (NSHTTPCookie *)authCookie
-{
-    NSHTTPCookie *authCookie;
-
-    // Note: Saving and retrieving the cookie in user defaults may not be necessary if the expiresDate doesn't mater and sessionOnly remains false.
-    NSDictionary *cookieProperties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"authCookie"];
-    if (cookieProperties) {
-        authCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
-        NSLog(@"Found cookie in user defaults: %@", authCookie);
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:authCookie];
-    } else {
-        for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
-            if ([[cookie name] isEqualToString:@"'airbug.sid'"]) {
-                NSLog(@"%@", cookie);
-                authCookie = cookie;
-                break;
-            }
-        }
-    }
-    return authCookie;
 }
 
 - (void)setUpLoggedOutUI

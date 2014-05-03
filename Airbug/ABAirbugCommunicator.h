@@ -11,17 +11,13 @@
 /**
  @class ABAirbugCommunicator
  @description Handles network communication with Airbug backend servers.
- @dependency Dependency on SocketRocket, an open-source library for handling WebSockets in Objective-C.
 */
 
 @interface ABAirbugCommunicator : NSObject
 
 extern NSString *const ABAirbugCommunicatorError;
 
-/**
- The authentication cookie with which to make all HTTP requests
- */
-@property (strong, nonatomic) NSHTTPCookie *authCookie;
+@property (nonatomic) BOOL isLoggedIn;
 
 /**
  Upload image data to the image endpoint.
@@ -38,5 +34,18 @@ extern NSString *const ABAirbugCommunicatorError;
  @param completionHandler On success, returns JSON server response as an NSDictionary. NSError is nil if no error.
  */
 - (void)sendQuickTimeVideoFile:(NSURL *)fileURL withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler;
+
+/**
+ Authenticate with the airbug server.
+ @param username The username
+ @param password The password
+ @param completionHandler A block that's executed after the login succeeds or fails.
+ */
+- (void)logInWithUsername:(NSString *)username password:(NSString *)password onCompletion:(void(^)(NSError *error))completionHandler;
+
+/**
+ Log out from this user's session. Deletes the session authentication cookie.
+ */
+- (void)logOut;
 
 @end

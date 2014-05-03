@@ -1,0 +1,75 @@
+//
+//  ABLoginWindowController.m
+//  Airbug
+//
+//  Created by Richard Shin on 3/9/14.
+//  Copyright (c) 2014 Airbug. All rights reserved.
+//
+
+#import "ABLoginWindowController.h"
+
+@interface ABLoginWindowController ()
+@property (weak) IBOutlet NSTextField *emailTextField;
+@property (weak) IBOutlet NSSecureTextField *passwordTextField;
+@property (weak) IBOutlet NSButton *signInButton;
+@property (weak) IBOutlet NSTextField *messageTextField;
+@end
+
+@implementation ABLoginWindowController
+
+- (id)initWithCommunicator:(ABAirbugCommunicator *)communicator
+{
+    if (self = [super initWithWindowNibName:[self windowNibName] owner:self]) {
+        _communicator = communicator;
+    }
+    return self;
+}
+
+- (void)windowDidLoad
+{
+    [super windowDidLoad];
+    [NSApp activateIgnoringOtherApps:YES];
+    [self.window makeKeyAndOrderFront:self];
+}
+
+#pragma mark - IBActions
+
+- (IBAction)signIn:(id)sender
+{
+    NSString *username = [self.emailTextField stringValue];
+    NSString *password = [self.passwordTextField stringValue];
+    [self.messageTextField setStringValue:@""];
+    
+    NSLog(@"*** Signing in ***");
+    NSLog(@"Username: %@", username);
+    NSLog(@"Password: %@", password);
+    
+    CGFloat dimensionSize = CGRectGetHeight(self.signInButton.bounds) - 10;
+    NSProgressIndicator *progressIndicator = [[NSProgressIndicator alloc] initWithFrame:(NSRect){CGRectGetMidX(self.signInButton.bounds)-(dimensionSize/2), (CGRectGetHeight(self.signInButton.bounds)-dimensionSize)/2, dimensionSize, dimensionSize}];
+    [progressIndicator setStyle:NSProgressIndicatorSpinningStyle];
+    [progressIndicator setDisplayedWhenStopped:YES];
+    [self.signInButton addSubview:progressIndicator];
+    [progressIndicator startAnimation:self];
+    [self.signInButton setEnabled:NO];
+    
+    [self.communicator logInWithUsername:username password:password onCompletion:^(NSError *error) {
+        [progressIndicator stopAnimation:self];
+        [progressIndicator removeFromSuperview];
+        [self.signInButton setEnabled:YES];
+        
+        if (error) {
+            NSLog(@"Error logging in: %@", [error localizedDescription]);
+            [self.messageTextField setStringValue:[error localizedDescription]];
+            return;
+        }
+        if (self.onSuccessfulLogin) self.onSuccessfulLogin();
+    }];
+}
+
+#pragma mark - Public methods
+
+- (NSString *)windowNibName {
+    return @"ABAirbugLoginWindow";
+}
+
+@end
