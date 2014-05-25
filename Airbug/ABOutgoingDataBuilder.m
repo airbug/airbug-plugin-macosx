@@ -19,4 +19,16 @@
 - (NSDictionary *)parametersForQuickTimeVideo:(NSURL *)fileURL {
     return @{};
 }
+
+- (NSDictionary *)JSONLoginRequestForUsername:(NSString *)username password:(NSString *)password
+{
+    return @{
+             @"type" : @"LoginRequest",
+             @"data" : @{
+                         @"username" : username,
+                         @"password" : password
+                         }
+             };
+}
+
 @end

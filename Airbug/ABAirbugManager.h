@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ABAirbugCommunicator.h"
+#import "ABNetworkCommunicator.h"
 #import "ABIncomingDataBuilder.h"
 #import "ABOutgoingDataBuilder.h"
 
@@ -23,12 +23,32 @@
 @interface ABAirbugManager : NSObject
 
 /**
+ Returns @c YES if currently authenticated
+ */
+@property (readonly) BOOL isLoggedIn;
+
+/**
+ Invoked when the server sends a notification
+ */
+@property (copy, nonatomic) void (^notificationHandler)(NSUserNotification *notification);
+
+/**
+ Invoked when the server sends a window show/hide notification
+ */
+@property (copy, nonatomic) void (^windowVisibilityRequestHandler)(BOOL showWindow);
+
+/**
+ Invoked when the server sends a window resize notification
+ */
+@property (copy, nonatomic) void (^windowResizeRequestHandler)(NSSize size);
+
+/**
  The designated initializer for ABAirbugManager.
  @param communicator The object used to communicate with the Airbug servers.
  @param incomingBuilder Transforms incoming data received from Airbug servers into readable objects.
  @param outgoingBuilder Transforms objects into data to be sent to Airbug servers.
  */
-- (id)initWithCommunicator:(ABAirbugCommunicator *)communicator
+- (id)initWithCommunicator:(ABNetworkCommunicator *)communicator
        incomingDataBuilder:(ABIncomingDataBuilder *)incomingBuilder
        outgoingDataBuilder:(ABOutgoingDataBuilder *)outgoingBuilder;
 
@@ -52,6 +72,19 @@
  on any reasons for upload failure.
  */
 - (void)uploadQuickTimeVideoFile:(NSURL *)fileURL progress:(NSProgress **)progress onCompletion:(void (^)(NSURL *, NSError *))completionHandler;
+
+/**
+ Authenticate with the airbug server.
+ @param username The username
+ @param password The password
+ @param completionHandler A block that's executed after the login succeeds or fails.
+ */
+- (void)logInWithUsername:(NSString *)username password:(NSString *)password onCompletion:(void(^)(BOOL success, NSError *error))completionHandler;
+
+/**
+ Log out of the current session.
+ */
+- (void)logOut;
 
 
 typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {

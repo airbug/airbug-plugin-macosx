@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0F029E5406BC4742B8B20EE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 541525D46F964201A2684BB6 /* libPods.a */; };
+		4A2315331925E102007C5D2D /* ABWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2315311925E102007C5D2D /* ABWebViewWindowController.m */; };
+		4A2315341925E102007C5D2D /* ABWebViewWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A2315321925E102007C5D2D /* ABWebViewWindow.xib */; };
+		4A2315371925E716007C5D2D /* ABWebViewWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2315361925E716007C5D2D /* ABWebViewWindow.m */; };
 		4A26208018A1DB3400E973EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A26207F18A1DB3400E973EC /* Cocoa.framework */; };
 		4A26208A18A1DB3400E973EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A26208818A1DB3400E973EC /* InfoPlist.strings */; };
 		4A26208C18A1DB3400E973EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A26208B18A1DB3400E973EC /* main.m */; };
@@ -21,6 +24,7 @@
 		4A2620B418A1E65100E973EC /* ABScreenCapturerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2620B318A1E65100E973EC /* ABScreenCapturerTests.m */; };
 		4A2620B818A1E68D00E973EC /* ABScreenCapturer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2620B718A1E68D00E973EC /* ABScreenCapturer.m */; };
 		4A3717EF18AAF2CF0000A905 /* NSImage+Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A3717EE18AAF2CF0000A905 /* NSImage+Data.m */; };
+		4A457C24192DBB3B00A2C2E2 /* ABLoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457C23192DBB3B00A2C2E2 /* ABLoginResponse.m */; };
 		4A50E3E218A9AE70008E2D2A /* ABTargetedScreenshotWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A50E3E118A9AE70008E2D2A /* ABTargetedScreenshotWindow.m */; };
 		4A50E3E518A9AF9B008E2D2A /* ABScreenshotWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A50E3E418A9AF9B008E2D2A /* ABScreenshotWindow.m */; };
 		4A50E3E918A9C948008E2D2A /* ABCaptureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A50E3E818A9C948008E2D2A /* ABCaptureView.m */; };
@@ -48,9 +52,11 @@
 		4A9AE75A18A5BCC300D06721 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9AE75918A5BCC300D06721 /* Security.framework */; };
 		4A9AE75B18A5BCCB00D06721 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A26208418A1DB3400E973EC /* Foundation.framework */; };
 		4A9AE75E18A5E73700D06721 /* ABAirbugManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE75D18A5E73700D06721 /* ABAirbugManager.m */; };
-		4A9AE76118A5E74D00D06721 /* ABAirbugCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE76018A5E74D00D06721 /* ABAirbugCommunicator.m */; };
+		4A9AE76118A5E74D00D06721 /* ABNetworkCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE76018A5E74D00D06721 /* ABNetworkCommunicator.m */; };
 		4A9AE76418A69C5F00D06721 /* ABIncomingDataBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */; };
 		4A9AE76718A69C6600D06721 /* ABOutgoingDataBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE76618A69C6600D06721 /* ABOutgoingDataBuilder.m */; };
+		4AF0FCDE19305865008AA96F /* ABWindowVisibilityRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0FCDD19305865008AA96F /* ABWindowVisibilityRequest.m */; };
+		4AF0FCE119305940008AA96F /* ABWindowResizeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0FCE019305940008AA96F /* ABWindowResizeRequest.m */; };
 		A880C1BEAAA24C9A905BF4D0 /* libPods-AirbugTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA186A99EBFC4090BF0013C6 /* libPods-AirbugTests.a */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +71,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A2315301925E102007C5D2D /* ABWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABWebViewWindowController.h; sourceTree = "<group>"; };
+		4A2315311925E102007C5D2D /* ABWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABWebViewWindowController.m; sourceTree = "<group>"; };
+		4A2315321925E102007C5D2D /* ABWebViewWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ABWebViewWindow.xib; sourceTree = "<group>"; };
+		4A2315351925E716007C5D2D /* ABWebViewWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABWebViewWindow.h; sourceTree = "<group>"; };
+		4A2315361925E716007C5D2D /* ABWebViewWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABWebViewWindow.m; sourceTree = "<group>"; };
 		4A26207C18A1DB3400E973EC /* airbug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = airbug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A26207F18A1DB3400E973EC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		4A26208218A1DB3400E973EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -88,6 +99,8 @@
 		4A2620B718A1E68D00E973EC /* ABScreenCapturer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScreenCapturer.m; sourceTree = "<group>"; };
 		4A3717ED18AAF2CF0000A905 /* NSImage+Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Data.h"; sourceTree = "<group>"; };
 		4A3717EE18AAF2CF0000A905 /* NSImage+Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Data.m"; sourceTree = "<group>"; };
+		4A457C22192DBB3B00A2C2E2 /* ABLoginResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABLoginResponse.h; sourceTree = "<group>"; };
+		4A457C23192DBB3B00A2C2E2 /* ABLoginResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABLoginResponse.m; sourceTree = "<group>"; };
 		4A50E3E018A9AE70008E2D2A /* ABTargetedScreenshotWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABTargetedScreenshotWindow.h; sourceTree = "<group>"; };
 		4A50E3E118A9AE70008E2D2A /* ABTargetedScreenshotWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABTargetedScreenshotWindow.m; sourceTree = "<group>"; };
 		4A50E3E318A9AF9B008E2D2A /* ABScreenshotWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABScreenshotWindow.h; sourceTree = "<group>"; };
@@ -132,12 +145,16 @@
 		4A9AE75918A5BCC300D06721 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4A9AE75C18A5E73700D06721 /* ABAirbugManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAirbugManager.h; sourceTree = "<group>"; };
 		4A9AE75D18A5E73700D06721 /* ABAirbugManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAirbugManager.m; sourceTree = "<group>"; };
-		4A9AE75F18A5E74D00D06721 /* ABAirbugCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAirbugCommunicator.h; sourceTree = "<group>"; };
-		4A9AE76018A5E74D00D06721 /* ABAirbugCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAirbugCommunicator.m; sourceTree = "<group>"; };
+		4A9AE75F18A5E74D00D06721 /* ABNetworkCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABNetworkCommunicator.h; sourceTree = "<group>"; };
+		4A9AE76018A5E74D00D06721 /* ABNetworkCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABNetworkCommunicator.m; sourceTree = "<group>"; };
 		4A9AE76218A69C5F00D06721 /* ABIncomingDataBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABIncomingDataBuilder.h; sourceTree = "<group>"; };
 		4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABIncomingDataBuilder.m; sourceTree = "<group>"; };
 		4A9AE76518A69C6600D06721 /* ABOutgoingDataBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABOutgoingDataBuilder.h; sourceTree = "<group>"; };
 		4A9AE76618A69C6600D06721 /* ABOutgoingDataBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABOutgoingDataBuilder.m; sourceTree = "<group>"; };
+		4AF0FCDC19305865008AA96F /* ABWindowVisibilityRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABWindowVisibilityRequest.h; sourceTree = "<group>"; };
+		4AF0FCDD19305865008AA96F /* ABWindowVisibilityRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABWindowVisibilityRequest.m; sourceTree = "<group>"; };
+		4AF0FCDF19305940008AA96F /* ABWindowResizeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABWindowResizeRequest.h; sourceTree = "<group>"; };
+		4AF0FCE019305940008AA96F /* ABWindowResizeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABWindowResizeRequest.m; sourceTree = "<group>"; };
 		533C6D2BC68D40A8B00F8672 /* Pods-AirbugTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirbugTests.xcconfig"; path = "Pods/Pods-AirbugTests.xcconfig"; sourceTree = "<group>"; };
 		541525D46F964201A2684BB6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA186A99EBFC4090BF0013C6 /* libPods-AirbugTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AirbugTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,14 +300,20 @@
 				4A2620B718A1E68D00E973EC /* ABScreenCapturer.m */,
 				4A9AE75C18A5E73700D06721 /* ABAirbugManager.h */,
 				4A9AE75D18A5E73700D06721 /* ABAirbugManager.m */,
-				4A9AE75F18A5E74D00D06721 /* ABAirbugCommunicator.h */,
-				4A9AE76018A5E74D00D06721 /* ABAirbugCommunicator.m */,
+				4A9AE75F18A5E74D00D06721 /* ABNetworkCommunicator.h */,
+				4A9AE76018A5E74D00D06721 /* ABNetworkCommunicator.m */,
 				4A9AE76518A69C6600D06721 /* ABOutgoingDataBuilder.h */,
 				4A9AE76618A69C6600D06721 /* ABOutgoingDataBuilder.m */,
 				4A9AE76218A69C5F00D06721 /* ABIncomingDataBuilder.h */,
 				4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */,
 				4A5FB4D918C2C980009B460B /* ABVideoScreenCapturer.h */,
 				4A5FB4DA18C2C980009B460B /* ABVideoScreenCapturer.m */,
+				4A457C22192DBB3B00A2C2E2 /* ABLoginResponse.h */,
+				4A457C23192DBB3B00A2C2E2 /* ABLoginResponse.m */,
+				4AF0FCDC19305865008AA96F /* ABWindowVisibilityRequest.h */,
+				4AF0FCDD19305865008AA96F /* ABWindowVisibilityRequest.m */,
+				4AF0FCDF19305940008AA96F /* ABWindowResizeRequest.h */,
+				4AF0FCE019305940008AA96F /* ABWindowResizeRequest.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -301,6 +324,7 @@
 				4A9AE74818A5400500D06721 /* ABImageUploadWindow.xib */,
 				4A5FB4DC18C44167009B460B /* ABVideoUploadWindow.xib */,
 				4A5FB4ED18CD2A50009B460B /* ABAirbugLoginWindow.xib */,
+				4A2315321925E102007C5D2D /* ABWebViewWindow.xib */,
 				4A26209418A1DB3400E973EC /* MainMenu.xib */,
 			);
 			name = Nibs;
@@ -321,6 +345,8 @@
 				4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */,
 				4A5FB4D618C18ECD009B460B /* ABVideoScreenCaptureWindow.h */,
 				4A5FB4D718C18ECD009B460B /* ABVideoScreenCaptureWindow.m */,
+				4A2315351925E716007C5D2D /* ABWebViewWindow.h */,
+				4A2315361925E716007C5D2D /* ABWebViewWindow.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -336,6 +362,8 @@
 				4A5FB4E018C4449C009B460B /* ABVideoUploadWindowController.m */,
 				4A5FB4E718CD22B9009B460B /* ABLoginWindowController.h */,
 				4A5FB4E818CD22B9009B460B /* ABLoginWindowController.m */,
+				4A2315301925E102007C5D2D /* ABWebViewWindowController.h */,
+				4A2315311925E102007C5D2D /* ABWebViewWindowController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -447,6 +475,7 @@
 				4A5FB4DD18C44167009B460B /* ABVideoUploadWindow.xib in Resources */,
 				4A9AE74918A5400500D06721 /* ABImageUploadWindow.xib in Resources */,
 				4A26209018A1DB3400E973EC /* Credits.rtf in Resources */,
+				4A2315341925E102007C5D2D /* ABWebViewWindow.xib in Resources */,
 				4A26209618A1DB3400E973EC /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -533,13 +562,17 @@
 				4A26208C18A1DB3400E973EC /* main.m in Sources */,
 				4A9AE76418A69C5F00D06721 /* ABIncomingDataBuilder.m in Sources */,
 				4A3717EF18AAF2CF0000A905 /* NSImage+Data.m in Sources */,
-				4A9AE76118A5E74D00D06721 /* ABAirbugCommunicator.m in Sources */,
+				4A9AE76118A5E74D00D06721 /* ABNetworkCommunicator.m in Sources */,
 				4A9AE75E18A5E73700D06721 /* ABAirbugManager.m in Sources */,
 				4A9AE74C18A541C900D06721 /* ABImageUploadWindowController.m in Sources */,
 				4A50E3E518A9AF9B008E2D2A /* ABScreenshotWindow.m in Sources */,
 				4A2620B818A1E68D00E973EC /* ABScreenCapturer.m in Sources */,
 				4A5FB4E118C4449C009B460B /* ABVideoUploadWindowController.m in Sources */,
+				4AF0FCDE19305865008AA96F /* ABWindowVisibilityRequest.m in Sources */,
+				4A2315331925E102007C5D2D /* ABWebViewWindowController.m in Sources */,
+				4AF0FCE119305940008AA96F /* ABWindowResizeRequest.m in Sources */,
 				4A50E3E918A9C948008E2D2A /* ABCaptureView.m in Sources */,
+				4A2315371925E716007C5D2D /* ABWebViewWindow.m in Sources */,
 				4A72CC5618A29D7A00B41533 /* ABCaptureManager.m in Sources */,
 				4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */,
 				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
@@ -550,6 +583,7 @@
 				4A5FB4E618C446DF009B460B /* ABUploadWindowController.m in Sources */,
 				4A9AE76718A69C6600D06721 /* ABOutgoingDataBuilder.m in Sources */,
 				4A9AE73D18A3F45500D06721 /* ABCaptureWindow.m in Sources */,
+				4A457C24192DBB3B00A2C2E2 /* ABLoginResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

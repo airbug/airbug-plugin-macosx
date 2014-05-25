@@ -13,14 +13,15 @@
 @property (weak) IBOutlet NSSecureTextField *passwordTextField;
 @property (weak) IBOutlet NSButton *signInButton;
 @property (weak) IBOutlet NSTextField *messageTextField;
+@property (nonatomic) id eventMonitor;
 @end
 
 @implementation ABLoginWindowController
 
-- (id)initWithCommunicator:(ABAirbugCommunicator *)communicator
+- (id)initWithManager:(ABAirbugManager *)manager
 {
     if (self = [super initWithWindowNibName:[self windowNibName] owner:self]) {
-        _communicator = communicator;
+        _manager = manager;
     }
     return self;
 }
@@ -28,8 +29,23 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+    
     [NSApp activateIgnoringOtherApps:YES];
     [self.window makeKeyAndOrderFront:self];
+    
+    // To allow ESC button to close window
+    self.eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent *(NSEvent *event)
+                         {
+                             NSWindow *targetWindow = event.window;
+                             if (targetWindow != self.window) {
+                                 return event;
+                             }
+                             if (event.keyCode == 53) {
+                                 [self.window close];
+                                 event = nil;
+                             }
+                             return event;
+                         }];
 }
 
 #pragma mark - IBActions
@@ -52,12 +68,12 @@
     [progressIndicator startAnimation:self];
     [self.signInButton setEnabled:NO];
     
-    [self.communicator logInWithUsername:username password:password onCompletion:^(NSError *error) {
+    [self.manager logInWithUsername:username password:password onCompletion:^(BOOL success, NSError *error) {
         [progressIndicator stopAnimation:self];
         [progressIndicator removeFromSuperview];
         [self.signInButton setEnabled:YES];
         
-        if (error) {
+        if (!success) {
             NSLog(@"Error logging in: %@", [error localizedDescription]);
             [self.messageTextField setStringValue:[error localizedDescription]];
             return;
@@ -70,6 +86,13 @@
 
 - (NSString *)windowNibName {
     return @"ABAirbugLoginWindow";
+}
+
+#pragma mark NSWindowDelegate
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [NSEvent removeMonitor:self.eventMonitor];
 }
 
 @end
