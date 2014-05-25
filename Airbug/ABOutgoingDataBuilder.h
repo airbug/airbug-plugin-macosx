@@ -22,4 +22,7 @@
  */
 - (NSDictionary *)parametersForQuickTimeVideo:(NSURL *)fileURL;
 
+/**
+ */
+- (NSDictionary *)JSONLoginRequestForUsername:(NSString *)username password:(NSString *)password;
 @end

@@ -18,10 +18,10 @@
 
 @implementation ABLoginWindowController
 
-- (id)initWithCommunicator:(ABAirbugCommunicator *)communicator
+- (id)initWithManager:(ABAirbugManager *)manager
 {
     if (self = [super initWithWindowNibName:[self windowNibName] owner:self]) {
-        _communicator = communicator;
+        _manager = manager;
     }
     return self;
 }
@@ -68,12 +68,12 @@
     [progressIndicator startAnimation:self];
     [self.signInButton setEnabled:NO];
     
-    [self.communicator logInWithUsername:username password:password onCompletion:^(NSError *error) {
+    [self.manager logInWithUsername:username password:password onCompletion:^(BOOL success, NSError *error) {
         [progressIndicator stopAnimation:self];
         [progressIndicator removeFromSuperview];
         [self.signInButton setEnabled:YES];
         
-        if (error) {
+        if (!success) {
             NSLog(@"Error logging in: %@", [error localizedDescription]);
             [self.messageTextField setStringValue:[error localizedDescription]];
             return;

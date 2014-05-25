@@ -1,5 +1,5 @@
 //
-//  ABAirbugCommunicator.h
+//  ABNetworkCommunicator.h
 //  Airbug
 //
 //  Created by Richard Shin on 2/7/14.
@@ -7,17 +7,42 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <WebKit/WebKit.h>
 
 /**
- @class ABAirbugCommunicator
+ @class ABNetworkCommunicator
  @description Handles network communication with Airbug backend servers.
 */
 
-@interface ABAirbugCommunicator : NSObject
+@interface ABNetworkCommunicator : NSObject
 
-extern NSString *const ABAirbugCommunicatorError;
+extern NSString * const ABNetworkCommunicatorError;
+extern NSString * const AirbugAPIBridgeURL;
 
-@property (nonatomic) BOOL isLoggedIn;
+/**
+ The web view through which all communication occurs with airbug server
+ */
+@property (strong, nonatomic) WebView *webView;
+
+/**
+ Called when the communicator receives JSON communication from the JS plugin layer.
+ */
+@property (copy, nonatomic) void (^receivedJSONObjectHandler)(id JSONObject);
+
+/**
+ Initialiize with a web view instance. Communicator will use this web view to load airbug.
+ */
+- (id)initWithWebView:(WebView *)webView;
+
+/**
+ Sends JSON request to client JS plugin layer.
+ */
+- (BOOL)sendJSONRequest:(id)JSONObject error:(NSError *)error;
+
+/**
+ Receive JSON messages from client JS plugin layer.
+ */
+- (void)receivedJSONString:(NSString *)JSONString;
 
 /**
  Upload image data to the image endpoint.
@@ -34,18 +59,5 @@ extern NSString *const ABAirbugCommunicatorError;
  @param completionHandler On success, returns JSON server response as an NSDictionary. NSError is nil if no error.
  */
 - (void)sendQuickTimeVideoFile:(NSURL *)fileURL withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler;
-
-/**
- Authenticate with the airbug server.
- @param username The username
- @param password The password
- @param completionHandler A block that's executed after the login succeeds or fails.
- */
-- (void)logInWithUsername:(NSString *)username password:(NSString *)password onCompletion:(void(^)(NSError *error))completionHandler;
-
-/**
- Log out from this user's session. Deletes the session authentication cookie.
- */
-- (void)logOut;
 
 @end

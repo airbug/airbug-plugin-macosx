@@ -7,6 +7,9 @@
 //
 
 #import "ABIncomingDataBuilder.h"
+#import "ABLoginResponse.h"
+#import "ABWindowVisibilityRequest.h"
+#import "ABWindowResizeRequest.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -25,5 +28,55 @@ NSString * const VideoURLKeyPath = @"url";
     return [NSURL URLWithString:imageURL];
 }
 
+- (id)objectFromJSONDictionary:(NSDictionary *)JSONDictionary
+{
+    NSString *type = JSONDictionary[@"type"];
+    
+    if ([type isEqualToString:@"UserNotification"]) {
+        NSUserNotification *notification = [NSUserNotification new];
+        notification.title = [JSONDictionary valueForKeyPath:@"data.title"];
+        notification.subtitle = [JSONDictionary valueForKeyPath:@"data.subtitle"];
+        notification.informativeText = [JSONDictionary valueForKeyPath:@"data.informativeText"];
+        // TODO: will there ever be a forward delivery date? Not right now I don't think... just display it now.
+        notification.deliveryDate = [NSDate date];
+        notification.userInfo = [JSONDictionary valueForKeyPath:@"data.userInfo"];
+        return notification;
+    }
+    
+    if ([type isEqualToString:@"LoginSuccess"]) {
+        ABLoginResponse *loginResponse = [[ABLoginResponse alloc] init];
+        loginResponse.success = YES;
+        loginResponse.meldDocument = JSONDictionary[@"data"];
+        return loginResponse;
+    }
+    
+    if ([type isEqualToString:@"LoginError"]) {
+        ABLoginResponse *loginResponse = [[ABLoginResponse alloc] init];
+        loginResponse.success = NO;
+        loginResponse.errorMessage = JSONDictionary[@"data"];
+        return loginResponse;
+    }
+    
+    if ([type isEqualToString:@"ShowWindow"] || [type isEqualToString:@"HideWindow"]) {
+        ABWindowVisibilityRequest *request = [[ABWindowVisibilityRequest alloc] init];
+        request.showWindow = [type isEqualToString:@"ShowWindow"];
+        return request;
+    }
+    
+    if ([type isEqualToString:@"ResizeWindow"]) {
+        ABWindowResizeRequest *request = [[ABWindowResizeRequest alloc] init];
+        CGFloat width = [[JSONDictionary valueForKeyPath:@"data.width"] floatValue];
+        CGFloat height = [[JSONDictionary valueForKeyPath:@"data.height"] floatValue];
+        request.size = NSMakeSize(width, height);
+        return request;
+    }
+    
+    if ([type isEqualToString:@"MessageError"]) {
+        // TODO: return something more appropriate
+        return nil;
+    }
+    
+    return nil;
+}
 
 @end

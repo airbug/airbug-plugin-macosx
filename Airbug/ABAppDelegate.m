@@ -11,6 +11,8 @@
 #import "ABImageUploadWindowController.h"
 #import "ABVideoUploadWindowController.h"
 #import "ABLoginWindowController.h"
+#import "ABWebViewWindowController.h"
+#import "ABWebViewWindow.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -19,8 +21,12 @@
 @property (strong, nonatomic) ABCaptureManager *captureController;
 @property (strong, nonatomic) NSMutableArray *uploadControllers;
 @property (strong, nonatomic) ABAirbugManager *manager;
-@property (strong, nonatomic) ABAirbugCommunicator *communicator;
+@property (strong, nonatomic) ABNetworkCommunicator *communicator;
 @property (strong, nonatomic) ABLoginWindowController *loginWindowController;
+
+// Experimental
+@property (strong, nonatomic) ABWebViewWindowController *webViewWindowController;
+
 @end
 
 @implementation ABAppDelegate
@@ -45,23 +51,60 @@
     
     self.uploadControllers = [NSMutableArray array];
     
-    self.communicator = [[ABAirbugCommunicator alloc] init];
+    // Create the main WebView. It will be displayed in a window, but it's also used by the ABNetworkCommunicator
+    // to perform all communication with the server
+    self.webViewWindowController = [[ABWebViewWindowController alloc] init];
+    ABWebViewWindow *webViewWindow = (ABWebViewWindow *)self.webViewWindowController.window;
+    WebView *webView = webViewWindow.webView;
+    [webViewWindow orderOut:self];
+    
+    self.communicator = [[ABNetworkCommunicator alloc] initWithWebView:webView];
     self.manager = [[ABAirbugManager alloc] initWithCommunicator:self.communicator
                                              incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
                                              outgoingDataBuilder:[[ABOutgoingDataBuilder alloc] init]];
-
-    if (self.communicator.isLoggedIn) {
+    
+    // Hook up our response to various messages from the airbug server
+    __weak ABAppDelegate *weakSelf = self;
+    self.manager.notificationHandler = ^(NSUserNotification *notification) {
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    };
+    self.manager.windowVisibilityRequestHandler = ^(BOOL showWindow) {
+        if (showWindow) {
+            [weakSelf.webViewWindowController showWindow:nil];
+        } else {
+            [weakSelf.webViewWindowController.window orderOut:nil];
+        }
+    };
+    self.manager.windowResizeRequestHandler = ^(NSSize windowSize) {
+        // Resize the WebView window
+        [weakSelf.webViewWindowController.window setContentSize:windowSize];
+    };
+    
+    if (self.manager.isLoggedIn) {
         [self setUpLoggedInUI];
     } else {
         [self setUpLoggedOutUI];
     }
+
+#ifdef DEBUG
+    // Set up debug menu options to send preprogrammed notifications
+    NSMenuItem *debugMenuItem = [[NSMenuItem alloc] init];
+    debugMenuItem.title = @"Debug Messages";
+    NSMenu *debugSubmenu = [[NSMenu alloc] initWithTitle:@"Debug"];
+    [debugSubmenu addItemWithTitle:@"Notification" action:@selector(sendNotification:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Show Window" action:@selector(showWindow:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Hide Window" action:@selector(hideWindow:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Resize Window" action:@selector(resizeWindow:) keyEquivalent:@""];
+    debugMenuItem.submenu = debugSubmenu;
+    [self.mainStatusItem.menu addItem:debugMenuItem];
+#endif
 }
 
 #pragma mark - IBAction
 
 - (IBAction)logIn:(id)sender
 {
-    self.loginWindowController = [[ABLoginWindowController alloc] initWithCommunicator:self.communicator];
+    self.loginWindowController = [[ABLoginWindowController alloc] initWithManager:self.manager];
     
     __weak ABAppDelegate *weakSelf = self;
     self.loginWindowController.onSuccessfulLogin = ^{
@@ -102,28 +145,78 @@
 
 - (IBAction)logOut:(id)sender
 {
-    [self.communicator logOut];
+    [self.manager logOut];
     [self setUpLoggedOutUI];
+}
+
+#pragma mark - Stub debugging methods
+
+- (IBAction)sendNotification:(id)sender
+{
+    NSDictionary *notification = @{
+                           @"type" : @"UserNotification",
+                           @"data" : @{
+                                       @"title": @"Test Title",
+                                       @"subtitle" : @"Test subtitle",
+                                       @"informativeText" : @"This is a test message"
+                                   }
+                           };
+    [self sendJSONDictionaryToCommunicator:notification];
+}
+
+- (IBAction)showWindow:(id)sender
+{
+    NSDictionary *notification = @{
+                                   @"type" : @"ShowWindow"
+                                   };
+    [self sendJSONDictionaryToCommunicator:notification];
+}
+
+- (IBAction)hideWindow:(id)sender
+{
+    NSDictionary *notification = @{
+                                   @"type" : @"HideWindow"
+                                   };
+    [self sendJSONDictionaryToCommunicator:notification];
+}
+
+- (IBAction)resizeWindow:(id)sender
+{
+    NSDictionary *notification = @{
+                                   @"type" : @"ResizeWindow",
+                                   @"data" : @{
+                                           @"width": @(400),
+                                           @"height" : @(400)
+                                           }
+                                   };
+    [self sendJSONDictionaryToCommunicator:notification];
+}
+
+- (void)sendJSONDictionaryToCommunicator:(NSDictionary *)dictionary
+{
+    NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:NULL];
+    NSString *JSONString = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
+    [self.communicator receivedJSONString:JSONString];
 }
 
 #pragma mark - Private
 
 - (void)displayImageInPreviewWindow:(NSImage *)image
 {
-    ABImageUploadWindowController *controller = [[ABImageUploadWindowController alloc] initWithManager:self.manager];
-    controller.delegate = self;
-    controller.image = image;
-    [controller showWindow:nil];
-    [self.uploadControllers addObject:controller];
+//    ABImageUploadWindowController *controller = [[ABImageUploadWindowController alloc] initWithManager:self.manager];
+//    controller.delegate = self;
+//    controller.image = image;
+//    [controller showWindow:nil];
+//    [self.uploadControllers addObject:controller];
 }
 
 - (void)displayVideoInPreviewWindow:(NSURL *)file
-{    
-    ABVideoUploadWindowController *controller = [[ABVideoUploadWindowController alloc] initWithManager:self.manager];
-    controller.fileURL = file;
-    controller.delegate = self;
-    [controller showWindow:nil];
-    [self.uploadControllers addObject:controller];
+{
+//    ABVideoUploadWindowController *controller = [[ABVideoUploadWindowController alloc] initWithManager:self.manager];
+//    controller.fileURL = file;
+//    controller.delegate = self;
+//    [controller showWindow:nil];
+//    [self.uploadControllers addObject:controller];
 }
 
 - (void)setUpLoggedOutUI
@@ -149,13 +242,13 @@
 
 - (void)didCaptureImage:(NSImage *)image
 {
-    [self displayImageInPreviewWindow:image];
+//    [self displayImageInPreviewWindow:image];
 }
 
 - (void)didCaptureFile:(NSURL *)file
 {
-    [self displayVideoInPreviewWindow:file];
-    NSLog(@"Captured file: %@", file);
+//    [self displayVideoInPreviewWindow:file];
+//    NSLog(@"Captured file: %@", file);
 }
 
 #pragma mark ABUploadWindowControllerDelegate

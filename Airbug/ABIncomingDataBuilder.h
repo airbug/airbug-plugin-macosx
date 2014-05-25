@@ -22,4 +22,9 @@
  */
 - (NSURL *)videoURLFromJSONDictionary:(NSDictionary *)JSONDictionary;
 
+/**
+ Reads an incoming JSON message from the server and returns an object encapsulating that data.
+ */
+- (id)objectFromJSONDictionary:(NSDictionary *)JSONDictionary;
+
 @end

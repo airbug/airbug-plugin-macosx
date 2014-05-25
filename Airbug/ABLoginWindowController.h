@@ -7,13 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "ABAirbugCommunicator.h"
+#import "ABAirbugManager.h"
 
 @interface ABLoginWindowController : NSWindowController
 
-- (id)initWithCommunicator:(ABAirbugCommunicator *)communicator;
+- (id)initWithManager:(ABAirbugManager *)manager;
 
-@property (strong, nonatomic) ABAirbugCommunicator *communicator;
+@property (strong, nonatomic) ABAirbugManager *manager;
 
 @property (copy, nonatomic) void (^onSuccessfulLogin)();
 
