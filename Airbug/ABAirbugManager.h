@@ -10,6 +10,7 @@
 #import "ABNetworkCommunicator.h"
 #import "ABIncomingDataBuilder.h"
 #import "ABOutgoingDataBuilder.h"
+#import "ABScreenshotRequest.h"
 
 /**
  @class ABAirbugManager
@@ -28,19 +29,24 @@
 @property (readonly) BOOL isLoggedIn;
 
 /**
- Invoked when the server sends a notification
+ Invoked when the server sends a notification message
  */
 @property (copy, nonatomic) void (^notificationHandler)(NSUserNotification *notification);
 
 /**
- Invoked when the server sends a window show/hide notification
+ Invoked when the server sends a window show/hide message
  */
 @property (copy, nonatomic) void (^windowVisibilityRequestHandler)(BOOL showWindow);
 
 /**
- Invoked when the server sends a window resize notification
+ Invoked when the server sends a window resize message
  */
 @property (copy, nonatomic) void (^windowResizeRequestHandler)(NSSize size);
+
+/**
+ Invoked when the server sends a screenshot request
+ */
+@property (copy, nonatomic) void (^screenshotRequestHandler)(ABScreenshotType type);
 
 /**
  The designated initializer for ABAirbugManager.

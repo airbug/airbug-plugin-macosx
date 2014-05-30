@@ -19,6 +19,7 @@
 
 - (void)captureScreenshot;
 - (void)captureTargetedScreenshot;
+- (void)captureTimedScreenshot;
 - (void)startVideoScreenCapture;
 - (void)stopVideoScreenCapture;
 

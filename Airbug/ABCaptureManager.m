@@ -59,6 +59,10 @@
     [self displayTargetedScreenshotWindow];
 }
 
+- (void)captureTimedScreenshot {
+    [self displayTimedScreenshotWindow];
+}
+
 - (void)startVideoScreenCapture {
     NSLog(@"ABCaptureManager - start video screen capture");
     [self displayVideoScreenCaptureWindow];
@@ -103,6 +107,21 @@
     NSAttributedString *instructions = [[NSAttributedString alloc] initWithString:@"Drag to capture area, ESC to cancel" attributes:@{NSFontAttributeName : [NSFont boldSystemFontOfSize:48.0], NSForegroundColorAttributeName : [NSColor whiteColor]}];
     self.captureWindow.instructions = instructions;
     [self displayCaptureWindow:self.captureWindow];
+}
+
+- (void)displayTimedScreenshotWindow
+{
+// TODO: create a timed screenshot window that counts down before capturing a screen!
+    
+//    NSScreen *mainScreen = [NSScreen mainScreen];
+//    self.captureWindow = [[ABTargetedScreenshotWindow alloc] initWithContentRect:mainScreen.frame
+//                                                                       styleMask:NSBorderlessWindowMask
+//                                                                         backing:NSBackingStoreBuffered
+//                                                                           defer:NO
+//                                                                          screen:mainScreen];
+//    NSAttributedString *instructions = [[NSAttributedString alloc] initWithString:@"Drag to capture area, ESC to cancel" attributes:@{NSFontAttributeName : [NSFont boldSystemFontOfSize:48.0], NSForegroundColorAttributeName : [NSColor whiteColor]}];
+//    self.captureWindow.instructions = instructions;
+//    [self displayCaptureWindow:self.captureWindow];
 }
 
 - (void)displayVideoScreenCaptureWindow
