@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F029E5406BC4742B8B20EE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 541525D46F964201A2684BB6 /* libPods.a */; };
 		4A2315331925E102007C5D2D /* ABWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2315311925E102007C5D2D /* ABWebViewWindowController.m */; };
 		4A2315341925E102007C5D2D /* ABWebViewWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A2315321925E102007C5D2D /* ABWebViewWindow.xib */; };
 		4A2315371925E716007C5D2D /* ABWebViewWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2315361925E716007C5D2D /* ABWebViewWindow.m */; };
@@ -173,7 +172,6 @@
 				4A5FB4E318C4450B009B460B /* AVKit.framework in Frameworks */,
 				4A5FB4D218C187FD009B460B /* AVFoundation.framework in Frameworks */,
 				4A26208018A1DB3400E973EC /* Cocoa.framework in Frameworks */,
-				0F029E5406BC4742B8B20EE4 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
