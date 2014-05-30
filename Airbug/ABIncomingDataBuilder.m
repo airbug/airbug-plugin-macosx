@@ -10,6 +10,7 @@
 #import "ABLoginResponse.h"
 #import "ABWindowVisibilityRequest.h"
 #import "ABWindowResizeRequest.h"
+#import "ABScreenshotRequest.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -68,6 +69,14 @@ NSString * const VideoURLKeyPath = @"url";
         CGFloat width = [[JSONDictionary valueForKeyPath:@"data.width"] floatValue];
         CGFloat height = [[JSONDictionary valueForKeyPath:@"data.height"] floatValue];
         request.size = NSMakeSize(width, height);
+        return request;
+    }
+    
+    if ([type isEqualToString:@"TakeScreenshot"]) {
+        ABScreenshotRequest *request = [[ABScreenshotRequest alloc] init];
+        NSString *screenshotType = [JSONDictionary valueForKeyPath:@"data.type"];
+        ABScreenshotType type = [ABScreenshotRequest typeFromString:screenshotType];
+        request.type = type;
         return request;
     }
     

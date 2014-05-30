@@ -79,6 +79,15 @@
         // Resize the WebView window
         [weakSelf.webViewWindowController.window setContentSize:windowSize];
     };
+    self.manager.screenshotRequestHandler = ^(ABScreenshotType type) {
+        if (type == ABFullScreenScreenshotType) {
+            [weakSelf takeFullScreenScreenshot:nil];
+        } else if (type == ABCrosshairScreenshotType) {
+            [weakSelf takeCrosshairScreenshot:nil];
+        } else if (type == ABTimedScreenshotType) {
+            [weakSelf takeTimedScreenshot:nil];
+        }
+    };
     
     if (self.manager.isLoggedIn) {
         [self setUpLoggedInUI];
@@ -91,10 +100,12 @@
     NSMenuItem *debugMenuItem = [[NSMenuItem alloc] init];
     debugMenuItem.title = @"Debug Messages";
     NSMenu *debugSubmenu = [[NSMenu alloc] initWithTitle:@"Debug"];
-    [debugSubmenu addItemWithTitle:@"Notification" action:@selector(sendNotification:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Show Window" action:@selector(showWindow:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Hide Window" action:@selector(hideWindow:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Resize Window" action:@selector(resizeWindow:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Notification" action:@selector(sendNotificationMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Show Window" action:@selector(sendShowWindowMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Hide Window" action:@selector(sendHideWindowMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Resize Window" action:@selector(sendResizeWindowMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Full Screen Screenshot" action:@selector(sendFullScreenScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Crosshair Screenshot" action:@selector(sendCrosshairScreenshotMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
     [self.mainStatusItem.menu addItem:debugMenuItem];
 #endif
@@ -113,12 +124,16 @@
     [self.loginWindowController showWindow:nil];
 }
 
-- (IBAction)takeScreenshot:(id)sender {
+- (IBAction)takeFullScreenScreenshot:(id)sender {
     [self.captureController captureScreenshot];
 }
 
-- (IBAction)captureArea:(id)sender {
+- (IBAction)takeCrosshairScreenshot:(id)sender {
     [self.captureController captureTargetedScreenshot];
+}
+
+- (IBAction)takeTimedScreenshot:(id)sender {
+    [self.captureController captureTimedScreenshot];
 }
 
 - (IBAction)quit:(id)sender {
@@ -151,7 +166,7 @@
 
 #pragma mark - Stub debugging methods
 
-- (IBAction)sendNotification:(id)sender
+- (IBAction)sendNotificationMessage:(id)sender
 {
     NSDictionary *notification = @{
                            @"type" : @"UserNotification",
@@ -164,33 +179,56 @@
     [self sendJSONDictionaryToCommunicator:notification];
 }
 
-- (IBAction)showWindow:(id)sender
+- (IBAction)sendShowWindowMessage:(id)sender
 {
-    NSDictionary *notification = @{
-                                   @"type" : @"ShowWindow"
-                                   };
-    [self sendJSONDictionaryToCommunicator:notification];
+    NSDictionary *message = @{
+                              @"type" : @"ShowWindow"
+                              };
+    [self sendJSONDictionaryToCommunicator:message];
 }
 
-- (IBAction)hideWindow:(id)sender
+- (IBAction)sendHideWindowMessage:(id)sender
 {
-    NSDictionary *notification = @{
-                                   @"type" : @"HideWindow"
-                                   };
-    [self sendJSONDictionaryToCommunicator:notification];
+    NSDictionary *message = @{
+                              @"type" : @"HideWindow"
+                              };
+    [self sendJSONDictionaryToCommunicator:message];
 }
 
-- (IBAction)resizeWindow:(id)sender
+- (IBAction)sendResizeWindowMessage:(id)sender
 {
-    NSDictionary *notification = @{
-                                   @"type" : @"ResizeWindow",
-                                   @"data" : @{
-                                           @"width": @(400),
-                                           @"height" : @(400)
-                                           }
-                                   };
-    [self sendJSONDictionaryToCommunicator:notification];
+    NSDictionary *message = @{
+                              @"type" : @"ResizeWindow",
+                              @"data" : @{
+                                          @"width": @(400),
+                                          @"height" : @(400)
+                                        }
+                              };
+    [self sendJSONDictionaryToCommunicator:message];
 }
+
+- (IBAction)sendFullScreenScreenshotMessage:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"TakeScreenshot",
+                              @"data" : @{
+                                          @"type" : @"FullScreen"
+                                         }
+                              };
+    [self sendJSONDictionaryToCommunicator:message];
+}
+
+- (IBAction)sendCrosshairScreenshotMessage:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"TakeScreenshot",
+                              @"data" : @{
+                                      @"type" : @"Crosshair"
+                                      }
+                              };
+    [self sendJSONDictionaryToCommunicator:message];
+}
+
 
 - (void)sendJSONDictionaryToCommunicator:(NSDictionary *)dictionary
 {

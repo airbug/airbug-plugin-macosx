@@ -75,6 +75,12 @@ NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
                         weakManager.loginCompletionHandler(NO, error);
                     }
                 }
+            } else if ([parsedObject isKindOfClass:[ABScreenshotRequest class]]) {
+                ABScreenshotRequest *request = (ABScreenshotRequest *)parsedObject;
+                
+                if (weakManager.screenshotRequestHandler) {
+                    weakManager.screenshotRequestHandler(request.type);
+                }
             }
         };
         
