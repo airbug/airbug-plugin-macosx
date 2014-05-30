@@ -8,7 +8,7 @@
 
 #import "ABNetworkCommunicator.h"
 #import <JavaScriptCore/JavaScriptCore.h>
-#import "AFNetworking.h"
+//#import "AFNetworking.h"
 
 @interface ABNetworkCommunicator ()
 
