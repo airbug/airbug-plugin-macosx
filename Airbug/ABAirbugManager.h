@@ -12,6 +12,19 @@
 #import "ABOutgoingDataBuilder.h"
 #import "ABScreenshotRequest.h"
 
+@protocol ABAirbugManagerDelegate <NSObject>
+- (void)didReceiveNotification:(NSUserNotification *)notification;
+- (void)didReceiveWindowVisibilityRequest:(BOOL)showWindow;
+- (void)didReceiveWindowResizeRequest:(NSSize)size;
+- (void)didReceiveScreenshotRequest:(ABScreenshotType)screenshotType;
+- (void)didReceiveOpenBrowserRequest:(NSURL *)url;
+@end
+
+typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
+    ABAirbugManagerCommunicationError,
+    ABAirbugManagerDataError
+};
+
 /**
  @class ABAirbugManager
  @description Manages network interactions with Airbug backend servers.
@@ -24,29 +37,13 @@
 @interface ABAirbugManager : NSObject
 
 /**
+ Delegate of ABAirbugManager that receives messages when various network events occur
+ */
+@property (weak, nonatomic) id <ABAirbugManagerDelegate> delegate;
+/**
  Returns @c YES if currently authenticated
  */
 @property (readonly) BOOL isLoggedIn;
-
-/**
- Invoked when the server sends a notification message
- */
-@property (copy, nonatomic) void (^notificationHandler)(NSUserNotification *notification);
-
-/**
- Invoked when the server sends a window show/hide message
- */
-@property (copy, nonatomic) void (^windowVisibilityRequestHandler)(BOOL showWindow);
-
-/**
- Invoked when the server sends a window resize message
- */
-@property (copy, nonatomic) void (^windowResizeRequestHandler)(NSSize size);
-
-/**
- Invoked when the server sends a screenshot request
- */
-@property (copy, nonatomic) void (^screenshotRequestHandler)(ABScreenshotType type);
 
 /**
  The designated initializer for ABAirbugManager.
@@ -57,27 +54,6 @@
 - (id)initWithCommunicator:(ABNetworkCommunicator *)communicator
        incomingDataBuilder:(ABIncomingDataBuilder *)incomingBuilder
        outgoingDataBuilder:(ABOutgoingDataBuilder *)outgoingBuilder;
-
-/**
- Upload image to Airbug.
- @param image
-        Image data to upload. Must not be nil.
- @param completionHandler
-        Block to execute when upload has completed successfully or unsuccessfully. The @c NSURL parameter contains
-        the URL of the uploaded image if successful, nil otherwise. The @c NSError parameter contains information
-        on any reasons for upload failure.
- */
-- (void)uploadPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler;
-
-/**
- Upload video to Airbug.
- @param videoData Video data to upload. Must not be nil.
- @param progress Pointer to progress object to get upload progress updates
- @param completionHandler Block to execute when upload has completed successfully or unsuccessfully. The @c NSURL parameter contains
- the URL of the uploaded image if successful, nil otherwise. The @c NSError parameter contains information
- on any reasons for upload failure.
- */
-- (void)uploadQuickTimeVideoFile:(NSURL *)fileURL progress:(NSProgress **)progress onCompletion:(void (^)(NSURL *, NSError *))completionHandler;
 
 /**
  Authenticate with the airbug server.
@@ -91,11 +67,5 @@
  Log out of the current session.
  */
 - (void)logOut;
-
-
-typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
-    ABAirbugManagerCommunicationError,
-    ABAirbugManagerDataError
-};
 
 @end

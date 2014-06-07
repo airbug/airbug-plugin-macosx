@@ -38,8 +38,8 @@
 
 - (void)startUpload
 {
-    NSData *imageData = [self.image PNGRepresentation];
-    [self.manager uploadPNGImageData:imageData onCompletion:self.completionHandler];
+//    NSData *imageData = [self.image PNGRepresentation];
+//    [self.manager uploadPNGImageData:imageData onCompletion:self.completionHandler];
 }
 
 @end

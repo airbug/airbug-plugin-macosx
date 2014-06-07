@@ -7,7 +7,6 @@
 //
 
 #import "ABAppDelegate.h"
-#import "ABAirbugManager.h"
 #import "ABImageUploadWindowController.h"
 #import "ABVideoUploadWindowController.h"
 #import "ABLoginWindowController.h"
@@ -23,8 +22,6 @@
 @property (strong, nonatomic) ABAirbugManager *manager;
 @property (strong, nonatomic) ABNetworkCommunicator *communicator;
 @property (strong, nonatomic) ABLoginWindowController *loginWindowController;
-
-// Experimental
 @property (strong, nonatomic) ABWebViewWindowController *webViewWindowController;
 
 @end
@@ -62,32 +59,7 @@
     self.manager = [[ABAirbugManager alloc] initWithCommunicator:self.communicator
                                              incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
                                              outgoingDataBuilder:[[ABOutgoingDataBuilder alloc] init]];
-    
-    // Hook up our response to various messages from the airbug server
-    __weak ABAppDelegate *weakSelf = self;
-    self.manager.notificationHandler = ^(NSUserNotification *notification) {
-        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
-    };
-    self.manager.windowVisibilityRequestHandler = ^(BOOL showWindow) {
-        if (showWindow) {
-            [weakSelf.webViewWindowController showWindow:nil];
-        } else {
-            [weakSelf.webViewWindowController.window orderOut:nil];
-        }
-    };
-    self.manager.windowResizeRequestHandler = ^(NSSize windowSize) {
-        // Resize the WebView window
-        [weakSelf.webViewWindowController.window setContentSize:windowSize];
-    };
-    self.manager.screenshotRequestHandler = ^(ABScreenshotType type) {
-        if (type == ABFullScreenScreenshotType) {
-            [weakSelf takeFullScreenScreenshot:nil];
-        } else if (type == ABCrosshairScreenshotType) {
-            [weakSelf takeCrosshairScreenshot:nil];
-        } else if (type == ABTimedScreenshotType) {
-            [weakSelf takeTimedScreenshot:nil];
-        }
-    };
+    self.manager.delegate = self;
     
     if (self.manager.isLoggedIn) {
         [self setUpLoggedInUI];
@@ -104,6 +76,7 @@
     [debugSubmenu addItemWithTitle:@"Show Window" action:@selector(sendShowWindowMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Hide Window" action:@selector(sendHideWindowMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Resize Window" action:@selector(sendResizeWindowMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Open Browser" action:@selector(sendOpenBrowserMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Full Screen Screenshot" action:@selector(sendFullScreenScreenshotMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Crosshair Screenshot" action:@selector(sendCrosshairScreenshotMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
@@ -207,6 +180,17 @@
     [self sendJSONDictionaryToCommunicator:message];
 }
 
+- (IBAction)sendOpenBrowserMessage:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"OpenBrowser",
+                              @"data" : @{
+                                      @"url": @"http://www.google.com"
+                                      }
+                              };
+    [self sendJSONDictionaryToCommunicator:message];
+}
+
 - (IBAction)sendFullScreenScreenshotMessage:(id)sender
 {
     NSDictionary *message = @{
@@ -294,6 +278,40 @@
 - (void)uploadWindowControllerWillClose:(ABUploadWindowController *)controller
 {
     [self.uploadControllers removeObject:controller];
+}
+
+#pragma mark ABAirbugManagerDelegate
+
+- (void)didReceiveNotification:(NSUserNotification *)notification {
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+}
+
+- (void)didReceiveWindowVisibilityRequest:(BOOL)showWindow {
+    // TODO: figure out why showWindow doesn't work consistently
+    if (showWindow) {
+        [self.webViewWindowController showWindow:nil];
+    } else {
+        [self.webViewWindowController.window orderOut:nil];
+    }
+}
+
+- (void)didReceiveWindowResizeRequest:(NSSize)size {
+    [self.webViewWindowController.window setContentSize:size];
+}
+
+- (void)didReceiveScreenshotRequest:(ABScreenshotType)screenshotType
+{
+    if (screenshotType == ABFullScreenScreenshotType) {
+        [self takeFullScreenScreenshot:nil];
+    } else if (screenshotType == ABCrosshairScreenshotType) {
+        [self takeCrosshairScreenshot:nil];
+    } else if (screenshotType == ABTimedScreenshotType) {
+        [self takeTimedScreenshot:nil];
+    }
+}
+
+- (void)didReceiveOpenBrowserRequest:(NSURL *)url {
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 @end

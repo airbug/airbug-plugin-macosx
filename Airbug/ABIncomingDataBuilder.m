@@ -11,6 +11,7 @@
 #import "ABWindowVisibilityRequest.h"
 #import "ABWindowResizeRequest.h"
 #import "ABScreenshotRequest.h"
+#import "ABBrowserRequest.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -77,6 +78,13 @@ NSString * const VideoURLKeyPath = @"url";
         NSString *screenshotType = [JSONDictionary valueForKeyPath:@"data.type"];
         ABScreenshotType type = [ABScreenshotRequest typeFromString:screenshotType];
         request.type = type;
+        return request;
+    }
+    
+    if ([type isEqualToString:@"OpenBrowser"]) {
+        ABBrowserRequest *request = [[ABBrowserRequest alloc] init];
+        NSString *url = [JSONDictionary valueForKeyPath:@"data.url"];
+        request.url = [NSURL URLWithString:url];
         return request;
     }
     

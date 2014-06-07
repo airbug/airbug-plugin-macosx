@@ -7,9 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ABAirbugManager.h"
 #import "ABCaptureManager.h"
 #import "ABUploadWindowController.h"
 
-@interface ABAppDelegate : NSObject <NSApplicationDelegate, ABCaptureManagerDelegate, ABUploadWindowControllerDelegate>
+@interface ABAppDelegate : NSObject <NSApplicationDelegate, ABCaptureManagerDelegate, ABUploadWindowControllerDelegate, ABAirbugManagerDelegate>
 
 @end

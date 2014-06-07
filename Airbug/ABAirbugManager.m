@@ -10,6 +10,7 @@
 #import "ABLoginResponse.h"
 #import "ABWindowVisibilityRequest.h"
 #import "ABWindowResizeRequest.h"
+#import "ABBrowserRequest.h"
 
 @interface ABAirbugManager ()
 
@@ -36,55 +37,8 @@ NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
         _communicator = communicator;
         _incomingBuilder = incomingBuilder;
         _outgoingBuilder = outgoingBuilder;
-        
-        __weak ABIncomingDataBuilder *weakObject = _incomingBuilder;
-        __weak ABAirbugManager *weakManager = self;
-
-        _communicator.receivedJSONObjectHandler = ^(id JSONObject) {
-            id parsedObject = [weakObject objectFromJSONDictionary:(NSDictionary *)JSONObject];
-            if ([parsedObject isKindOfClass:[NSUserNotification class]]) {
-                if (weakManager.notificationHandler) {
-                    weakManager.notificationHandler(parsedObject);
-                }
-            } else if ([parsedObject isKindOfClass:[ABWindowVisibilityRequest class]]) {
-                ABWindowVisibilityRequest *request = (ABWindowVisibilityRequest *)parsedObject;
-                
-                if (weakManager.windowVisibilityRequestHandler) {
-                    weakManager.windowVisibilityRequestHandler(request.showWindow);
-                }
-            } else if ([parsedObject isKindOfClass:[ABWindowResizeRequest class]]) {
-                ABWindowResizeRequest *request = (ABWindowResizeRequest *)parsedObject;
-                
-                if (weakManager.windowResizeRequestHandler) {
-                    weakManager.windowResizeRequestHandler(request.size);
-                }
-            } else if ([parsedObject isKindOfClass:[ABLoginResponse class]]) {
-                ABLoginResponse *loginResponse = (ABLoginResponse *)parsedObject;
-                
-                if (loginResponse.success) {
-                    NSLog(@"Successfully logged in. Meld document: %@", loginResponse.meldDocument);
-                    
-                    if (weakManager.loginCompletionHandler) {
-                        weakManager.loginCompletionHandler(YES, nil);
-                    }
-                } else if (!loginResponse.success) {
-                    NSLog(@"Failed to log in: %@", loginResponse.errorMessage);
-                    NSError *error = [NSError errorWithDomain:ABAirbugManagerError code:ABAirbugManagerCommunicationError userInfo:@{ NSLocalizedDescriptionKey : loginResponse.errorMessage }];
-
-                    if (weakManager.loginCompletionHandler) {
-                        weakManager.loginCompletionHandler(NO, error);
-                    }
-                }
-            } else if ([parsedObject isKindOfClass:[ABScreenshotRequest class]]) {
-                ABScreenshotRequest *request = (ABScreenshotRequest *)parsedObject;
-                
-                if (weakManager.screenshotRequestHandler) {
-                    weakManager.screenshotRequestHandler(request.type);
-                }
-            }
-        };
-        
         _authCookie = [self savedCookie];
+        
         if (_authCookie) {
             NSLog(@"Found previous authentication cookie");
         } else {
@@ -96,65 +50,66 @@ NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
 
 #pragma mark - Custom accessors
 
+- (void)setDelegate:(id<ABAirbugManagerDelegate>)delegate {
+    if (![delegate conformsToProtocol:@protocol(ABAirbugManagerDelegate)]) {
+        [NSException raise:@"Unsupported delegate" format:@"Object must conform to protocol"];
+    }
+    
+    // Set up the communicator with the various delegate notification messages
+    __weak ABIncomingDataBuilder *weakIncomingBuilder = _incomingBuilder;
+    __weak ABAirbugManager *weakSelf = self;
+    self.communicator.receivedJSONObjectHandler = ^(id JSONObject)
+    {
+        id theDelegate = weakSelf.delegate;
+        id parsedObject = [weakIncomingBuilder objectFromJSONDictionary:(NSDictionary *)JSONObject];
+        
+        if ([parsedObject isKindOfClass:[ABLoginResponse class]]) {
+            ABLoginResponse *loginResponse = (ABLoginResponse *)parsedObject;
+            
+            if (loginResponse.success) {
+                NSLog(@"Successfully logged in. Meld document: %@", loginResponse.meldDocument);
+                if (weakSelf.loginCompletionHandler) weakSelf.loginCompletionHandler(YES, nil);
+                return;
+            }
+            
+            NSError *error = [NSError errorWithDomain:ABAirbugManagerError code:ABAirbugManagerCommunicationError userInfo:@{ NSLocalizedDescriptionKey : loginResponse.errorMessage }];
+            if (weakSelf.loginCompletionHandler) weakSelf.loginCompletionHandler(NO, error);
+            
+        } else if ([parsedObject isKindOfClass:[NSUserNotification class]]) {
+            if ([theDelegate respondsToSelector:@selector(didReceiveNotification:)]) {
+                [theDelegate didReceiveNotification:parsedObject];
+            }
+        } else if ([parsedObject isKindOfClass:[ABWindowVisibilityRequest class]]) {
+            if ([theDelegate respondsToSelector:@selector(didReceiveWindowVisibilityRequest:)]) {
+                ABWindowVisibilityRequest *request = (ABWindowVisibilityRequest *)parsedObject;
+                [theDelegate didReceiveWindowVisibilityRequest:request.showWindow];
+            }
+        } else if ([parsedObject isKindOfClass:[ABWindowResizeRequest class]]) {
+            if ([theDelegate respondsToSelector:@selector(didReceiveWindowResizeRequest:)]) {
+                ABWindowResizeRequest *request = (ABWindowResizeRequest *)parsedObject;
+                [theDelegate didReceiveWindowResizeRequest:request.size];
+            }
+        } else if ([parsedObject isKindOfClass:[ABScreenshotRequest class]]) {
+            if ([theDelegate respondsToSelector:@selector(didReceiveWindowResizeRequest:)]) {
+                ABScreenshotRequest *request = (ABScreenshotRequest *)parsedObject;
+                [theDelegate didReceiveScreenshotRequest:request.type];
+            }
+        } else if ([parsedObject isKindOfClass:[ABBrowserRequest class]]) {
+            if ([theDelegate respondsToSelector:@selector(didReceiveOpenBrowserRequest:)]) {
+                ABBrowserRequest *request = (ABBrowserRequest *)parsedObject;
+                [theDelegate didReceiveOpenBrowserRequest:request.url];
+            }
+        }
+    };
+    _delegate = delegate;
+}
+
 - (BOOL)isLoggedIn
 {
     return self.authCookie != nil;
 }
 
 #pragma mark - Public methods
-
-- (void)uploadPNGImageData:(NSData *)imageData onCompletion:(void (^)(NSURL *, NSError *))completionHandler
-{
-    NSDictionary *parameters = [self.outgoingBuilder parametersForPNGImage:imageData];
-    [self.communicator sendPNGImageData:imageData withParameters:parameters onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError) {
-        if (communicatorError) {
-            NSString *errorMessage = [NSString stringWithFormat:@"Failed to communicate with server. Check network connection and try again."];
-            NSError *error = [[NSError alloc] initWithDomain:ABAirbugManagerError
-                                                        code:ABAirbugManagerCommunicationError
-                                                    userInfo:@{NSUnderlyingErrorKey : communicatorError,
-                                                               NSLocalizedDescriptionKey : errorMessage}];
-            completionHandler(nil, error);
-        } else {
-            NSURL *url = [self.incomingBuilder imageURLFromJSONDictionary:jsonDictionary];
-            NSError *error;
-            if (!url) {
-                NSString *errorMessage = [NSString stringWithFormat:@"Malformed or missing JSON response from server"];
-                error = [[NSError alloc] initWithDomain:ABAirbugManagerError
-                                                   code:ABAirbugManagerDataError
-                                               userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-                NSLog(@"Malformed or missing JSON: %@", jsonDictionary);
-            }
-            completionHandler(url, error);
-        }
-    }];
-}
-
-- (void)uploadQuickTimeVideoFile:(NSURL *)fileURL progress:(NSProgress **)progress onCompletion:(void (^)(NSURL *, NSError *))completionHandler
-{
-    NSDictionary *parameters = [self.outgoingBuilder parametersForQuickTimeVideo:fileURL];
-    [self.communicator sendQuickTimeVideoFile:fileURL withParameters:parameters progress:progress onCompletion:^(NSDictionary *jsonDictionary, NSError *communicatorError)
-    {
-        if (communicatorError) {
-            NSString *errorMessage = [NSString stringWithFormat:@"Failed to communicate with server. Check network connection and try again."];
-            NSError *error = [[NSError alloc] initWithDomain:ABAirbugManagerError
-                                                        code:ABAirbugManagerCommunicationError
-                                                    userInfo:@{NSUnderlyingErrorKey : communicatorError,
-                                                               NSLocalizedDescriptionKey : errorMessage}];
-            completionHandler(nil, error);
-        } else {
-            NSURL *url = [self.incomingBuilder videoURLFromJSONDictionary:jsonDictionary];
-            NSError *error;
-            if (!url) {
-                NSString *errorMessage = [NSString stringWithFormat:@"Malformed or missing JSON response from server"];
-                error = [[NSError alloc] initWithDomain:ABAirbugManagerError
-                                                   code:ABAirbugManagerDataError
-                                               userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-                NSLog(@"Malformed or missing JSON: %@", jsonDictionary);
-            }
-            completionHandler(url, error);
-        }
-    }];
-}
 
 - (void)logInWithUsername:(NSString *)username password:(NSString *)password onCompletion:(void(^)(BOOL success, NSError *error))completionHandler
 {

@@ -75,20 +75,6 @@ NSString * const AirbugAPIBridgeURL = @"http://localhost:8000/client_api";
     }
 }
 
-//- (void)sendPNGImageData:(NSData *)imageData withParameters:(NSDictionary *)parameters onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
-//{
-//    [self sendFileData:imageData mimeType:@"image/png" toURL:AirbugImageUploadURL withParameters:parameters onCompletion:^(NSDictionary *jsonDictionary, NSError *error) {
-//        completionHandler(jsonDictionary, error);
-//    }];
-//}
-//
-//- (void)sendQuickTimeVideoFile:(NSURL *)fileURL withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
-//{
-//    [self sendFile:fileURL mimeType:@"video/quicktime" toURL:AirbugVideoUploadURL withParameters:parameters progress:progress onCompletion:^(NSDictionary *jsonDictionary, NSError *error) {
-//        completionHandler(jsonDictionary, error);
-//    }];
-//}
-
 #pragma mark - Private
 
 - (void)loadWebView
@@ -96,58 +82,6 @@ NSString * const AirbugAPIBridgeURL = @"http://localhost:8000/client_api";
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:AirbugAPIBridgeURL]];
     [self.webView.mainFrame loadRequest:request];
 }
-
-//- (void)sendFileData:(NSData *)fileData mimeType:(NSString *)mimeType toURL:(NSString *)urlString withParameters:(NSDictionary *)parameters onCompletion:(void (^)(NSDictionary *jsonDictionary, NSError *error))completionHandler
-//{
-//    NSParameterAssert(fileData);
-//    
-//    NSString *fileName = [[NSDate date] descriptionWithCalendarFormat:NSCalendarIdentifierISO8601 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"] locale:nil];
-//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//        [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:mimeType];
-//    } error:nil];
-//    // Temporarily commenting this out
-////    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:@[self.authCookie]];
-////    [request setAllHTTPHeaderFields:headers];
-//    
-//    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-//        if (error) {
-//            completionHandler(nil, error);
-//        } else {
-//            if (error) {
-//                completionHandler(nil, error);
-//            } else {
-//                completionHandler(responseObject, nil);
-//            }
-//        }
-//    }];
-//    
-//    [dataTask resume];
-//}
-//
-//- (void)sendFile:(NSURL *)fileURL mimeType:(NSString *)mimeType toURL:(NSString *)urlString withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler
-//{
-//    NSString *fileName = [[NSDate date] descriptionWithCalendarFormat:NSCalendarIdentifierISO8601 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"] locale:nil];
-//
-//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//        [formData appendPartWithFileURL:[NSURL fileURLWithPath:[fileURL path]] name:@"file" fileName:fileName mimeType:mimeType error:nil];
-//    } error:nil];
-//    
-////    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:@[self.authCookie]];
-////    [request setAllHTTPHeaderFields:headers];
-//
-//    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-//    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-//        if (error) {
-//            completionHandler(nil, error);
-//        } else {
-//            completionHandler(responseObject, nil);
-//        }
-//    }];
-//    
-//    [uploadTask resume];
-//}
 
 #pragma mark - Protocol conformance
 

@@ -44,20 +44,4 @@ extern NSString * const AirbugAPIBridgeURL;
  */
 - (void)receivedJSONString:(NSString *)JSONString;
 
-/**
- Upload image data to the image endpoint.
- @param imageData PNG image data to upload. Cannot be nil.
- @param parameters Parameters to be encoded and sent to the server
- @param completionHandler On success, returns JSON server response as an NSDictionary. NSError is nil if no error.
- */
-- (void)sendPNGImageData:(NSData *)imageData withParameters:(NSDictionary *)parameters onCompletion:(void (^)(NSDictionary *jsonDictionary, NSError *error))completionHandler;
-
-/**
- Upload video data to the image endpoint.
- @param fileURL URL to the Quicktime video file to upload. Cannot be nil.
- @param parameters Parameters to be encoded and sent to the server
- @param completionHandler On success, returns JSON server response as an NSDictionary. NSError is nil if no error.
- */
-- (void)sendQuickTimeVideoFile:(NSURL *)fileURL withParameters:(NSDictionary *)parameters progress:(NSProgress **)progress onCompletion:(void (^)(NSDictionary *, NSError *))completionHandler;
-
 @end

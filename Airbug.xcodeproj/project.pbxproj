@@ -41,6 +41,7 @@
 		4A72CC5618A29D7A00B41533 /* ABCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5518A29D7A00B41533 /* ABCaptureManager.m */; };
 		4A72CC5818A307D500B41533 /* ABScreenCaptureControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5718A307D500B41533 /* ABScreenCaptureControllerTests.m */; };
 		4A72CC5C18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A72CC5B18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.m */; };
+		4A91DA7C1943D74700E54567 /* ABBrowserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA7B1943D74700E54567 /* ABBrowserRequest.m */; };
 		4A9AE73D18A3F45500D06721 /* ABCaptureWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */; };
 		4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */; };
 		4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE74318A42C3200D06721 /* NSImage+Crop.m */; };
@@ -128,6 +129,8 @@
 		4A72CC5718A307D500B41533 /* ABScreenCaptureControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScreenCaptureControllerTests.m; sourceTree = "<group>"; };
 		4A72CC5A18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeABScreenCaptureControllerDelegate.h; sourceTree = "<group>"; };
 		4A72CC5B18A30A6400B41533 /* FakeABScreenCaptureControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeABScreenCaptureControllerDelegate.m; sourceTree = "<group>"; };
+		4A91DA7A1943D74700E54567 /* ABBrowserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBrowserRequest.h; sourceTree = "<group>"; };
+		4A91DA7B1943D74700E54567 /* ABBrowserRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABBrowserRequest.m; sourceTree = "<group>"; };
 		4A9AE73B18A3F45500D06721 /* ABCaptureWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureWindow.h; sourceTree = "<group>"; };
 		4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureWindow.m; sourceTree = "<group>"; };
 		4A9AE73E18A40F5B00D06721 /* ABCaptureAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureAreaView.h; sourceTree = "<group>"; };
@@ -311,6 +314,8 @@
 				4AF0FCE019305940008AA96F /* ABWindowResizeRequest.m */,
 				4AF0FCE219345417008AA96F /* ABScreenshotRequest.h */,
 				4AF0FCE319345417008AA96F /* ABScreenshotRequest.m */,
+				4A91DA7A1943D74700E54567 /* ABBrowserRequest.h */,
+				4A91DA7B1943D74700E54567 /* ABBrowserRequest.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -534,6 +539,7 @@
 				4A2620B818A1E68D00E973EC /* ABScreenCapturer.m in Sources */,
 				4A5FB4E118C4449C009B460B /* ABVideoUploadWindowController.m in Sources */,
 				4AF0FCDE19305865008AA96F /* ABWindowVisibilityRequest.m in Sources */,
+				4A91DA7C1943D74700E54567 /* ABBrowserRequest.m in Sources */,
 				4A2315331925E102007C5D2D /* ABWebViewWindowController.m in Sources */,
 				4AF0FCE119305940008AA96F /* ABWindowResizeRequest.m in Sources */,
 				4A50E3E918A9C948008E2D2A /* ABCaptureView.m in Sources */,

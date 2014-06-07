@@ -31,7 +31,7 @@
 #pragma mark - Public
 
 - (void)startUpload {
-    [self.manager uploadQuickTimeVideoFile:self.fileURL progress:nil onCompletion:self.completionHandler];
+//    [self.manager uploadQuickTimeVideoFile:self.fileURL progress:nil onCompletion:self.completionHandler];
 }
 
 - (NSString *)windowNibName {
