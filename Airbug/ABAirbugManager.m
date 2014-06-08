@@ -145,6 +145,8 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
     if (self.authCookie) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:self.authCookie];
         self.authCookie = nil;
+        NSDictionary *JSONRequest = [self.outgoingBuilder createLogoutRequest];
+        [self sendJSONObject:JSONRequest];
     }
 }
 

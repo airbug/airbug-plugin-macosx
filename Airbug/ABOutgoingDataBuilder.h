@@ -28,4 +28,6 @@
 
 - (NSDictionary *)createShowLoginPageRequest;
 
+- (NSDictionary *)createLogoutRequest;
+
 @end

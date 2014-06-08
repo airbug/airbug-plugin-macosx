@@ -53,4 +53,8 @@
     return @{ @"type": @"ShowLoginPage" };
 }
 
+- (NSDictionary *)createLogoutRequest {
+    return @{ @"type" : @"Logout" };
+}
+
 @end
