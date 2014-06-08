@@ -21,5 +21,9 @@
  */
 - (NSDictionary *)createPreviewScreenshotRequestWithImage:(NSImage *)image type:(ABScreenshotType)type;
 
+/**
+ Creates an object to send back to the server in response to a restore cookie request
+ */
+- (NSDictionary *)createRestoreCookieResponseForMessageID:(NSString *)messageID;
 
 @end

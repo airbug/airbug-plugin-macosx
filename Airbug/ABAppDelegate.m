@@ -25,6 +25,10 @@
 @property (strong, nonatomic) ABLoginWindowController *loginWindowController;
 @property (strong, nonatomic) ABWebViewWindowController *webViewWindowController;
 
+// TODO: Move all window management logic to a new class - ABWindowManager
+// The app delegate is getting to be too heavyweight. It will be better to encapsulate more
+// of this window management logic to a new class
+
 @end
 
 @implementation ABAppDelegate
@@ -74,12 +78,16 @@
     debugMenuItem.title = @"Debug Messages";
     NSMenu *debugSubmenu = [[NSMenu alloc] initWithTitle:@"Debug"];
     [debugSubmenu addItemWithTitle:@"Notification" action:@selector(sendNotificationMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Show Window" action:@selector(sendShowWindowMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Hide Window" action:@selector(sendHideWindowMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"ShowWindow" action:@selector(sendWindowVisibilityMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"HideWindow" action:@selector(sendWindowVisibilityMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Resize Window" action:@selector(sendResizeWindowMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Open Browser" action:@selector(sendOpenBrowserMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Full Screen Screenshot" action:@selector(sendFullScreenScreenshotMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Crosshair Screenshot" action:@selector(sendCrosshairScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Save cookie" action:@selector(sendSaveCookieMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Restore cookie" action:@selector(sendRestoreCookieMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Restore cookie ack" action:@selector(sendAckMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"FullScreen Screenshot" action:@selector(sendScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Crosshair Screenshot" action:@selector(sendScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Timed Screenshot" action:@selector(sendScreenshotMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
     [self.mainStatusItem.menu addItem:debugMenuItem];
 #endif
@@ -153,20 +161,11 @@
     [self sendJSONDictionaryToCommunicator:notification];
 }
 
-- (IBAction)sendShowWindowMessage:(id)sender
+- (IBAction)sendWindowVisibilityMessage:(id)sender
 {
-    NSDictionary *message = @{
-                              @"type" : @"ShowWindow"
-                              };
-    [self sendJSONDictionaryToCommunicator:message];
-}
-
-- (IBAction)sendHideWindowMessage:(id)sender
-{
-    NSDictionary *message = @{
-                              @"type" : @"HideWindow"
-                              };
-    [self sendJSONDictionaryToCommunicator:message];
+    NSMenuItem *item = (NSMenuItem *)sender;
+    NSString *windowVisibilityType = item.title;
+    [self sendJSONDictionaryToCommunicator:@{ @"type" : windowVisibilityType }];
 }
 
 - (IBAction)sendResizeWindowMessage:(id)sender
@@ -192,34 +191,57 @@
     [self sendJSONDictionaryToCommunicator:message];
 }
 
-- (IBAction)sendFullScreenScreenshotMessage:(id)sender
-{
+- (IBAction)sendSaveCookieMessage:(id)sender {
     NSDictionary *message = @{
-                              @"type" : @"TakeScreenshot",
+                              @"type" : @"SaveCookie",
                               @"data" : @{
-                                          @"type" : @"FullScreen"
-                                         }
-                              };
-    [self sendJSONDictionaryToCommunicator:message];
-}
-
-- (IBAction)sendCrosshairScreenshotMessage:(id)sender
-{
-    NSDictionary *message = @{
-                              @"type" : @"TakeScreenshot",
-                              @"data" : @{
-                                      @"type" : @"Crosshair"
+                                      @"cookieName": @"airbug.sid"
                                       }
                               };
     [self sendJSONDictionaryToCommunicator:message];
 }
 
+- (IBAction)sendRestoreCookieMessage:(id)sender {
+    NSDictionary *message = @{
+                              @"type" : @"RestoreCookie",
+                              @"data" : @{
+                                      @"cookieName": @"airbug.sid"
+                                      },
+                              @"messageId" : @"abcdefghijklmnop"
+                              };
+    [self sendJSONDictionaryToCommunicator:message];
+}
+
+- (IBAction)sendAckMessage:(id)sender {
+    NSDictionary *message = @{
+                              @"ackId" : @"abcdefghijklmnop"
+                              };
+    [self haveCommunicatorSendJSONDictionary:message];
+}
+
+- (IBAction)sendScreenshotMessage:(id)sender
+{
+    NSMenuItem *item = (NSMenuItem *)sender;
+    NSString *screenshotType = [[item.title componentsSeparatedByString:@" "] firstObject];
+    NSDictionary *message = @{
+                              @"type" : @"TakeScreenshot",
+                              @"data" : @{
+                                      @"type" : screenshotType
+                                      }
+                              };
+    [self sendJSONDictionaryToCommunicator:message];
+}
 
 - (void)sendJSONDictionaryToCommunicator:(NSDictionary *)dictionary
 {
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:NULL];
     NSString *JSONString = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
     [self.communicator receivedJSONString:JSONString];
+}
+
+- (void)haveCommunicatorSendJSONDictionary:(NSDictionary *)dictionary
+{
+    [self.communicator sendJSONRequest:dictionary error:NULL];
 }
 
 #pragma mark - Private
@@ -277,9 +299,12 @@
 }
 
 - (void)didReceiveWindowVisibilityRequest:(BOOL)showWindow {
-    // TODO: figure out why showWindow doesn't work consistently
     if (showWindow) {
         [self.webViewWindowController showWindow:nil];
+        [self.webViewWindowController.window makeKeyWindow];
+        // This forces the window to the front, even when the app isn't active. makeKeyAndOrderFront
+        // doesn't do this reliably enough.
+        [self.webViewWindowController.window orderFrontRegardless];
     } else {
         [self.webViewWindowController.window orderOut:nil];
     }

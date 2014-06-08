@@ -12,6 +12,8 @@
 
 - (NSDictionary *)createLoginRequestForUsername:(NSString *)username password:(NSString *)password
 {
+    NSParameterAssert(username);
+    NSParameterAssert(password);
     return @{
              @"type" : @"LoginRequest",
              @"data" : @{
@@ -39,6 +41,12 @@
                          @"imageData" : base64EncodedImage
                         }
              };
+}
+
+- (NSDictionary *)createRestoreCookieResponseForMessageID:(NSString *)messageID
+{
+    NSParameterAssert(messageID);
+    return @{ @"ackId" : messageID };
 }
 
 @end

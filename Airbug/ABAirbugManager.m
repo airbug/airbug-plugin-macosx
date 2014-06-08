@@ -11,6 +11,8 @@
 #import "ABWindowVisibilityRequest.h"
 #import "ABWindowResizeRequest.h"
 #import "ABBrowserRequest.h"
+#import "ABSaveCookieRequest.h"
+#import "ABRestoreCookieRequest.h"
 
 @interface ABAirbugManager ()
 
@@ -25,7 +27,6 @@
 @implementation ABAirbugManager
 
 NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
-NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
 
 #pragma mark - Lifecycle
 
@@ -37,7 +38,9 @@ NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
         _communicator = communicator;
         _incomingBuilder = incomingBuilder;
         _outgoingBuilder = outgoingBuilder;
-        _authCookie = [self savedCookie];
+        // RSS: may be unnecessary, since client plugin JS should send us a message to restore
+        // a login cookie
+        [self saveOrRestoreLoginCookieWithName:@"airbug.sid"];
         
         if (_authCookie) {
             NSLog(@"Found previous authentication cookie");
@@ -99,6 +102,18 @@ NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
                 ABBrowserRequest *request = (ABBrowserRequest *)parsedObject;
                 [theDelegate didReceiveOpenBrowserRequest:request.url];
             }
+        } else if ([parsedObject isKindOfClass:[ABSaveCookieRequest class]]) {
+            ABSaveCookieRequest *request = (ABSaveCookieRequest *)parsedObject;
+            BOOL success = [weakSelf saveOrRestoreLoginCookieWithName:request.cookieName];
+            NSLog(@"%@ cookie named %@", success ? @"Saved" : @"Failed to save", request.cookieName);
+        } else if ([parsedObject isKindOfClass:[ABRestoreCookieRequest class]]) {
+            ABRestoreCookieRequest *request = (ABRestoreCookieRequest *)parsedObject;
+            BOOL success = [weakSelf saveOrRestoreLoginCookieWithName:request.cookieName];
+            NSLog(@"%@ cookie named %@", success ? @"Restored" : @"Failed to restore", request.cookieName);
+            if (success) {
+                NSDictionary *response = [weakSelf.outgoingBuilder createRestoreCookieResponseForMessageID:request.messageID];
+                [weakSelf.communicator sendJSONRequest:response error:NULL]; // TODO: better error handling?
+            }
         }
     };
     _delegate = delegate;
@@ -145,49 +160,16 @@ NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
 
 #pragma mark - Private methods
 
-- (NSHTTPCookie *)savedCookie
-{
-    NSHTTPCookie *savedCookie;
-    
-    // Note: Saving and retrieving the cookie in user defaults may not be necessary if the expiresDate doesn't matter and sessionOnly remains false.
-    NSDictionary *cookieProperties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"authCookie"];
-    if (cookieProperties) {
-        savedCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
-        NSLog(@"Found cookie in user defaults: %@", savedCookie);
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:savedCookie];
-    } else {
-        for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
-            if ([[cookie name] isEqualToString:AirbugCookieAPITokenKey]) {
-                savedCookie = cookie;
-                break;
-            }
-        }
-    }
-    return savedCookie;
-}
-
-// Returns YES if successful
-- (BOOL)saveLoginCookie
+- (BOOL)saveOrRestoreLoginCookieWithName:(NSString *)cookieName
 {
     NSURL *url = [NSURL URLWithString:AirbugAPIBridgeURL];
     NSString *domain = [url host];
     for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
         if ([[cookie domain] isEqualToString:domain] &&
-            [[cookie name] isEqualToString:AirbugCookieAPITokenKey])
+            [[cookie name] isEqualToString:cookieName])
         {
             NSLog(@"Cookie: %@", [cookie value]);
-            
-            //    Get the cookie you want to modify from [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]
-            //    Copy its properties to a new NSMutableDictionary , changing the "Expires" value to a date in the future.
-            //    Create a new cookie from the new NSMutableDictionary using: [NSHTTPCookie.cookieWithProperties:]
-            //    Save the newly created cookie using [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie newCookie]
-            NSMutableDictionary *cookieDictionary = [NSMutableDictionary dictionaryWithDictionary:cookie.properties];
-            cookieDictionary[@"Expires"] = [NSDate distantFuture];
-            NSHTTPCookie *savedCookie = [NSHTTPCookie cookieWithProperties:cookieDictionary];
-            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:savedCookie];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:savedCookie.properties forKey:@"authCookie"];
-            
+            self.authCookie = cookie;
             return YES;
         }
     }

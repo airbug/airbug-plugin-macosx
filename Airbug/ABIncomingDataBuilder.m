@@ -12,6 +12,8 @@
 #import "ABWindowResizeRequest.h"
 #import "ABScreenshotRequest.h"
 #import "ABBrowserRequest.h"
+#import "ABSaveCookieRequest.h"
+#import "ABRestoreCookieRequest.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -85,6 +87,19 @@ NSString * const VideoURLKeyPath = @"url";
         ABBrowserRequest *request = [[ABBrowserRequest alloc] init];
         NSString *url = [JSONDictionary valueForKeyPath:@"data.url"];
         request.url = [NSURL URLWithString:url];
+        return request;
+    }
+    
+    if ([type isEqualToString:@"SaveCookie"]) {
+        ABSaveCookieRequest *request = [[ABSaveCookieRequest alloc] init];
+        request.cookieName = [JSONDictionary valueForKeyPath:@"data.cookieName"];
+        return request;
+    }
+    
+    if ([type isEqualToString:@"RestoreCookie"]) {
+        ABRestoreCookieRequest *request = [[ABRestoreCookieRequest alloc] init];
+        request.cookieName = [JSONDictionary valueForKeyPath:@"data.cookieName"];
+        request.messageID = [JSONDictionary valueForKeyPath:@"messageId"];
         return request;
     }
     

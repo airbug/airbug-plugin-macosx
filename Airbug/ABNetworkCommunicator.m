@@ -52,7 +52,12 @@ NSString * const AirbugAPIBridgeURL = @"http://localhost:8000/client_api";
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:JSONObject options:0 error:NULL];
     NSString *JSONString = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
     
-    NSLog(@"Sending JSON string of type %@", JSONObject[@"type"]);
+    NSString *type = JSONObject[@"type"];
+    if (type) {
+        NSLog(@"Sending JSON string of type %@", JSONObject[@"type"]);
+    } else {
+        NSLog(@"Sending JSON string: %@", JSONString);
+    }
     
     JSValue *sendFunc = self.jsWindow[@"receiveMessage"];
     [sendFunc callWithArguments:@[JSONString]];
