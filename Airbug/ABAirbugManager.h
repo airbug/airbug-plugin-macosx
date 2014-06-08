@@ -12,13 +12,16 @@
 #import "ABOutgoingDataBuilder.h"
 #import "ABScreenshotRequest.h"
 
+@class ABUser;
+
 @protocol ABAirbugManagerDelegate <NSObject>
 - (void)didReceiveNotification:(NSUserNotification *)notification;
 - (void)didReceiveWindowVisibilityRequest:(BOOL)showWindow;
 - (void)didReceiveWindowResizeRequest:(NSSize)size;
 - (void)didReceiveScreenshotRequest:(ABScreenshotType)screenshotType;
 - (void)didReceiveOpenBrowserRequest:(NSURL *)url;
-- (void)didLogInSuccessfully;
+- (void)didLogInSuccessfullyWithUser:(ABUser *)user;
+- (void)didLogOutSuccessfully;
 - (void)loginFailedWithError:(NSError *)error;
 - (void)failedToSendJSONObject:(id)JSONObject error:(NSError *)error;
 @end
@@ -59,18 +62,6 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
        outgoingDataBuilder:(ABOutgoingDataBuilder *)outgoingBuilder;
 
 /**
- Authenticate with the airbug server. Response to login is sent via delegate.
- @param username The username
- @param password The password
- */
-- (void)logInWithUsername:(NSString *)username password:(NSString *)password;
-
-/**
- Log out of the current session.
- */
-- (void)logOut;
-
-/**
  Sends request to client plugin JS to preview screenshot.
  @param image Screenshot image
  @param type Type of screenshot
@@ -81,5 +72,11 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
  Sends request to client plugin JS to show login page.
  */
 - (void)sendShowLoginPageRequest;
+
+/**
+ Send request to client plugin JS to log out of the current session.
+ */
+- (void)logOut;
+
 
 @end

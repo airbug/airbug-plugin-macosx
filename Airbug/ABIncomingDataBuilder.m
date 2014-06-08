@@ -14,6 +14,8 @@
 #import "ABBrowserRequest.h"
 #import "ABSaveCookieRequest.h"
 #import "ABRestoreCookieRequest.h"
+#import "ABAuthenticationNotice.h"
+#import "ABUser.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -101,6 +103,20 @@ NSString * const VideoURLKeyPath = @"url";
         request.cookieName = [JSONDictionary valueForKeyPath:@"data.cookieName"];
         request.messageID = [JSONDictionary valueForKeyPath:@"messageId"];
         return request;
+    }
+    
+    if ([type isEqualToString:@"AuthStateChange"]) {
+        ABAuthenticationNotice *notice = [[ABAuthenticationNotice alloc] init];
+        NSString *authenticationStateString = [JSONDictionary valueForKeyPath:@"data.authState"];
+        notice.authenticationState = [ABAuthenticationNotice typeForAuthenticationState:authenticationStateString];
+        if (notice.authenticationState == ABAuthenticationStateLoggedIn) {
+            notice.currentUser = [[ABUser alloc] init];
+            notice.currentUser.firstName = [JSONDictionary valueForKeyPath:@"data.currentUser.firstName"];
+            notice.currentUser.lastName = [JSONDictionary valueForKeyPath:@"data.currentUser.lastName"];
+            notice.currentUser.email = [JSONDictionary valueForKeyPath:@"data.currentUser.email"];
+            notice.currentUser.identifier = [JSONDictionary valueForKeyPath:@"data.currentUser.id"];
+        }
+        return notice;
     }
     
     if ([type isEqualToString:@"MessageError"]) {

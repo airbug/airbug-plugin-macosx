@@ -22,7 +22,6 @@
 @property (strong, nonatomic) NSMutableArray *uploadControllers;
 @property (strong, nonatomic) ABAirbugManager *manager;
 @property (strong, nonatomic) ABNetworkCommunicator *communicator;
-@property (strong, nonatomic) ABLoginWindowController *loginWindowController;
 @property (strong, nonatomic) ABWebViewWindowController *webViewWindowController;
 
 // TODO: Move all window management logic to a new class - ABWindowManager
@@ -83,16 +82,18 @@
     [debugSubmenu addItemWithTitle:@"Notification" action:@selector(receiveStubNotificationMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"ShowWindow" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"HideWindow" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Resize Window" action:@selector(receiveStubResizeWindowMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Resize window" action:@selector(receiveStubResizeWindowMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"ShowLoginPage" action:@selector(sendStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Logout" action:@selector(sendStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Open Browser" action:@selector(receiveStubOpenBrowserMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"AuthStateChange (logged in)" action:@selector(receiveStubAuthStateChangeLoggedIn:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"AuthStateChange (logged out)" action:@selector(receiveStubAuthStateChangeLoggedOut:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Open browser" action:@selector(receiveStubOpenBrowserMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Save cookie" action:@selector(receiveStubSaveCookieMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Restore cookie" action:@selector(receiveStubRestoreCookieMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Restore cookie ack" action:@selector(sendStubAckMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"FullScreen Screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Crosshair Screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Timed Screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"FullScreen screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Crosshair screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Timed screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
     [self.mainStatusItem.menu addItem:debugMenuItem];
 #endif
@@ -102,13 +103,13 @@
 
 - (IBAction)logIn:(id)sender
 {
-    self.loginWindowController = [[ABLoginWindowController alloc] initWithManager:self.manager];
-    
-    __weak ABAppDelegate *weakSelf = self;
-    self.loginWindowController.onSuccessfulLogin = ^{
-        [weakSelf setUpLoggedInUI];
-    };
-    [self.loginWindowController showWindow:nil];
+    // TODO: Get rid of the ABLoginWindowController and associated classes/nibs
+    [self.manager sendShowLoginPageRequest];
+}
+
+- (IBAction)logOut:(id)sender
+{
+    [self.manager logOut];
 }
 
 - (IBAction)takeFullScreenScreenshot:(id)sender {
@@ -143,12 +144,6 @@
     [[NSStatusBar systemStatusBar] removeStatusItem:self.stopRecordingStatusItem];
     self.stopRecordingStatusItem = nil;
     [self.captureController stopVideoScreenCapture];
-}
-
-- (IBAction)logOut:(id)sender
-{
-    [self.manager logOut];
-    [self setUpLoggedOutUI];
 }
 
 #pragma mark - Stub debugging methods
@@ -238,6 +233,34 @@
     [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
+- (IBAction)receiveStubAuthStateChangeLoggedIn:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"AuthStateChange",
+                              @"data" : @{
+                                      @"authState": @"loggedIn",
+                                      @"currentUser" : @{
+                                              @"firstName" : @"Richard",
+                                              @"lastName" : @"Shin",
+                                              @"email" : @"richard@airbug.com",
+                                              @"id" : @"1337"
+                                              }
+                                      }
+                              };
+    [self haveCommunicatorReceiveJSONDictionary:message];
+}
+
+- (IBAction)receiveStubAuthStateChangeLoggedOut:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"AuthStateChange",
+                              @"data" : @{
+                                      @"authState": @"loggedOut"
+                                      }
+                              };
+    [self haveCommunicatorReceiveJSONDictionary:message];
+}
+
 - (void)haveCommunicatorReceiveJSONDictionary:(NSDictionary *)dictionary
 {
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:NULL];
@@ -305,12 +328,17 @@
     [alert runModal];
 }
 
-- (void)didLogInSuccessfully {
-    // TODO: ???
+- (void)didLogInSuccessfullyWithUser:(ABUser *)user {
+    [self setUpLoggedInUI];
+    // TODO: Anything else we want to do?
 }
 
 - (void)loginFailedWithError:(NSError *)error {
-    // TODO: ???
+    // TODO: Do we need to put up an error message?
+}
+
+- (void)didLogOutSuccessfully {
+    [self setUpLoggedOutUI];
 }
 
 - (void)didReceiveNotification:(NSUserNotification *)notification {

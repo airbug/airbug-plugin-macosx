@@ -13,6 +13,7 @@
 #import "ABBrowserRequest.h"
 #import "ABSaveCookieRequest.h"
 #import "ABRestoreCookieRequest.h"
+#import "ABAuthenticationNotice.h"
 
 @interface ABAirbugManager ()
 
@@ -70,9 +71,8 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             
             if (loginResponse.success) {
                 NSLog(@"Successfully logged in. Meld document: %@", loginResponse.meldDocument);
-                if ([theDelegate respondsToSelector:@selector(didLogInSuccessfully)]) {
-                    [theDelegate didLogInSuccessfully];
-                }
+                // Note: we now notify the delegate about successful login by waiting for the
+                // ABAuthenticationNotice message to be sent to us.
             } else {
                 NSError *error = [NSError errorWithDomain:ABAirbugManagerError code:ABAirbugManagerCommunicationError userInfo:@{ NSLocalizedDescriptionKey : loginResponse.errorMessage }];
                 if ([theDelegate respondsToSelector:@selector(loginFailedWithError:)]) {
@@ -113,7 +113,18 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             NSLog(@"%@ cookie named %@", success ? @"Restored" : @"Failed to restore", request.cookieName);
             if (success) {
                 NSDictionary *response = [weakSelf.outgoingBuilder createRestoreCookieResponseForMessageID:request.messageID];
-                [weakSelf.communicator sendJSONObject:response error:NULL]; // TODO: better error handling?
+                [weakSelf sendJSONObject:response];
+            }
+        } else if ([parsedObject isKindOfClass:[ABAuthenticationNotice class]]) {
+            ABAuthenticationNotice *notice = (ABAuthenticationNotice *)parsedObject;
+            if (notice.authenticationState == ABAuthenticationStateLoggedIn) {
+                if ([theDelegate respondsToSelector:@selector(didLogInSuccessfullyWithUser:)]) {
+                    [theDelegate didLogInSuccessfullyWithUser:notice.currentUser];
+                }
+            } else if (notice.authenticationState == ABAuthenticationStateLoggedOut) {
+                if ([theDelegate respondsToSelector:@selector(didLogOutSuccessfully)]) {
+                    [theDelegate didLogOutSuccessfully];
+                }
             }
         }
     };
@@ -127,16 +138,9 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 
 #pragma mark - Public methods
 
-- (void)logInWithUsername:(NSString *)username password:(NSString *)password
+- (void)sendShowLoginPageRequest
 {
-    if ([self isLoggedIn]) {
-        if ([self.delegate respondsToSelector:@selector(didLogInSuccessfully)]) {
-            [self.delegate didLogInSuccessfully];
-        }
-        return;
-    }
-    
-    NSDictionary *JSONRequest = [self.outgoingBuilder createLoginRequestForUsername:username password:password];
+    NSDictionary *JSONRequest = [self.outgoingBuilder createShowLoginPageRequest];
     [self sendJSONObject:JSONRequest];
 }
 
@@ -152,12 +156,6 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 
 - (void)sendPreviewScreenshotRequestForImage:(NSImage *)image ofType:(ABScreenshotType)type {
     NSDictionary *JSONRequest = [self.outgoingBuilder createPreviewScreenshotRequestWithImage:image type:type];
-    [self sendJSONObject:JSONRequest];
-}
-
-- (void)sendShowLoginPageRequest
-{
-    NSDictionary *JSONRequest = [self.outgoingBuilder createShowLoginPageRequest];
     [self sendJSONObject:JSONRequest];
 }
 

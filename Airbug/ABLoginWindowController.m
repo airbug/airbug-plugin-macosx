@@ -68,8 +68,7 @@
     [progressIndicator startAnimation:self];
     [self.signInButton setEnabled:NO];
 
-// This login window is most likely going to be removed...
-    [self.manager logInWithUsername:username password:password];
+//    [self.manager logInWithUsername:username password:password];
 }
 
 #pragma mark - Public methods

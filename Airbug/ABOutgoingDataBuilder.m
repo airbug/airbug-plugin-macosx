@@ -10,19 +10,6 @@
 
 @implementation ABOutgoingDataBuilder
 
-- (NSDictionary *)createLoginRequestForUsername:(NSString *)username password:(NSString *)password
-{
-    NSParameterAssert(username);
-    NSParameterAssert(password);
-    return @{
-             @"type" : @"LoginRequest",
-             @"data" : @{
-                         @"username" : username,
-                         @"password" : password
-                         }
-             };
-}
-
 - (NSDictionary *)createPreviewScreenshotRequestWithImage:(NSImage *)image type:(ABScreenshotType)type
 {
     NSParameterAssert(image);

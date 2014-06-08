@@ -12,11 +12,6 @@
 @interface ABOutgoingDataBuilder : NSObject
 
 /**
- Creates a JSON object that represents a login request.
- */
-- (NSDictionary *)createLoginRequestForUsername:(NSString *)username password:(NSString *)password;
-
-/**
  Creates a JSON object that represents a preview screenshot request.
  */
 - (NSDictionary *)createPreviewScreenshotRequestWithImage:(NSImage *)image type:(ABScreenshotType)type;
