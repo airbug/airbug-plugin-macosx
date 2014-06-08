@@ -19,7 +19,6 @@
 @property (strong, nonatomic) ABNetworkCommunicator *communicator;
 @property (strong, nonatomic) ABIncomingDataBuilder *incomingBuilder;
 @property (strong, nonatomic) ABOutgoingDataBuilder *outgoingBuilder;
-@property (copy, nonatomic) void (^loginCompletionHandler)(BOOL success, NSError *error);
 @property (strong, nonatomic) NSHTTPCookie *authCookie;
 
 @end
@@ -71,13 +70,15 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             
             if (loginResponse.success) {
                 NSLog(@"Successfully logged in. Meld document: %@", loginResponse.meldDocument);
-                if (weakSelf.loginCompletionHandler) weakSelf.loginCompletionHandler(YES, nil);
-                return;
+                if ([theDelegate respondsToSelector:@selector(didLogInSuccessfully)]) {
+                    [theDelegate didLogInSuccessfully];
+                }
+            } else {
+                NSError *error = [NSError errorWithDomain:ABAirbugManagerError code:ABAirbugManagerCommunicationError userInfo:@{ NSLocalizedDescriptionKey : loginResponse.errorMessage }];
+                if ([theDelegate respondsToSelector:@selector(loginFailedWithError:)]) {
+                    [theDelegate loginFailedWithError:error];
+                }
             }
-            
-            NSError *error = [NSError errorWithDomain:ABAirbugManagerError code:ABAirbugManagerCommunicationError userInfo:@{ NSLocalizedDescriptionKey : loginResponse.errorMessage }];
-            if (weakSelf.loginCompletionHandler) weakSelf.loginCompletionHandler(NO, error);
-            
         } else if ([parsedObject isKindOfClass:[NSUserNotification class]]) {
             if ([theDelegate respondsToSelector:@selector(didReceiveNotification:)]) {
                 [theDelegate didReceiveNotification:parsedObject];
@@ -112,7 +113,7 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             NSLog(@"%@ cookie named %@", success ? @"Restored" : @"Failed to restore", request.cookieName);
             if (success) {
                 NSDictionary *response = [weakSelf.outgoingBuilder createRestoreCookieResponseForMessageID:request.messageID];
-                [weakSelf.communicator sendJSONRequest:response error:NULL]; // TODO: better error handling?
+                [weakSelf.communicator sendJSONObject:response error:NULL]; // TODO: better error handling?
             }
         }
     };
@@ -126,39 +127,49 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 
 #pragma mark - Public methods
 
-- (void)logInWithUsername:(NSString *)username password:(NSString *)password onCompletion:(void(^)(BOOL success, NSError *error))completionHandler
+- (void)logInWithUsername:(NSString *)username password:(NSString *)password
 {
     if ([self isLoggedIn]) {
-        if (completionHandler) completionHandler(YES, nil);
+        if ([self.delegate respondsToSelector:@selector(didLogInSuccessfully)]) {
+            [self.delegate didLogInSuccessfully];
+        }
         return;
     }
     
     NSDictionary *JSONRequest = [self.outgoingBuilder createLoginRequestForUsername:username password:password];
-    self.loginCompletionHandler = completionHandler;
-    BOOL success = [self.communicator sendJSONRequest:JSONRequest error:NULL];
-    if (!success) completionHandler(NO, NULL);
+    [self sendJSONObject:JSONRequest];
 }
 
 - (void)logOut
 {
     if (self.authCookie) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:self.authCookie];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"authCookie"];
-        
         self.authCookie = nil;
     }
 }
 
 - (void)sendPreviewScreenshotRequestForImage:(NSImage *)image ofType:(ABScreenshotType)type {
     NSDictionary *JSONRequest = [self.outgoingBuilder createPreviewScreenshotRequestWithImage:image type:type];
-    NSError *error;
-    BOOL success = [self.communicator sendJSONRequest:JSONRequest error:&error];
-    if (!success) {
-        // TODO: Figure out how we should handle these errors
-    }
+    [self sendJSONObject:JSONRequest];
+}
+
+- (void)sendShowLoginPageRequest
+{
+    NSDictionary *JSONRequest = [self.outgoingBuilder createShowLoginPageRequest];
+    [self sendJSONObject:JSONRequest];
 }
 
 #pragma mark - Private methods
+
+- (void)sendJSONObject:(id)JSONObject {
+    NSError *error;
+    BOOL success = [self.communicator sendJSONObject:JSONObject error:&error];
+    if (!success) {
+        if ([self.delegate respondsToSelector:@selector(failedToSendJSONObject:error:)]) {
+            [self.delegate failedToSendJSONObject:JSONObject error:error];
+        }
+    }
+}
 
 - (BOOL)saveOrRestoreLoginCookieWithName:(NSString *)cookieName
 {

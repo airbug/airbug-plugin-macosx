@@ -37,7 +37,7 @@ extern NSString * const AirbugAPIBridgeURL;
 /**
  Sends JSON request to client JS plugin layer.
  */
-- (BOOL)sendJSONRequest:(id)JSONObject error:(NSError **)error;
+- (BOOL)sendJSONObject:(id)JSONObject error:(NSError **)error;
 
 /**
  Receive JSON messages from client JS plugin layer.

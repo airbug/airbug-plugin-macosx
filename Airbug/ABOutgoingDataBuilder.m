@@ -49,4 +49,8 @@
     return @{ @"ackId" : messageID };
 }
 
+- (NSDictionary *)createShowLoginPageRequest {
+    return @{ @"type": @"ShowLoginPage" };
+}
+
 @end

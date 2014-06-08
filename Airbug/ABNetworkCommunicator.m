@@ -41,7 +41,7 @@ NSString * const AirbugAPIBridgeURL = @"http://localhost:8000/client_api";
 
 #pragma mark - Public
 
-- (BOOL)sendJSONRequest:(id)JSONObject error:(NSError *__autoreleasing *)error
+- (BOOL)sendJSONObject:(id)JSONObject error:(NSError *__autoreleasing *)error
 {
     if (!self.jsWindow) {
         [self loadWebView];

@@ -60,6 +60,9 @@
     WebView *webView = webViewWindow.webView;
     [webViewWindow orderOut:self];
     
+    // RSS: We keep a reference to the communicator *only* for the purposes of debugging and
+    // sending stub messages to the communicator. All interaction with the network layer is done
+    // through the ABAirbugManager class
     self.communicator = [[ABNetworkCommunicator alloc] initWithWebView:webView];
     self.manager = [[ABAirbugManager alloc] initWithCommunicator:self.communicator
                                              incomingDataBuilder:[[ABIncomingDataBuilder alloc] init]
@@ -77,17 +80,19 @@
     NSMenuItem *debugMenuItem = [[NSMenuItem alloc] init];
     debugMenuItem.title = @"Debug Messages";
     NSMenu *debugSubmenu = [[NSMenu alloc] initWithTitle:@"Debug"];
-    [debugSubmenu addItemWithTitle:@"Notification" action:@selector(sendNotificationMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"ShowWindow" action:@selector(sendWindowVisibilityMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"HideWindow" action:@selector(sendWindowVisibilityMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Resize Window" action:@selector(sendResizeWindowMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Open Browser" action:@selector(sendOpenBrowserMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Save cookie" action:@selector(sendSaveCookieMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Restore cookie" action:@selector(sendRestoreCookieMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Restore cookie ack" action:@selector(sendAckMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"FullScreen Screenshot" action:@selector(sendScreenshotMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Crosshair Screenshot" action:@selector(sendScreenshotMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Timed Screenshot" action:@selector(sendScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Notification" action:@selector(receiveStubNotificationMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"ShowWindow" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"HideWindow" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Resize Window" action:@selector(receiveStubResizeWindowMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"ShowLoginPage" action:@selector(sendStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Logout" action:@selector(sendStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Open Browser" action:@selector(receiveStubOpenBrowserMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Save cookie" action:@selector(receiveStubSaveCookieMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Restore cookie" action:@selector(receiveStubRestoreCookieMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Restore cookie ack" action:@selector(sendStubAckMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"FullScreen Screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Crosshair Screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Timed Screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
     [self.mainStatusItem.menu addItem:debugMenuItem];
 #endif
@@ -148,7 +153,15 @@
 
 #pragma mark - Stub debugging methods
 
-- (IBAction)sendNotificationMessage:(id)sender
+- (IBAction)receiveStubMessageTypeWithMenuItemTitle:(NSMenuItem *)menuItem {
+    [self haveCommunicatorReceiveJSONDictionary:@{ @"type" : menuItem.title }];
+}
+
+- (IBAction)sendStubMessageTypeWithMenuItemTitle:(NSMenuItem *)menuItem {
+    [self haveCommunicatorSendJSONDictionary:@{ @"type" : menuItem.title }];
+}
+
+- (IBAction)receiveStubNotificationMessage:(id)sender
 {
     NSDictionary *notification = @{
                            @"type" : @"UserNotification",
@@ -158,17 +171,10 @@
                                        @"informativeText" : @"This is a test message"
                                    }
                            };
-    [self sendJSONDictionaryToCommunicator:notification];
+    [self haveCommunicatorReceiveJSONDictionary:notification];
 }
 
-- (IBAction)sendWindowVisibilityMessage:(id)sender
-{
-    NSMenuItem *item = (NSMenuItem *)sender;
-    NSString *windowVisibilityType = item.title;
-    [self sendJSONDictionaryToCommunicator:@{ @"type" : windowVisibilityType }];
-}
-
-- (IBAction)sendResizeWindowMessage:(id)sender
+- (IBAction)receiveStubResizeWindowMessage:(id)sender
 {
     NSDictionary *message = @{
                               @"type" : @"ResizeWindow",
@@ -177,10 +183,10 @@
                                           @"height" : @(400)
                                         }
                               };
-    [self sendJSONDictionaryToCommunicator:message];
+    [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
-- (IBAction)sendOpenBrowserMessage:(id)sender
+- (IBAction)receiveStubOpenBrowserMessage:(id)sender
 {
     NSDictionary *message = @{
                               @"type" : @"OpenBrowser",
@@ -188,20 +194,20 @@
                                       @"url": @"http://www.google.com"
                                       }
                               };
-    [self sendJSONDictionaryToCommunicator:message];
+    [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
-- (IBAction)sendSaveCookieMessage:(id)sender {
+- (IBAction)receiveStubSaveCookieMessage:(id)sender {
     NSDictionary *message = @{
                               @"type" : @"SaveCookie",
                               @"data" : @{
                                       @"cookieName": @"airbug.sid"
                                       }
                               };
-    [self sendJSONDictionaryToCommunicator:message];
+    [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
-- (IBAction)sendRestoreCookieMessage:(id)sender {
+- (IBAction)receiveStubRestoreCookieMessage:(id)sender {
     NSDictionary *message = @{
                               @"type" : @"RestoreCookie",
                               @"data" : @{
@@ -209,17 +215,17 @@
                                       },
                               @"messageId" : @"abcdefghijklmnop"
                               };
-    [self sendJSONDictionaryToCommunicator:message];
+    [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
-- (IBAction)sendAckMessage:(id)sender {
+- (IBAction)sendStubAckMessage:(id)sender {
     NSDictionary *message = @{
                               @"ackId" : @"abcdefghijklmnop"
                               };
     [self haveCommunicatorSendJSONDictionary:message];
 }
 
-- (IBAction)sendScreenshotMessage:(id)sender
+- (IBAction)receiveStubScreenshotMessage:(id)sender
 {
     NSMenuItem *item = (NSMenuItem *)sender;
     NSString *screenshotType = [[item.title componentsSeparatedByString:@" "] firstObject];
@@ -229,10 +235,10 @@
                                       @"type" : screenshotType
                                       }
                               };
-    [self sendJSONDictionaryToCommunicator:message];
+    [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
-- (void)sendJSONDictionaryToCommunicator:(NSDictionary *)dictionary
+- (void)haveCommunicatorReceiveJSONDictionary:(NSDictionary *)dictionary
 {
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:NULL];
     NSString *JSONString = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
@@ -241,7 +247,7 @@
 
 - (void)haveCommunicatorSendJSONDictionary:(NSDictionary *)dictionary
 {
-    [self.communicator sendJSONRequest:dictionary error:NULL];
+    [self.communicator sendJSONObject:dictionary error:NULL];
 }
 
 #pragma mark - Private
@@ -293,6 +299,19 @@
 }
 
 #pragma mark ABAirbugManagerDelegate
+
+- (void)failedToSendJSONObject:(id)JSONObject error:(NSError *)error {
+    NSAlert *alert = [NSAlert alertWithError:error];
+    [alert runModal];
+}
+
+- (void)didLogInSuccessfully {
+    // TODO: ???
+}
+
+- (void)loginFailedWithError:(NSError *)error {
+    // TODO: ???
+}
 
 - (void)didReceiveNotification:(NSUserNotification *)notification {
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];

@@ -18,6 +18,9 @@
 - (void)didReceiveWindowResizeRequest:(NSSize)size;
 - (void)didReceiveScreenshotRequest:(ABScreenshotType)screenshotType;
 - (void)didReceiveOpenBrowserRequest:(NSURL *)url;
+- (void)didLogInSuccessfully;
+- (void)loginFailedWithError:(NSError *)error;
+- (void)failedToSendJSONObject:(id)JSONObject error:(NSError *)error;
 @end
 
 typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
@@ -56,12 +59,11 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
        outgoingDataBuilder:(ABOutgoingDataBuilder *)outgoingBuilder;
 
 /**
- Authenticate with the airbug server.
+ Authenticate with the airbug server. Response to login is sent via delegate.
  @param username The username
  @param password The password
- @param completionHandler A block that's executed after the login succeeds or fails.
  */
-- (void)logInWithUsername:(NSString *)username password:(NSString *)password onCompletion:(void(^)(BOOL success, NSError *error))completionHandler;
+- (void)logInWithUsername:(NSString *)username password:(NSString *)password;
 
 /**
  Log out of the current session.
@@ -74,5 +76,10 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
  @param type Type of screenshot
  */
 - (void)sendPreviewScreenshotRequestForImage:(NSImage *)image ofType:(ABScreenshotType)type;
+
+/**
+ Sends request to client plugin JS to show login page.
+ */
+- (void)sendShowLoginPageRequest;
 
 @end

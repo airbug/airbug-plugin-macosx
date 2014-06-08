@@ -26,4 +26,6 @@
  */
 - (NSDictionary *)createRestoreCookieResponseForMessageID:(NSString *)messageID;
 
+- (NSDictionary *)createShowLoginPageRequest;
+
 @end

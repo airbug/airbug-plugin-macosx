@@ -67,19 +67,9 @@
     [self.signInButton addSubview:progressIndicator];
     [progressIndicator startAnimation:self];
     [self.signInButton setEnabled:NO];
-    
-    [self.manager logInWithUsername:username password:password onCompletion:^(BOOL success, NSError *error) {
-        [progressIndicator stopAnimation:self];
-        [progressIndicator removeFromSuperview];
-        [self.signInButton setEnabled:YES];
-        
-        if (!success) {
-            NSLog(@"Error logging in: %@", [error localizedDescription]);
-            [self.messageTextField setStringValue:[error localizedDescription]];
-            return;
-        }
-        if (self.onSuccessfulLogin) self.onSuccessfulLogin();
-    }];
+
+// This login window is most likely going to be removed...
+    [self.manager logInWithUsername:username password:password];
 }
 
 #pragma mark - Public methods
