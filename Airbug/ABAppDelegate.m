@@ -12,6 +12,7 @@
 #import "ABLoginWindowController.h"
 #import "ABWebViewWindowController.h"
 #import "ABWebViewWindow.h"
+#import "ABScreenshotRequest.h" // TODO: move ABScreenshotType out of this class...
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -223,24 +224,6 @@
 
 #pragma mark - Private
 
-- (void)displayImageInPreviewWindow:(NSImage *)image
-{
-//    ABImageUploadWindowController *controller = [[ABImageUploadWindowController alloc] initWithManager:self.manager];
-//    controller.delegate = self;
-//    controller.image = image;
-//    [controller showWindow:nil];
-//    [self.uploadControllers addObject:controller];
-}
-
-- (void)displayVideoInPreviewWindow:(NSURL *)file
-{
-//    ABVideoUploadWindowController *controller = [[ABVideoUploadWindowController alloc] initWithManager:self.manager];
-//    controller.fileURL = file;
-//    controller.delegate = self;
-//    [controller showWindow:nil];
-//    [self.uploadControllers addObject:controller];
-}
-
 - (void)setUpLoggedOutUI
 {
     [self setUpUI:NO];
@@ -262,9 +245,16 @@
 #pragma mark - Protocol conformance
 #pragma mark ABScreenCaptureControllerDelegate
 
-- (void)didCaptureImage:(NSImage *)image
-{
-//    [self displayImageInPreviewWindow:image];
+- (void)didCaptureScreenshot:(NSImage *)image {
+    [self.manager sendPreviewScreenshotRequestForImage:image ofType:ABScreenshotTypeFullScreen];
+}
+
+- (void)didCaptureTargetedScreenshot:(NSImage *)image {
+    [self.manager sendPreviewScreenshotRequestForImage:image ofType:ABScreenshotTypeCrosshair];
+}
+
+- (void)didCaptureTimedScreenshot:(NSImage *)image {
+    [self.manager sendPreviewScreenshotRequestForImage:image ofType:ABScreenshotTypeTimed];
 }
 
 - (void)didCaptureFile:(NSURL *)file
@@ -301,11 +291,11 @@
 
 - (void)didReceiveScreenshotRequest:(ABScreenshotType)screenshotType
 {
-    if (screenshotType == ABFullScreenScreenshotType) {
+    if (screenshotType == ABScreenshotTypeFullScreen) {
         [self takeFullScreenScreenshot:nil];
-    } else if (screenshotType == ABCrosshairScreenshotType) {
+    } else if (screenshotType == ABScreenshotTypeCrosshair) {
         [self takeCrosshairScreenshot:nil];
-    } else if (screenshotType == ABTimedScreenshotType) {
+    } else if (screenshotType == ABScreenshotTypeTimed) {
         [self takeTimedScreenshot:nil];
     }
 }

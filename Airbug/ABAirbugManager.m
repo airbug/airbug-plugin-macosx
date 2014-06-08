@@ -118,7 +118,7 @@ NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
         return;
     }
     
-    NSDictionary *JSONRequest = [self.outgoingBuilder JSONLoginRequestForUsername:username password:password];
+    NSDictionary *JSONRequest = [self.outgoingBuilder createLoginRequestForUsername:username password:password];
     self.loginCompletionHandler = completionHandler;
     BOOL success = [self.communicator sendJSONRequest:JSONRequest error:NULL];
     if (!success) completionHandler(NO, NULL);
@@ -131,6 +131,15 @@ NSString * const AirbugCookieAPITokenKey = @"airbug.sid";
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"authCookie"];
         
         self.authCookie = nil;
+    }
+}
+
+- (void)sendPreviewScreenshotRequestForImage:(NSImage *)image ofType:(ABScreenshotType)type {
+    NSDictionary *JSONRequest = [self.outgoingBuilder createPreviewScreenshotRequestWithImage:image type:type];
+    NSError *error;
+    BOOL success = [self.communicator sendJSONRequest:JSONRequest error:&error];
+    if (!success) {
+        // TODO: Figure out how we should handle these errors
     }
 }
 

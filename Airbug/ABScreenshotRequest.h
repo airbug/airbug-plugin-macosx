@@ -11,14 +11,16 @@
 @interface ABScreenshotRequest : NSObject
 
 typedef NS_ENUM(NSUInteger, ABScreenshotType) {
-    ABUnknownScreenshotType = 0,
-    ABFullScreenScreenshotType = 1,
-    ABCrosshairScreenshotType,
-    ABTimedScreenshotType
+    ABScreenshotTypeUnknown = 0,
+    ABScreenshotTypeFullScreen = 1,
+    ABScreenshotTypeCrosshair,
+    ABScreenshotTypeTimed
 };
 
 @property (nonatomic) ABScreenshotType type;
 
 + (ABScreenshotType)typeFromString:(NSString *)screenshotType;
++ (NSString *)stringFromType:(ABScreenshotType)screenshotType;
+
 
 @end

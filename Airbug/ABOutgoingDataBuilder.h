@@ -7,22 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ABScreenshotRequest.h"
 
 @interface ABOutgoingDataBuilder : NSObject
 
 /**
- Returns a dictionary of parameters to send during image upload.
- @param imageData The image data
+ Creates a JSON object that represents a login request.
  */
-- (NSDictionary *)parametersForPNGImage:(NSData *)imageData;
+- (NSDictionary *)createLoginRequestForUsername:(NSString *)username password:(NSString *)password;
 
 /**
- Returns a dictionary of parameters to send during image upload.
- @param imageData The image data
+ Creates a JSON object that represents a preview screenshot request.
  */
-- (NSDictionary *)parametersForQuickTimeVideo:(NSURL *)fileURL;
+- (NSDictionary *)createPreviewScreenshotRequestWithImage:(NSImage *)image type:(ABScreenshotType)type;
 
-/**
- */
-- (NSDictionary *)JSONLoginRequestForUsername:(NSString *)username password:(NSString *)password;
+
 @end

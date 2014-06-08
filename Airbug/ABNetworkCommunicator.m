@@ -41,16 +41,19 @@ NSString * const AirbugAPIBridgeURL = @"http://localhost:8000/client_api";
 
 #pragma mark - Public
 
-- (BOOL)sendJSONRequest:(id)JSONObject error:(NSError *)error
+- (BOOL)sendJSONRequest:(id)JSONObject error:(NSError *__autoreleasing *)error
 {
     if (!self.jsWindow) {
         [self loadWebView];
-        error = [NSError errorWithDomain:ABNetworkCommunicatorError code:0 userInfo:@{ NSLocalizedDescriptionKey : @"Network connection unavailable" }];
+        *error = [NSError errorWithDomain:ABNetworkCommunicatorError code:0 userInfo:@{ NSLocalizedDescriptionKey : @"Network connection unavailable" }];
         return NO;
     }
     
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:JSONObject options:0 error:NULL];
     NSString *JSONString = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"Sending JSON string of type %@", JSONObject[@"type"]);
+    
     JSValue *sendFunc = self.jsWindow[@"receiveMessage"];
     [sendFunc callWithArguments:@[JSONString]];
     

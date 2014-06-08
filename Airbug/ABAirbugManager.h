@@ -68,4 +68,11 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
  */
 - (void)logOut;
 
+/**
+ Sends request to client plugin JS to preview screenshot.
+ @param image Screenshot image
+ @param type Type of screenshot
+ */
+- (void)sendPreviewScreenshotRequestForImage:(NSImage *)image ofType:(ABScreenshotType)type;
+
 @end

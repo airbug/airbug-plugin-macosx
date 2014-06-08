@@ -11,6 +11,6 @@
 #import "ABCaptureManager.h"
 #import "ABUploadWindowController.h"
 
-@interface ABAppDelegate : NSObject <NSApplicationDelegate, ABCaptureManagerDelegate, ABUploadWindowControllerDelegate, ABAirbugManagerDelegate>
+@interface ABAppDelegate : NSObject <NSApplicationDelegate, ABCaptureManagerDelegate, ABAirbugManagerDelegate>
 
 @end

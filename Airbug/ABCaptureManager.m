@@ -162,7 +162,17 @@
     }
     
     [self startFlashAnimationOnScreen:captureScreen];
-    [self.delegate didCaptureImage:captureImage];
+    
+    if ([self.captureWindow isKindOfClass:[ABScreenshotWindow class]]) {
+        [self.delegate didCaptureScreenshot:captureImage];
+    } else if ([self.captureWindow isKindOfClass:[ABTargetedScreenshotWindow class]]) {
+        [self.delegate didCaptureTargetedScreenshot:captureImage];
+    }
+// TODO: Timed screenshot
+    //else if ([self.captureWindow isKindOfClass:[ABTimedScreenshotWindow class]]) {
+//        
+//    }
+    
 }
 
 - (void)startFlashAnimationOnScreen:(NSScreen *)screen

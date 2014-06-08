@@ -15,15 +15,31 @@
     static NSDictionary *types;
     if (!types) {
         types = @{
-                  @"FullScreen" : @(ABFullScreenScreenshotType),
-                  @"Crosshair" : @(ABCrosshairScreenshotType),
-                  @"Timed" : @(ABTimedScreenshotType)
+                  @"FullScreen" : @(ABScreenshotTypeFullScreen),
+                  @"Crosshair" : @(ABScreenshotTypeCrosshair),
+                  @"Timed" : @(ABScreenshotTypeTimed)
                   };
     }
     if (![[types allKeys] containsObject:screenshotType]) {
-        return ABUnknownScreenshotType;
+        return ABScreenshotTypeUnknown;
     }
     return [types[screenshotType] integerValue];
+}
+
++ (NSString *)stringFromType:(ABScreenshotType)screenshotType
+{
+    static NSDictionary *types;
+    if (!types) {
+        types = @{
+                  @(ABScreenshotTypeFullScreen) : @"FullScreen",
+                  @(ABScreenshotTypeCrosshair) : @"Crosshair",
+                  @(ABScreenshotTypeTimed) : @"Timed"
+                  };
+    }
+    if (![[types allKeys] containsObject:@(screenshotType)]) {
+        return @"Unknown";
+    }
+    return types[@(screenshotType)];
 }
 
 @end

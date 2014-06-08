@@ -11,7 +11,9 @@
 #import "ABVideoScreenCapturer.h"
 
 @protocol ABCaptureManagerDelegate <NSObject>
-- (void)didCaptureImage:(NSImage *)image;
+- (void)didCaptureScreenshot:(NSImage *)image;
+- (void)didCaptureTargetedScreenshot:(NSImage *)image;
+- (void)didCaptureTimedScreenshot:(NSImage *)image;
 - (void)didCaptureFile:(NSURL *)file;
 @end
 
