@@ -11,19 +11,22 @@
 #import "ABIncomingDataBuilder.h"
 #import "ABOutgoingDataBuilder.h"
 #import "ABScreenshotRequest.h"
+#import "ABConnectionStateNotice.h"
 
 @class ABUser;
+@class ABAirbugManager;
 
 @protocol ABAirbugManagerDelegate <NSObject>
-- (void)didReceiveNotification:(NSUserNotification *)notification;
-- (void)didReceiveWindowVisibilityRequest:(BOOL)showWindow;
-- (void)didReceiveWindowResizeRequest:(NSSize)size;
-- (void)didReceiveScreenshotRequest:(ABScreenshotType)screenshotType;
-- (void)didReceiveOpenBrowserRequest:(NSURL *)url;
-- (void)didLogInSuccessfullyWithUser:(ABUser *)user;
-- (void)didLogOutSuccessfully;
-- (void)loginFailedWithError:(NSError *)error;
-- (void)failedToSendJSONObject:(id)JSONObject error:(NSError *)error;
+- (void)manager:(ABAirbugManager *)manager didReceiveNotification:(NSUserNotification *)notification;
+- (void)manager:(ABAirbugManager *)manager didReceiveWindowVisibilityRequest:(BOOL)showWindow;
+- (void)manager:(ABAirbugManager *)manager didReceiveWindowResizeRequest:(NSSize)size;
+- (void)manager:(ABAirbugManager *)manager didReceiveScreenshotRequest:(ABScreenshotType)screenshotType;
+- (void)manager:(ABAirbugManager *)manager didReceiveOpenBrowserRequest:(NSURL *)url;
+- (void)manager:(ABAirbugManager *)manager didLogInSuccessfullyWithUser:(ABUser *)user;
+- (void)managerDidLogOutSuccessfully:(ABAirbugManager *)manager;
+- (void)manager:(ABAirbugManager *)manager loginFailedWithError:(NSError *)error;
+- (void)manager:(ABAirbugManager *)manager failedToSendJSONObject:(id)JSONObject error:(NSError *)error;
+- (void)manager:(ABAirbugManager *)manager connectionStateChanged:(ABConnectionState)connectionState;
 @end
 
 typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {

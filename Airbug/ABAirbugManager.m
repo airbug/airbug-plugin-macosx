@@ -75,33 +75,33 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
                 // ABAuthenticationNotice message to be sent to us.
             } else {
                 NSError *error = [NSError errorWithDomain:ABAirbugManagerError code:ABAirbugManagerCommunicationError userInfo:@{ NSLocalizedDescriptionKey : loginResponse.errorMessage }];
-                if ([theDelegate respondsToSelector:@selector(loginFailedWithError:)]) {
-                    [theDelegate loginFailedWithError:error];
+                if ([theDelegate respondsToSelector:@selector(manager:loginFailedWithError:)]) {
+                    [theDelegate manager:weakSelf loginFailedWithError:error];
                 }
             }
         } else if ([parsedObject isKindOfClass:[NSUserNotification class]]) {
-            if ([theDelegate respondsToSelector:@selector(didReceiveNotification:)]) {
-                [theDelegate didReceiveNotification:parsedObject];
+            if ([theDelegate respondsToSelector:@selector(manager:didReceiveNotification:)]) {
+                [theDelegate manager:weakSelf didReceiveNotification:parsedObject];
             }
         } else if ([parsedObject isKindOfClass:[ABWindowVisibilityRequest class]]) {
-            if ([theDelegate respondsToSelector:@selector(didReceiveWindowVisibilityRequest:)]) {
+            if ([theDelegate respondsToSelector:@selector(manager:didReceiveWindowVisibilityRequest:)]) {
                 ABWindowVisibilityRequest *request = (ABWindowVisibilityRequest *)parsedObject;
-                [theDelegate didReceiveWindowVisibilityRequest:request.showWindow];
+                [theDelegate manager:weakSelf didReceiveWindowVisibilityRequest:request.showWindow];
             }
         } else if ([parsedObject isKindOfClass:[ABWindowResizeRequest class]]) {
-            if ([theDelegate respondsToSelector:@selector(didReceiveWindowResizeRequest:)]) {
+            if ([theDelegate respondsToSelector:@selector(manager:didReceiveWindowResizeRequest:)]) {
                 ABWindowResizeRequest *request = (ABWindowResizeRequest *)parsedObject;
-                [theDelegate didReceiveWindowResizeRequest:request.size];
+                [theDelegate manager:weakSelf didReceiveWindowResizeRequest:request.size];
             }
         } else if ([parsedObject isKindOfClass:[ABScreenshotRequest class]]) {
-            if ([theDelegate respondsToSelector:@selector(didReceiveWindowResizeRequest:)]) {
+            if ([theDelegate respondsToSelector:@selector(manager:didReceiveWindowResizeRequest:)]) {
                 ABScreenshotRequest *request = (ABScreenshotRequest *)parsedObject;
-                [theDelegate didReceiveScreenshotRequest:request.type];
+                [theDelegate manager:weakSelf didReceiveScreenshotRequest:request.type];
             }
         } else if ([parsedObject isKindOfClass:[ABBrowserRequest class]]) {
-            if ([theDelegate respondsToSelector:@selector(didReceiveOpenBrowserRequest:)]) {
+            if ([theDelegate respondsToSelector:@selector(manager:didReceiveOpenBrowserRequest:)]) {
                 ABBrowserRequest *request = (ABBrowserRequest *)parsedObject;
-                [theDelegate didReceiveOpenBrowserRequest:request.url];
+                [theDelegate manager:weakSelf didReceiveOpenBrowserRequest:request.url];
             }
         } else if ([parsedObject isKindOfClass:[ABSaveCookieRequest class]]) {
             ABSaveCookieRequest *request = (ABSaveCookieRequest *)parsedObject;
@@ -118,13 +118,18 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
         } else if ([parsedObject isKindOfClass:[ABAuthenticationNotice class]]) {
             ABAuthenticationNotice *notice = (ABAuthenticationNotice *)parsedObject;
             if (notice.authenticationState == ABAuthenticationStateLoggedIn) {
-                if ([theDelegate respondsToSelector:@selector(didLogInSuccessfullyWithUser:)]) {
-                    [theDelegate didLogInSuccessfullyWithUser:notice.currentUser];
+                if ([theDelegate respondsToSelector:@selector(manager:didLogInSuccessfullyWithUser:)]) {
+                    [theDelegate manager:weakSelf didLogInSuccessfullyWithUser:notice.currentUser];
                 }
             } else if (notice.authenticationState == ABAuthenticationStateLoggedOut) {
-                if ([theDelegate respondsToSelector:@selector(didLogOutSuccessfully)]) {
-                    [theDelegate didLogOutSuccessfully];
+                if ([theDelegate respondsToSelector:@selector(managerDidLogOutSuccessfully:)]) {
+                    [theDelegate managerDidLogOutSuccessfully:weakSelf];
                 }
+            }
+        } else if ([parsedObject isKindOfClass:[ABConnectionStateNotice class]]) {
+            ABConnectionStateNotice *notice = (ABConnectionStateNotice *)parsedObject;
+            if ([theDelegate respondsToSelector:@selector(manager:connectionStateChanged:)]) {
+                [theDelegate manager:weakSelf connectionStateChanged:notice.connectionState];
             }
         }
     };
@@ -165,8 +170,8 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
     NSError *error;
     BOOL success = [self.communicator sendJSONObject:JSONObject error:&error];
     if (!success) {
-        if ([self.delegate respondsToSelector:@selector(failedToSendJSONObject:error:)]) {
-            [self.delegate failedToSendJSONObject:JSONObject error:error];
+        if ([self.delegate respondsToSelector:@selector(manager:failedToSendJSONObject:error:)]) {
+            [self.delegate manager:self failedToSendJSONObject:JSONObject error:error];
         }
     }
 }

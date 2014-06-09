@@ -46,6 +46,7 @@
 		4A91DA861944254300E54567 /* ABRestoreCookieRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA851944254300E54567 /* ABRestoreCookieRequest.m */; };
 		4A91DA8C194515B100E54567 /* ABAuthenticationNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA8B194515B100E54567 /* ABAuthenticationNotice.m */; };
 		4A91DA8F19451B8500E54567 /* ABUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA8E19451B8500E54567 /* ABUser.m */; };
+		4A91DA9219452A9000E54567 /* ABConnectionStateNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA9119452A9000E54567 /* ABConnectionStateNotice.m */; };
 		4A9AE73D18A3F45500D06721 /* ABCaptureWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */; };
 		4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */; };
 		4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE74318A42C3200D06721 /* NSImage+Crop.m */; };
@@ -143,6 +144,8 @@
 		4A91DA8B194515B100E54567 /* ABAuthenticationNotice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAuthenticationNotice.m; sourceTree = "<group>"; };
 		4A91DA8D19451B8500E54567 /* ABUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABUser.h; sourceTree = "<group>"; };
 		4A91DA8E19451B8500E54567 /* ABUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABUser.m; sourceTree = "<group>"; };
+		4A91DA9019452A9000E54567 /* ABConnectionStateNotice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABConnectionStateNotice.h; sourceTree = "<group>"; };
+		4A91DA9119452A9000E54567 /* ABConnectionStateNotice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABConnectionStateNotice.m; sourceTree = "<group>"; };
 		4A9AE73B18A3F45500D06721 /* ABCaptureWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureWindow.h; sourceTree = "<group>"; };
 		4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureWindow.m; sourceTree = "<group>"; };
 		4A9AE73E18A40F5B00D06721 /* ABCaptureAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureAreaView.h; sourceTree = "<group>"; };
@@ -304,6 +307,7 @@
 		4A2620B518A1E67D00E973EC /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4A91DA7D19441F4100E54567 /* JSON Objects */,
 				4A9AE75C18A5E73700D06721 /* ABAirbugManager.h */,
 				4A9AE75D18A5E73700D06721 /* ABAirbugManager.m */,
 				4A9AE75F18A5E74D00D06721 /* ABNetworkCommunicator.h */,
@@ -318,7 +322,6 @@
 				4A9AE76318A69C5F00D06721 /* ABIncomingDataBuilder.m */,
 				4A5FB4D918C2C980009B460B /* ABVideoScreenCapturer.h */,
 				4A5FB4DA18C2C980009B460B /* ABVideoScreenCapturer.m */,
-				4A91DA7D19441F4100E54567 /* JSON Objects */,
 				4A91DA8D19451B8500E54567 /* ABUser.h */,
 				4A91DA8E19451B8500E54567 /* ABUser.m */,
 			);
@@ -403,6 +406,8 @@
 				4A91DA851944254300E54567 /* ABRestoreCookieRequest.m */,
 				4A91DA8A194515B100E54567 /* ABAuthenticationNotice.h */,
 				4A91DA8B194515B100E54567 /* ABAuthenticationNotice.m */,
+				4A91DA9019452A9000E54567 /* ABConnectionStateNotice.h */,
+				4A91DA9119452A9000E54567 /* ABConnectionStateNotice.m */,
 			);
 			name = "JSON Objects";
 			sourceTree = "<group>";
@@ -571,6 +576,7 @@
 				4A5FB4E118C4449C009B460B /* ABVideoUploadWindowController.m in Sources */,
 				4AF0FCDE19305865008AA96F /* ABWindowVisibilityRequest.m in Sources */,
 				4A91DA7C1943D74700E54567 /* ABBrowserRequest.m in Sources */,
+				4A91DA9219452A9000E54567 /* ABConnectionStateNotice.m in Sources */,
 				4A2315331925E102007C5D2D /* ABWebViewWindowController.m in Sources */,
 				4AF0FCE119305940008AA96F /* ABWindowResizeRequest.m in Sources */,
 				4A50E3E918A9C948008E2D2A /* ABCaptureView.m in Sources */,

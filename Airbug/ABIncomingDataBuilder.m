@@ -16,6 +16,7 @@
 #import "ABRestoreCookieRequest.h"
 #import "ABAuthenticationNotice.h"
 #import "ABUser.h"
+#import "ABConnectionStateNotice.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -116,6 +117,13 @@ NSString * const VideoURLKeyPath = @"url";
             notice.currentUser.email = [JSONDictionary valueForKeyPath:@"data.currentUser.email"];
             notice.currentUser.identifier = [JSONDictionary valueForKeyPath:@"data.currentUser.id"];
         }
+        return notice;
+    }
+    
+    if ([type isEqualToString:@"ConnectionStateChange"]) {
+        ABConnectionStateNotice *notice = [[ABConnectionStateNotice alloc] init];
+        NSString *connectionStateString = [JSONDictionary valueForKeyPath:@"data.connectionState"];
+        notice.connectionState = [ABConnectionStateNotice typeForConnectionState:connectionStateString];
         return notice;
     }
     

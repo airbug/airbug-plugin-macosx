@@ -75,27 +75,7 @@
     }
 
 #ifdef DEBUG
-    // Set up debug menu options to send preprogrammed notifications
-    NSMenuItem *debugMenuItem = [[NSMenuItem alloc] init];
-    debugMenuItem.title = @"Debug Messages";
-    NSMenu *debugSubmenu = [[NSMenu alloc] initWithTitle:@"Debug"];
-    [debugSubmenu addItemWithTitle:@"Notification" action:@selector(receiveStubNotificationMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"ShowWindow" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"HideWindow" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Resize window" action:@selector(receiveStubResizeWindowMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"ShowLoginPage" action:@selector(sendStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Logout" action:@selector(sendStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"AuthStateChange (logged in)" action:@selector(receiveStubAuthStateChangeLoggedIn:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"AuthStateChange (logged out)" action:@selector(receiveStubAuthStateChangeLoggedOut:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Open browser" action:@selector(receiveStubOpenBrowserMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Save cookie" action:@selector(receiveStubSaveCookieMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Restore cookie" action:@selector(receiveStubRestoreCookieMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Restore cookie ack" action:@selector(sendStubAckMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"FullScreen screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Crosshair screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
-    [debugSubmenu addItemWithTitle:@"Timed screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
-    debugMenuItem.submenu = debugSubmenu;
-    [self.mainStatusItem.menu addItem:debugMenuItem];
+    [self setUpDebugMenu];
 #endif
 }
 
@@ -233,6 +213,14 @@
     [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
+- (IBAction)sendStubPreviewScreenshotMessage:(id)sender
+{
+    NSImage *image = [NSImage imageNamed:@"AppIcon"];
+    ABOutgoingDataBuilder *outgoingDataBuilder = [[ABOutgoingDataBuilder alloc] init];
+    NSDictionary *message = [outgoingDataBuilder createPreviewScreenshotRequestWithImage:image type:ABScreenshotTypeCrosshair];
+    [self haveCommunicatorSendJSONDictionary:message];
+}
+
 - (IBAction)receiveStubAuthStateChangeLoggedIn:(id)sender
 {
     NSDictionary *message = @{
@@ -256,6 +244,39 @@
                               @"type" : @"AuthStateChange",
                               @"data" : @{
                                       @"authState": @"loggedOut"
+                                      }
+                              };
+    [self haveCommunicatorReceiveJSONDictionary:message];
+}
+
+- (IBAction)receiveStubConnectionStateChangeConnected:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"ConnectionStateChange",
+                              @"data" : @{
+                                      @"connectionState": @"connected"
+                                      }
+                              };
+    [self haveCommunicatorReceiveJSONDictionary:message];
+}
+
+- (IBAction)receiveStubConnectionStateChangeConnecting:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"ConnectionStateChange",
+                              @"data" : @{
+                                      @"connectionState": @"connecting"
+                                      }
+                              };
+    [self haveCommunicatorReceiveJSONDictionary:message];
+}
+
+- (IBAction)receiveStubConnectionStateChangeDisconnected:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"ConnectionStateChange",
+                              @"data" : @{
+                                      @"connectionState": @"disconnected"
                                       }
                               };
     [self haveCommunicatorReceiveJSONDictionary:message];
@@ -293,6 +314,35 @@
     [[self.statusMenu itemAtIndex:4] setHidden:!isLoggedIn];
 }
 
+- (void)setUpDebugMenu
+{
+    // Set up debug menu options to send preprogrammed notifications
+    NSMenuItem *debugMenuItem = [[NSMenuItem alloc] init];
+    debugMenuItem.title = @"Debug Messages";
+    NSMenu *debugSubmenu = [[NSMenu alloc] initWithTitle:@"Debug"];
+    [debugSubmenu addItemWithTitle:@"Notification" action:@selector(receiveStubNotificationMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"ShowWindow" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"HideWindow" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Resize window" action:@selector(receiveStubResizeWindowMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"ShowLoginPage" action:@selector(sendStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Logout" action:@selector(sendStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"AuthStateChange (logged in)" action:@selector(receiveStubAuthStateChangeLoggedIn:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"AuthStateChange (logged out)" action:@selector(receiveStubAuthStateChangeLoggedOut:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"ConnectionStateChange (connected)" action:@selector(receiveStubConnectionStateChangeConnected:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"ConnectionStateChange (connecting)" action:@selector(receiveStubConnectionStateChangeConnecting:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"ConnectionStateChange (disconnected)" action:@selector(receiveStubConnectionStateChangeDisconnected:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Open browser" action:@selector(receiveStubOpenBrowserMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Save cookie" action:@selector(receiveStubSaveCookieMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Restore cookie" action:@selector(receiveStubRestoreCookieMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Restore cookie ack" action:@selector(sendStubAckMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"FullScreen screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Crosshair screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Timed screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Preview screenshot" action:@selector(sendStubPreviewScreenshotMessage:) keyEquivalent:@""];
+    debugMenuItem.submenu = debugSubmenu;
+    [self.mainStatusItem.menu addItem:debugMenuItem];
+}
+
 #pragma mark - Protocol conformance
 #pragma mark ABScreenCaptureControllerDelegate
 
@@ -323,29 +373,29 @@
 
 #pragma mark ABAirbugManagerDelegate
 
-- (void)failedToSendJSONObject:(id)JSONObject error:(NSError *)error {
+- (void)manager:(ABAirbugManager *)manager failedToSendJSONObject:(id)JSONObject error:(NSError *)error {
     NSAlert *alert = [NSAlert alertWithError:error];
     [alert runModal];
 }
 
-- (void)didLogInSuccessfullyWithUser:(ABUser *)user {
+- (void)manager:(ABAirbugManager *)manager didLogInSuccessfullyWithUser:(ABUser *)user {
     [self setUpLoggedInUI];
     // TODO: Anything else we want to do?
 }
 
-- (void)loginFailedWithError:(NSError *)error {
+- (void)manager:(ABAirbugManager *)manager loginFailedWithError:(NSError *)error {
     // TODO: Do we need to put up an error message?
 }
 
-- (void)didLogOutSuccessfully {
+- (void)managerDidLogOutSuccessfully:(ABAirbugManager *)manager {
     [self setUpLoggedOutUI];
 }
 
-- (void)didReceiveNotification:(NSUserNotification *)notification {
+- (void)manager:(ABAirbugManager *)manager didReceiveNotification:(NSUserNotification *)notification {
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
 
-- (void)didReceiveWindowVisibilityRequest:(BOOL)showWindow {
+- (void)manager:(ABAirbugManager *)manager didReceiveWindowVisibilityRequest:(BOOL)showWindow {
     if (showWindow) {
         [self.webViewWindowController showWindow:nil];
         [self.webViewWindowController.window makeKeyWindow];
@@ -357,11 +407,11 @@
     }
 }
 
-- (void)didReceiveWindowResizeRequest:(NSSize)size {
+- (void)manager:(ABAirbugManager *)manager didReceiveWindowResizeRequest:(NSSize)size {
     [self.webViewWindowController.window setContentSize:size];
 }
 
-- (void)didReceiveScreenshotRequest:(ABScreenshotType)screenshotType
+- (void)manager:(ABAirbugManager *)manager didReceiveScreenshotRequest:(ABScreenshotType)screenshotType
 {
     if (screenshotType == ABScreenshotTypeFullScreen) {
         [self takeFullScreenScreenshot:nil];
@@ -372,8 +422,15 @@
     }
 }
 
-- (void)didReceiveOpenBrowserRequest:(NSURL *)url {
+- (void)manager:(ABAirbugManager *)manager didReceiveOpenBrowserRequest:(NSURL *)url {
     [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+- (void)manager:(ABAirbugManager *)manager connectionStateChanged:(ABConnectionState)connectionState
+{
+    NSString *connectionStateString = [ABConnectionStateNotice stringForConnectionState:connectionState];
+    NSLog(@"Connection state changed to %@", connectionStateString);
+    // TODO: react to connection state changes
 }
 
 @end
