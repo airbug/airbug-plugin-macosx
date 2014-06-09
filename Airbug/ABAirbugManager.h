@@ -81,5 +81,9 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
  */
 - (void)logOut;
 
+/**
+ Send request to client plugin JS to try connecting to the server
+ */
+- (void)sendTryConnectRequest;
 
 @end

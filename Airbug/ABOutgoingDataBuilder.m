@@ -44,4 +44,8 @@
     return @{ @"type" : @"Logout" };
 }
 
+- (NSDictionary *)createTryConnectRequest {
+    return @{ @"type" : @"TryConnect" };
+}
+
 @end

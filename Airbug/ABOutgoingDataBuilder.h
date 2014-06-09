@@ -25,4 +25,6 @@
 
 - (NSDictionary *)createLogoutRequest;
 
+- (NSDictionary *)createTryConnectRequest;
+
 @end

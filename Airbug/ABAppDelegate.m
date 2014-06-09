@@ -331,6 +331,7 @@
     [debugSubmenu addItemWithTitle:@"ConnectionStateChange (connected)" action:@selector(receiveStubConnectionStateChangeConnected:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"ConnectionStateChange (connecting)" action:@selector(receiveStubConnectionStateChangeConnecting:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"ConnectionStateChange (disconnected)" action:@selector(receiveStubConnectionStateChangeDisconnected:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"TryConnect" action:@selector(receiveStubMessageTypeWithMenuItemTitle:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Open browser" action:@selector(receiveStubOpenBrowserMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Save cookie" action:@selector(receiveStubSaveCookieMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Restore cookie" action:@selector(receiveStubRestoreCookieMessage:) keyEquivalent:@""];
@@ -431,6 +432,8 @@
     NSString *connectionStateString = [ABConnectionStateNotice stringForConnectionState:connectionState];
     NSLog(@"Connection state changed to %@", connectionStateString);
     // TODO: react to connection state changes
+    
+    // TODO: timed retry connection - self.manager sendTryConnectMessage - scheduled with NSTimer
 }
 
 @end

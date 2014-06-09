@@ -164,6 +164,11 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
     [self sendJSONObject:JSONRequest];
 }
 
+- (void)sendTryConnectRequest {
+    NSDictionary *JSONRequest = [self.outgoingBuilder createTryConnectRequest];
+    [self sendJSONObject:JSONRequest];
+}
+
 #pragma mark - Private methods
 
 - (void)sendJSONObject:(id)JSONObject {
