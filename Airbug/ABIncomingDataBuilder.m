@@ -17,6 +17,7 @@
 #import "ABAuthenticationNotice.h"
 #import "ABUser.h"
 #import "ABConnectionStateNotice.h"
+#import "ABAvailableDirectoriesRequest.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -125,6 +126,11 @@ NSString * const VideoURLKeyPath = @"url";
         NSString *connectionStateString = [JSONDictionary valueForKeyPath:@"data.connectionState"];
         notice.connectionState = [ABConnectionStateNotice typeForConnectionState:connectionStateString];
         return notice;
+    }
+    
+    if ([type isEqualToString:@"GetAvailableDirectories"]) {
+        ABAvailableDirectoriesRequest *request = [[ABAvailableDirectoriesRequest alloc] init];
+        return request;
     }
     
     if ([type isEqualToString:@"MessageError"]) {

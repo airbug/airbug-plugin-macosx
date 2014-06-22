@@ -14,6 +14,7 @@
 #import "ABSaveCookieRequest.h"
 #import "ABRestoreCookieRequest.h"
 #import "ABAuthenticationNotice.h"
+#import "ABAvailableDirectoriesRequest.h"
 
 @interface ABAirbugManager ()
 
@@ -131,6 +132,10 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             if ([theDelegate respondsToSelector:@selector(manager:connectionStateChanged:)]) {
                 [theDelegate manager:weakSelf connectionStateChanged:notice.connectionState];
             }
+        } else if ([parsedObject isKindOfClass:[ABAvailableDirectoriesRequest class]]) {
+            if ([theDelegate respondsToSelector:@selector(managerDidReceiveAvailableDirectoriesRequest:)]) {
+                [theDelegate managerDidReceiveAvailableDirectoriesRequest:weakSelf];
+            }
         }
     };
     _delegate = delegate;
@@ -166,6 +171,12 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 
 - (void)sendTryConnectRequest {
     NSDictionary *JSONRequest = [self.outgoingBuilder createTryConnectRequest];
+    [self sendJSONObject:JSONRequest];
+}
+
+- (void)sendAvailableDirectories:(NSArray *)availableDirectories
+{
+    NSDictionary *JSONRequest = [self.outgoingBuilder createAvailableDirectoriesResponse:availableDirectories];
     [self sendJSONObject:JSONRequest];
 }
 

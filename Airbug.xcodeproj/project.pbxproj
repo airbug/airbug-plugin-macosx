@@ -47,6 +47,8 @@
 		4A91DA8C194515B100E54567 /* ABAuthenticationNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA8B194515B100E54567 /* ABAuthenticationNotice.m */; };
 		4A91DA8F19451B8500E54567 /* ABUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA8E19451B8500E54567 /* ABUser.m */; };
 		4A91DA9219452A9000E54567 /* ABConnectionStateNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA9119452A9000E54567 /* ABConnectionStateNotice.m */; };
+		4A91DA9519567E5500E54567 /* ABAvailableDirectoriesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA9419567E5500E54567 /* ABAvailableDirectoriesRequest.m */; };
+		4A91DA981956817F00E54567 /* ABFileSystemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA971956817F00E54567 /* ABFileSystemManager.m */; };
 		4A9AE73D18A3F45500D06721 /* ABCaptureWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */; };
 		4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */; };
 		4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE74318A42C3200D06721 /* NSImage+Crop.m */; };
@@ -146,6 +148,10 @@
 		4A91DA8E19451B8500E54567 /* ABUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABUser.m; sourceTree = "<group>"; };
 		4A91DA9019452A9000E54567 /* ABConnectionStateNotice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABConnectionStateNotice.h; sourceTree = "<group>"; };
 		4A91DA9119452A9000E54567 /* ABConnectionStateNotice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABConnectionStateNotice.m; sourceTree = "<group>"; };
+		4A91DA9319567E5500E54567 /* ABAvailableDirectoriesRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAvailableDirectoriesRequest.h; sourceTree = "<group>"; };
+		4A91DA9419567E5500E54567 /* ABAvailableDirectoriesRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAvailableDirectoriesRequest.m; sourceTree = "<group>"; };
+		4A91DA961956817F00E54567 /* ABFileSystemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABFileSystemManager.h; sourceTree = "<group>"; };
+		4A91DA971956817F00E54567 /* ABFileSystemManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABFileSystemManager.m; sourceTree = "<group>"; };
 		4A9AE73B18A3F45500D06721 /* ABCaptureWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureWindow.h; sourceTree = "<group>"; };
 		4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureWindow.m; sourceTree = "<group>"; };
 		4A9AE73E18A40F5B00D06721 /* ABCaptureAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureAreaView.h; sourceTree = "<group>"; };
@@ -324,6 +330,8 @@
 				4A5FB4DA18C2C980009B460B /* ABVideoScreenCapturer.m */,
 				4A91DA8D19451B8500E54567 /* ABUser.h */,
 				4A91DA8E19451B8500E54567 /* ABUser.m */,
+				4A91DA961956817F00E54567 /* ABFileSystemManager.h */,
+				4A91DA971956817F00E54567 /* ABFileSystemManager.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -408,6 +416,8 @@
 				4A91DA8B194515B100E54567 /* ABAuthenticationNotice.m */,
 				4A91DA9019452A9000E54567 /* ABConnectionStateNotice.h */,
 				4A91DA9119452A9000E54567 /* ABConnectionStateNotice.m */,
+				4A91DA9319567E5500E54567 /* ABAvailableDirectoriesRequest.h */,
+				4A91DA9419567E5500E54567 /* ABAvailableDirectoriesRequest.m */,
 			);
 			name = "JSON Objects";
 			sourceTree = "<group>";
@@ -563,6 +573,7 @@
 			files = (
 				4A5FB4DB18C2C980009B460B /* ABVideoScreenCapturer.m in Sources */,
 				4A26208C18A1DB3400E973EC /* main.m in Sources */,
+				4A91DA9519567E5500E54567 /* ABAvailableDirectoriesRequest.m in Sources */,
 				4A9AE76418A69C5F00D06721 /* ABIncomingDataBuilder.m in Sources */,
 				4A3717EF18AAF2CF0000A905 /* NSImage+Data.m in Sources */,
 				4A9AE76118A5E74D00D06721 /* ABNetworkCommunicator.m in Sources */,
@@ -573,6 +584,7 @@
 				4A91DA8C194515B100E54567 /* ABAuthenticationNotice.m in Sources */,
 				4A50E3E518A9AF9B008E2D2A /* ABScreenshotWindow.m in Sources */,
 				4A2620B818A1E68D00E973EC /* ABScreenCapturer.m in Sources */,
+				4A91DA981956817F00E54567 /* ABFileSystemManager.m in Sources */,
 				4A5FB4E118C4449C009B460B /* ABVideoUploadWindowController.m in Sources */,
 				4AF0FCDE19305865008AA96F /* ABWindowVisibilityRequest.m in Sources */,
 				4A91DA7C1943D74700E54567 /* ABBrowserRequest.m in Sources */,

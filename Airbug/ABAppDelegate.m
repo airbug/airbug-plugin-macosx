@@ -13,6 +13,7 @@
 #import "ABWebViewWindowController.h"
 #import "ABWebViewWindow.h"
 #import "ABScreenshotRequest.h" // TODO: move ABScreenshotType out of this class...
+#import "ABFileSystemManager.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -22,6 +23,7 @@
 @property (strong, nonatomic) NSMutableArray *uploadControllers;
 @property (strong, nonatomic) ABAirbugManager *manager;
 @property (strong, nonatomic) ABNetworkCommunicator *communicator;
+@property (strong, nonatomic) ABFileSystemManager *fileSystemManager;
 @property (strong, nonatomic) ABWebViewWindowController *webViewWindowController;
 
 // TODO: Move all window management logic to a new class - ABWindowManager
@@ -74,6 +76,8 @@
         [self setUpLoggedOutUI];
     }
 
+    self.fileSystemManager = [[ABFileSystemManager alloc] init];
+    
 #ifdef DEBUG
     [self setUpDebugMenu];
 #endif
@@ -282,6 +286,14 @@
     [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
+- (IBAction)receiveStubGetAvailableDirectoriesMessage:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"GetAvailableDirectories"
+                              };
+    [self haveCommunicatorReceiveJSONDictionary:message];
+}
+
 - (void)haveCommunicatorReceiveJSONDictionary:(NSDictionary *)dictionary
 {
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:NULL];
@@ -340,6 +352,7 @@
     [debugSubmenu addItemWithTitle:@"Crosshair screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Timed screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Preview screenshot" action:@selector(sendStubPreviewScreenshotMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Get available directories" action:@selector(receiveStubGetAvailableDirectoriesMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
     [self.mainStatusItem.menu addItem:debugMenuItem];
 }
@@ -381,7 +394,6 @@
 
 - (void)manager:(ABAirbugManager *)manager didLogInSuccessfullyWithUser:(ABUser *)user {
     [self setUpLoggedInUI];
-    // TODO: Anything else we want to do?
 }
 
 - (void)manager:(ABAirbugManager *)manager loginFailedWithError:(NSError *)error {
@@ -432,8 +444,15 @@
     NSString *connectionStateString = [ABConnectionStateNotice stringForConnectionState:connectionState];
     NSLog(@"Connection state changed to %@", connectionStateString);
     // TODO: react to connection state changes
+}
+
+- (void)managerDidReceiveAvailableDirectoriesRequest:(ABAirbugManager *)manager
+{
+    // Get list of available directories
+    NSArray *availableDirectories = [self.fileSystemManager availableDirectories];
     
-    // TODO: timed retry connection - self.manager sendTryConnectMessage - scheduled with NSTimer
+    // Send list of available directories
+    [self.manager sendAvailableDirectories:availableDirectories];
 }
 
 @end

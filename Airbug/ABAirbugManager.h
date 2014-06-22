@@ -27,6 +27,7 @@
 - (void)manager:(ABAirbugManager *)manager loginFailedWithError:(NSError *)error;
 - (void)manager:(ABAirbugManager *)manager failedToSendJSONObject:(id)JSONObject error:(NSError *)error;
 - (void)manager:(ABAirbugManager *)manager connectionStateChanged:(ABConnectionState)connectionState;
+- (void)managerDidReceiveAvailableDirectoriesRequest:(ABAirbugManager *)manager;
 @end
 
 typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
@@ -85,5 +86,12 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
  Send request to client plugin JS to try connecting to the server
  */
 - (void)sendTryConnectRequest;
+
+/**
+ Send list of available directories to the server
+ @param availableDirectories Array of @c NSString objects with the absolute path to directories
+ on the local file system.
+ */
+- (void)sendAvailableDirectories:(NSArray *)availableDirectories;
 
 @end

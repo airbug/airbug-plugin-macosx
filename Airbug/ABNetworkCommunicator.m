@@ -58,6 +58,12 @@ NSString * const AirbugAPIBridgeURL = @"http://localhost:8000/client_api";
     } else {
         NSLog(@"Sending JSON string: %@", JSONString);
     }
+    NSData * data = [NSPropertyListSerialization dataFromPropertyList:JSONObject format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
+    if (data.length < 4096) {
+        NSLog(@"JSON string: %@", JSONObject);
+    } else {
+        NSLog(@"Omitting console dump of JSON string - string length (%lu)", (unsigned long)data.length);
+    }
     
     JSValue *sendFunc = self.jsWindow[@"receiveMessage"];
     [sendFunc callWithArguments:@[JSONString]];

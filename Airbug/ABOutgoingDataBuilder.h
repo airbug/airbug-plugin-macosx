@@ -17,7 +17,7 @@
 - (NSDictionary *)createPreviewScreenshotRequestWithImage:(NSImage *)image type:(ABScreenshotType)type;
 
 /**
- Creates an object to send back to the server in response to a restore cookie request
+ Creates a JSON object to send back to the server in response to a restore cookie request
  */
 - (NSDictionary *)createRestoreCookieResponseForMessageID:(NSString *)messageID;
 
@@ -26,5 +26,12 @@
 - (NSDictionary *)createLogoutRequest;
 
 - (NSDictionary *)createTryConnectRequest;
+
+/**
+ Creates a JSON object containing a list of directories
+ @param availableDirectories Array of @c NSString objects containing the absolute path to
+ directories on the local file system
+ */
+- (NSDictionary *)createAvailableDirectoriesResponse:(NSArray *)availableDirectories;
 
 @end

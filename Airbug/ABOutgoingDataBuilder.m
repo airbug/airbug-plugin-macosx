@@ -48,4 +48,18 @@
     return @{ @"type" : @"TryConnect" };
 }
 
+- (NSDictionary *)createAvailableDirectoriesResponse:(NSArray *)availableDirectories {
+    NSParameterAssert(availableDirectories);
+    NSParameterAssert([availableDirectories isKindOfClass:[NSArray class]]);
+    for (id obj in availableDirectories) {
+        NSAssert([obj isKindOfClass:[NSString class]], @"Must contain string objects only");
+    }
+    
+    return @{
+             @"type" : @"AvailableDirectories",
+             @"data" : @{
+                            @"directories": availableDirectories
+                        }
+             };
+}
 @end
