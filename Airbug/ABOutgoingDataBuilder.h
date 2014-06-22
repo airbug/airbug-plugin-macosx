@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "ABScreenshotRequest.h"
 
+@class ABDirectoryContents;
+
 @interface ABOutgoingDataBuilder : NSObject
 
 /**
@@ -33,5 +35,10 @@
  directories on the local file system
  */
 - (NSDictionary *)createAvailableDirectoriesResponse:(NSArray *)availableDirectories;
+
+/**
+ Creates a JSON object from a @c ABDirectoryContentsResponse object.
+ */
+- (NSDictionary *)createDirectoryContentsResponse:(ABDirectoryContents *)response;
 
 @end

@@ -15,8 +15,12 @@
 
 @class ABUser;
 @class ABAirbugManager;
+@class ABListDirectoryContentsRequest;
+@class ABDirectoryContents;
 
 @protocol ABAirbugManagerDelegate <NSObject>
+
+@optional
 - (void)manager:(ABAirbugManager *)manager didReceiveNotification:(NSUserNotification *)notification;
 - (void)manager:(ABAirbugManager *)manager didReceiveWindowVisibilityRequest:(BOOL)showWindow;
 - (void)manager:(ABAirbugManager *)manager didReceiveWindowResizeRequest:(NSSize)size;
@@ -28,6 +32,8 @@
 - (void)manager:(ABAirbugManager *)manager failedToSendJSONObject:(id)JSONObject error:(NSError *)error;
 - (void)manager:(ABAirbugManager *)manager connectionStateChanged:(ABConnectionState)connectionState;
 - (void)managerDidReceiveAvailableDirectoriesRequest:(ABAirbugManager *)manager;
+- (void)manager:(ABAirbugManager *)manager didReceiveListDirectoryContentsRequest:(ABListDirectoryContentsRequest *)request;
+
 @end
 
 typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
@@ -93,5 +99,10 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
  on the local file system.
  */
 - (void)sendAvailableDirectories:(NSArray *)availableDirectories;
+
+/**
+ Sends directory contents to the server
+ */
+- (void)sendDirectoryContents:(ABDirectoryContents *)contents;
 
 @end

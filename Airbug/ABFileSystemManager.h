@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class ABDirectoryContents;
+
 @interface ABFileSystemManager : NSObject
 
 /**
@@ -22,5 +24,13 @@
  the server to access. Throws an exception if an invalid NSURL is specified.
  */
 - (void)setAvailableDirectories:(NSArray *)availableDirectories;
+
+/**
+ Returns the contents of a directory. If the contents of the directory cannot be returned,
+ the @c ABDirectoryContents object contains information on why.
+ @param directory Absolute path to the directory
+ @param showHiddenFiles Flag that toggles whether to include hidden files
+ */
+- (ABDirectoryContents *)contentsOfDirectory:(NSString *)directory showHiddenFiles:(BOOL)showHiddenFiles;
 
 @end

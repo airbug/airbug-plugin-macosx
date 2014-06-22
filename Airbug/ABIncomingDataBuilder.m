@@ -18,6 +18,7 @@
 #import "ABUser.h"
 #import "ABConnectionStateNotice.h"
 #import "ABAvailableDirectoriesRequest.h"
+#import "ABListDirectoryContentsRequest.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -130,6 +131,13 @@ NSString * const VideoURLKeyPath = @"url";
     
     if ([type isEqualToString:@"GetAvailableDirectories"]) {
         ABAvailableDirectoriesRequest *request = [[ABAvailableDirectoriesRequest alloc] init];
+        return request;
+    }
+    
+    if ([type isEqualToString:@"ListDirectoryContents"]) {
+        ABListDirectoryContentsRequest *request = [[ABListDirectoryContentsRequest alloc] init];
+        request.directory = [JSONDictionary valueForKeyPath:@"data.directory"];
+        request.showHiddenFiles = [[JSONDictionary valueForKeyPath:@"data.showHiddenFiles"] boolValue];
         return request;
     }
     

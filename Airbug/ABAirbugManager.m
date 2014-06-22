@@ -15,6 +15,7 @@
 #import "ABRestoreCookieRequest.h"
 #import "ABAuthenticationNotice.h"
 #import "ABAvailableDirectoriesRequest.h"
+#import "ABListDirectoryContentsRequest.h"
 
 @interface ABAirbugManager ()
 
@@ -136,6 +137,10 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             if ([theDelegate respondsToSelector:@selector(managerDidReceiveAvailableDirectoriesRequest:)]) {
                 [theDelegate managerDidReceiveAvailableDirectoriesRequest:weakSelf];
             }
+        } else if ([parsedObject isKindOfClass:[ABListDirectoryContentsRequest class]]) {
+            if ([theDelegate respondsToSelector:@selector(manager:didReceiveListDirectoryContentsRequest:)]) {
+                [theDelegate manager:weakSelf didReceiveListDirectoryContentsRequest:parsedObject];
+            }
         }
     };
     _delegate = delegate;
@@ -176,8 +181,14 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 
 - (void)sendAvailableDirectories:(NSArray *)availableDirectories
 {
-    NSDictionary *JSONRequest = [self.outgoingBuilder createAvailableDirectoriesResponse:availableDirectories];
-    [self sendJSONObject:JSONRequest];
+    NSDictionary *JSONResponse = [self.outgoingBuilder createAvailableDirectoriesResponse:availableDirectories];
+    [self sendJSONObject:JSONResponse];
+}
+
+- (void)sendDirectoryContents:(ABDirectoryContents *)contents
+{
+    NSDictionary *JSONResponse = [self.outgoingBuilder createDirectoryContentsResponse:contents];
+    [self sendJSONObject:JSONResponse];
 }
 
 #pragma mark - Private methods

@@ -14,6 +14,7 @@
 #import "ABWebViewWindow.h"
 #import "ABScreenshotRequest.h" // TODO: move ABScreenshotType out of this class...
 #import "ABFileSystemManager.h"
+#import "ABListDirectoryContentsRequest.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -294,6 +295,18 @@
     [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
+- (IBAction)receiveStubListDirectoryContentsMessage:(id)sender
+{
+    NSDictionary *message = @{
+                              @"type" : @"ListDirectoryContents",
+                              @"data" : @{
+                                      @"directory" : @"/Users/skunkworks",
+                                      @"showHiddenFiles" : @(YES)
+                                      }
+                              };
+    [self haveCommunicatorReceiveJSONDictionary:message];
+}
+
 - (void)haveCommunicatorReceiveJSONDictionary:(NSDictionary *)dictionary
 {
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:NULL];
@@ -353,6 +366,7 @@
     [debugSubmenu addItemWithTitle:@"Timed screenshot" action:@selector(receiveStubScreenshotMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Preview screenshot" action:@selector(sendStubPreviewScreenshotMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Get available directories" action:@selector(receiveStubGetAvailableDirectoriesMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"List directory contents" action:@selector(receiveStubListDirectoryContentsMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
     [self.mainStatusItem.menu addItem:debugMenuItem];
 }
@@ -453,6 +467,12 @@
     
     // Send list of available directories
     [self.manager sendAvailableDirectories:availableDirectories];
+}
+
+- (void)manager:(ABAirbugManager *)manager didReceiveListDirectoryContentsRequest:(ABListDirectoryContentsRequest *)request
+{
+    ABDirectoryContents *contents = [self.fileSystemManager contentsOfDirectory:request.directory showHiddenFiles:request.showHiddenFiles];
+    [self.manager sendDirectoryContents:contents];
 }
 
 @end

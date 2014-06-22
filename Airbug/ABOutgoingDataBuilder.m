@@ -7,6 +7,8 @@
 //
 
 #import "ABOutgoingDataBuilder.h"
+#import "ABDirectoryItem.h"
+#import "ABDirectoryContents.h"
 
 @implementation ABOutgoingDataBuilder
 
@@ -49,7 +51,6 @@
 }
 
 - (NSDictionary *)createAvailableDirectoriesResponse:(NSArray *)availableDirectories {
-    NSParameterAssert(availableDirectories);
     NSParameterAssert([availableDirectories isKindOfClass:[NSArray class]]);
     for (id obj in availableDirectories) {
         NSAssert([obj isKindOfClass:[NSString class]], @"Must contain string objects only");
@@ -62,4 +63,56 @@
                         }
              };
 }
+
+- (NSDictionary *)createDirectoryContentsResponse:(ABDirectoryContents *)response
+{
+    NSParameterAssert([response isKindOfClass:[ABDirectoryContents class]]);
+
+    NSString *successString;
+    switch (response.status) {
+        case ABDirectoryContentsStatusSuccess:
+            successString = @"success"; break;
+        case ABDirectoryContentsStatusAccessDenied:
+            successString = @"accessDenied"; break;
+        case ABDirectoryContentsStatusDirectoryNotFound:
+            successString = @"notFound"; break;
+        case ABDirectoryContentsStatusNotADirectory:
+            successString = @"notADirectory"; break;
+        default:
+            successString = @"unknown"; break;
+    }
+    
+    NSMutableArray *itemsArray = [NSMutableArray array];
+    for (ABDirectoryItem *item in response.contents) {
+
+        NSString *itemTypeString;
+        switch (item.itemType) {
+            case ABDirectoryItemTypeDirectory:
+                itemTypeString = @"dir"; break;
+            case ABDirectoryItemTypeFile:
+                itemTypeString = @"file"; break;
+            case ABDirectoryItemTypeSymbolicLink:
+                itemTypeString = @"symlink"; break;
+            default:
+                itemTypeString = @"unknown"; break;
+        }
+        
+        [itemsArray addObject:@{
+                                @"name" : item.name,
+                                @"metadata" : @{
+                                        @"type" : itemTypeString
+                                        }
+                                }];
+    }
+    
+    return @{
+             @"type" : @"DirectoryContents",
+             @"data" : @{
+                         @"status": successString,
+                         @"rootDirectory" : response.rootDirectory,
+                         @"items" : [itemsArray copy]
+                     }
+             };
+}
+
 @end
