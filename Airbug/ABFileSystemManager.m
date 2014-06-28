@@ -16,25 +16,25 @@
 
 @implementation ABFileSystemManager
 
+NSString *const ABFavoriteDirectoriesKey = @"ABFavoriteDirectoriesKey";
+
 - (instancetype)init
 {
     if (self = [super init]) {
-        // TODO: read available directories from user preferences.
+        self.availableDirectories = [[NSUserDefaults standardUserDefaults] arrayForKey:ABFavoriteDirectoriesKey];
     }
     return self;
-}
-
-- (NSArray *)availableDirectories
-{
-    // TODO: a real implementation
-    return @[@"/Users/skunkworks"];
 }
 
 // TODO: set up ability to set available user directories
 - (void)setAvailableDirectories:(NSArray *)availableDirectories
 {
-    self.availableDirectories = availableDirectories;
-    // TODO: write available directories to user preferences.
+    _availableDirectories = availableDirectories;
+    if (!self.availableDirectories) {
+        // TODO: how do you get the current user's home dir?
+        self.availableDirectories = @[@"/Users/skunkworks"];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:_availableDirectories forKey:ABFavoriteDirectoriesKey];
 }
 
 - (ABDirectoryContents *)contentsOfDirectory:(NSString *)directory showHiddenFiles:(BOOL)showHiddenFiles
@@ -92,6 +92,12 @@
 
     directoryContents.contents = [mutableDirectoryItems copy];
     return directoryContents;
+}
+
+- (void)addDirectoryToAvailableDirectories:(NSString *)directory
+{
+    NSParameterAssert(directory);
+    self.availableDirectories = [self.availableDirectories arrayByAddingObject:directory];
 }
 
 @end

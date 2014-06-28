@@ -13,14 +13,14 @@
 @interface ABFileSystemManager : NSObject
 
 /**
- Array of @c NSURL objects, one for each directory on the local file system to allow
+ Array of @c NSString objects, one for each directory on the local file system to allow
  the server to access. For now, it is assumed that allowing access to one root directory
  will recursively allow access to its child directories.
  */
 - (NSArray *)availableDirectories;
 
 /**
- Array of @c NSURL objects, one for each directory on the local file system to allow
+ Array of @c NSString objects, one for each directory on the local file system to allow
  the server to access. Throws an exception if an invalid NSURL is specified.
  */
 - (void)setAvailableDirectories:(NSArray *)availableDirectories;
@@ -32,5 +32,11 @@
  @param showHiddenFiles Flag that toggles whether to include hidden files
  */
 - (ABDirectoryContents *)contentsOfDirectory:(NSString *)directory showHiddenFiles:(BOOL)showHiddenFiles;
+
+/**
+ Adds a directory to the list of available directories.
+ @param directory The full path to the directory
+ */
+- (void)addDirectoryToAvailableDirectories:(NSString *)directory;
 
 @end

@@ -19,6 +19,7 @@
 #import "ABConnectionStateNotice.h"
 #import "ABAvailableDirectoriesRequest.h"
 #import "ABListDirectoryContentsRequest.h"
+#import "ABAddFavoriteDirectoryRequest.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -138,6 +139,12 @@ NSString * const VideoURLKeyPath = @"url";
         ABListDirectoryContentsRequest *request = [[ABListDirectoryContentsRequest alloc] init];
         request.directory = [JSONDictionary valueForKeyPath:@"data.directory"];
         request.showHiddenFiles = [[JSONDictionary valueForKeyPath:@"data.showHiddenFiles"] boolValue];
+        return request;
+    }
+    
+    if ([type isEqualToString:@"AddFavoriteDirectory"]) {
+        ABAddFavoriteDirectoryRequest *request = [[ABAddFavoriteDirectoryRequest alloc] init];
+        request.directory = [JSONDictionary valueForKeyPath:@"data.directory"];
         return request;
     }
     

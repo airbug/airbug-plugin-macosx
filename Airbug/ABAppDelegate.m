@@ -15,6 +15,7 @@
 #import "ABScreenshotRequest.h" // TODO: move ABScreenshotType out of this class...
 #import "ABFileSystemManager.h"
 #import "ABListDirectoryContentsRequest.h"
+#import "ABAddFavoriteDirectoryRequest.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -307,6 +308,15 @@
     [self haveCommunicatorReceiveJSONDictionary:message];
 }
 
+- (IBAction)receiveStubAddFavoriteDirectoryMessage:(id)sender {
+    [self haveCommunicatorReceiveJSONDictionary:@{
+                                                  @"type" : @"AddFavoriteDirectory",
+                                                  @"data" : @{
+                                                          @"directory" : @"/Users/skunkworks/Documents"
+                                                          }
+                                                  }];
+}
+
 - (void)haveCommunicatorReceiveJSONDictionary:(NSDictionary *)dictionary
 {
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:NULL];
@@ -367,6 +377,7 @@
     [debugSubmenu addItemWithTitle:@"Preview screenshot" action:@selector(sendStubPreviewScreenshotMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Get available directories" action:@selector(receiveStubGetAvailableDirectoriesMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"List directory contents" action:@selector(receiveStubListDirectoryContentsMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Add favorite directory" action:@selector(receiveStubAddFavoriteDirectoryMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
     [self.mainStatusItem.menu addItem:debugMenuItem];
 }
@@ -473,6 +484,11 @@
 {
     ABDirectoryContents *contents = [self.fileSystemManager contentsOfDirectory:request.directory showHiddenFiles:request.showHiddenFiles];
     [self.manager sendDirectoryContents:contents];
+}
+
+- (void)manager:(ABAirbugManager *)manager didReceiveAddFavoriteDirectoryRequest:(ABAddFavoriteDirectoryRequest *)request
+{
+    [self.fileSystemManager addDirectoryToAvailableDirectories:request.directory];
 }
 
 @end

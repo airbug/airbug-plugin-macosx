@@ -16,6 +16,7 @@
 #import "ABAuthenticationNotice.h"
 #import "ABAvailableDirectoriesRequest.h"
 #import "ABListDirectoryContentsRequest.h"
+#import "ABAddFavoriteDirectoryRequest.h"
 
 @interface ABAirbugManager ()
 
@@ -140,6 +141,10 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
         } else if ([parsedObject isKindOfClass:[ABListDirectoryContentsRequest class]]) {
             if ([theDelegate respondsToSelector:@selector(manager:didReceiveListDirectoryContentsRequest:)]) {
                 [theDelegate manager:weakSelf didReceiveListDirectoryContentsRequest:parsedObject];
+            }
+        } else if ([parsedObject isKindOfClass:[ABAddFavoriteDirectoryRequest class]]) {
+            if ([theDelegate respondsToSelector:@selector(manager:didReceiveAddFavoriteDirectoryRequest:)]) {
+                [theDelegate manager:weakSelf didReceiveAddFavoriteDirectoryRequest:parsedObject];
             }
         }
     };

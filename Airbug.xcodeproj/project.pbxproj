@@ -52,6 +52,7 @@
 		4A91DA9B195688F000E54567 /* ABListDirectoryContentsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA9A195688F000E54567 /* ABListDirectoryContentsRequest.m */; };
 		4A91DA9E1956892D00E54567 /* ABDirectoryContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA9D1956892D00E54567 /* ABDirectoryContents.m */; };
 		4A91DAA119568AD600E54567 /* ABDirectoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA019568AD600E54567 /* ABDirectoryItem.m */; };
+		4A91DAA4195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA3195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m */; };
 		4A9AE73D18A3F45500D06721 /* ABCaptureWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */; };
 		4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */; };
 		4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE74318A42C3200D06721 /* NSImage+Crop.m */; };
@@ -161,6 +162,8 @@
 		4A91DA9D1956892D00E54567 /* ABDirectoryContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABDirectoryContents.m; sourceTree = "<group>"; };
 		4A91DA9F19568AD600E54567 /* ABDirectoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABDirectoryItem.h; sourceTree = "<group>"; };
 		4A91DAA019568AD600E54567 /* ABDirectoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABDirectoryItem.m; sourceTree = "<group>"; };
+		4A91DAA2195D51E000E54567 /* ABAddFavoriteDirectoryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAddFavoriteDirectoryRequest.h; sourceTree = "<group>"; };
+		4A91DAA3195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAddFavoriteDirectoryRequest.m; sourceTree = "<group>"; };
 		4A9AE73B18A3F45500D06721 /* ABCaptureWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureWindow.h; sourceTree = "<group>"; };
 		4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureWindow.m; sourceTree = "<group>"; };
 		4A9AE73E18A40F5B00D06721 /* ABCaptureAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureAreaView.h; sourceTree = "<group>"; };
@@ -433,6 +436,8 @@
 				4A91DA9419567E5500E54567 /* ABAvailableDirectoriesRequest.m */,
 				4A91DA99195688F000E54567 /* ABListDirectoryContentsRequest.h */,
 				4A91DA9A195688F000E54567 /* ABListDirectoryContentsRequest.m */,
+				4A91DAA2195D51E000E54567 /* ABAddFavoriteDirectoryRequest.h */,
+				4A91DAA3195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m */,
 			);
 			name = "JSON Objects";
 			sourceTree = "<group>";
@@ -613,6 +618,7 @@
 				4A2315371925E716007C5D2D /* ABWebViewWindow.m in Sources */,
 				4A72CC5618A29D7A00B41533 /* ABCaptureManager.m in Sources */,
 				4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */,
+				4A91DAA4195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m in Sources */,
 				4AF0FCE419345417008AA96F /* ABScreenshotRequest.m in Sources */,
 				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
 				4A5FB4E918CD22B9009B460B /* ABLoginWindowController.m in Sources */,

@@ -17,6 +17,7 @@
 @class ABAirbugManager;
 @class ABListDirectoryContentsRequest;
 @class ABDirectoryContents;
+@class ABAddFavoriteDirectoryRequest;
 
 @protocol ABAirbugManagerDelegate <NSObject>
 
@@ -33,6 +34,7 @@
 - (void)manager:(ABAirbugManager *)manager connectionStateChanged:(ABConnectionState)connectionState;
 - (void)managerDidReceiveAvailableDirectoriesRequest:(ABAirbugManager *)manager;
 - (void)manager:(ABAirbugManager *)manager didReceiveListDirectoryContentsRequest:(ABListDirectoryContentsRequest *)request;
+- (void)manager:(ABAirbugManager *)manager didReceiveAddFavoriteDirectoryRequest:(ABAddFavoriteDirectoryRequest *)request;
 
 @end
 
