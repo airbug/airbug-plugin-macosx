@@ -46,10 +46,12 @@ NSString *const ABFavoriteDirectoriesKey = @"ABFavoriteDirectoriesKey";
     BOOL isDirectory;
     if (![fileManager fileExistsAtPath:directory isDirectory:&isDirectory]) {
         directoryContents.status = ABDirectoryContentsStatusDirectoryNotFound;
+        directoryContents.responseStatus = ABResponseStatusError;
         return directoryContents;
     }
     if (!isDirectory) {
         directoryContents.status = ABDirectoryContentsStatusNotADirectory;
+        directoryContents.responseStatus = ABResponseStatusError;
         return directoryContents;
     }
     
@@ -65,10 +67,12 @@ NSString *const ABFavoriteDirectoriesKey = @"ABFavoriteDirectoriesKey";
         // ABDirectoryContentsStatusAccessDenied
         NSLog(@"Error occurred while reading contents of %@: %@", directory, [error localizedDescription]);
         directoryContents.status = ABDirectoryContentsStatusUnknown;
+        directoryContents.responseStatus = ABResponseStatusError;
         return directoryContents;
     }
     
     directoryContents.status = ABDirectoryContentsStatusSuccess;
+    directoryContents.responseStatus = ABResponseStatusSuccess;
     
     NSMutableArray *mutableDirectoryItems = [NSMutableArray array];
     for (NSURL *fileURL in fileURLs) {

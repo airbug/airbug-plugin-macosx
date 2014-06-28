@@ -112,12 +112,13 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             NSLog(@"%@ cookie named %@", success ? @"Saved" : @"Failed to save", request.cookieName);
         } else if ([parsedObject isKindOfClass:[ABRestoreCookieRequest class]]) {
             ABRestoreCookieRequest *request = (ABRestoreCookieRequest *)parsedObject;
+            
             BOOL success = [weakSelf saveOrRestoreLoginCookieWithName:request.cookieName];
             NSLog(@"%@ cookie named %@", success ? @"Restored" : @"Failed to restore", request.cookieName);
-            if (success) {
-                NSDictionary *response = [weakSelf.outgoingBuilder createRestoreCookieResponseForMessageID:request.messageID];
-                [weakSelf sendJSONObject:response];
-            }
+            
+            ABResponseStatus responseStatus = success ? ABResponseStatusSuccess : ABResponseStatusError;
+            NSDictionary *response = [weakSelf.outgoingBuilder createRestoreCookieResponseForMessageID:request.messageID status:responseStatus];
+            [weakSelf sendJSONObject:response];
         } else if ([parsedObject isKindOfClass:[ABAuthenticationNotice class]]) {
             ABAuthenticationNotice *notice = (ABAuthenticationNotice *)parsedObject;
             if (notice.authenticationState == ABAuthenticationStateLoggedIn) {

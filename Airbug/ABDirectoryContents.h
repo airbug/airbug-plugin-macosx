@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ABResponse.h"
 
 typedef NS_ENUM(NSUInteger, ABDirectoryContentsStatus) {
     ABDirectoryContentsStatusUnknown = 0,
@@ -16,7 +17,7 @@ typedef NS_ENUM(NSUInteger, ABDirectoryContentsStatus) {
     ABDirectoryContentsStatusDirectoryNotFound
 };
 
-@interface ABDirectoryContents : NSObject
+@interface ABDirectoryContents : ABResponse
 
 @property (nonatomic) ABDirectoryContentsStatus status;
 

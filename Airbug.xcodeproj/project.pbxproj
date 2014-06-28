@@ -53,6 +53,8 @@
 		4A91DA9E1956892D00E54567 /* ABDirectoryContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DA9D1956892D00E54567 /* ABDirectoryContents.m */; };
 		4A91DAA119568AD600E54567 /* ABDirectoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA019568AD600E54567 /* ABDirectoryItem.m */; };
 		4A91DAA4195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA3195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m */; };
+		4A91DAA7195F56BD00E54567 /* ABRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA6195F56BD00E54567 /* ABRequest.m */; };
+		4A91DAAA195F56C400E54567 /* ABResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA9195F56C400E54567 /* ABResponse.m */; };
 		4A9AE73D18A3F45500D06721 /* ABCaptureWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */; };
 		4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */; };
 		4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE74318A42C3200D06721 /* NSImage+Crop.m */; };
@@ -164,6 +166,10 @@
 		4A91DAA019568AD600E54567 /* ABDirectoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABDirectoryItem.m; sourceTree = "<group>"; };
 		4A91DAA2195D51E000E54567 /* ABAddFavoriteDirectoryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABAddFavoriteDirectoryRequest.h; sourceTree = "<group>"; };
 		4A91DAA3195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABAddFavoriteDirectoryRequest.m; sourceTree = "<group>"; };
+		4A91DAA5195F56BD00E54567 /* ABRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABRequest.h; sourceTree = "<group>"; };
+		4A91DAA6195F56BD00E54567 /* ABRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABRequest.m; sourceTree = "<group>"; };
+		4A91DAA8195F56C400E54567 /* ABResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABResponse.h; sourceTree = "<group>"; };
+		4A91DAA9195F56C400E54567 /* ABResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABResponse.m; sourceTree = "<group>"; };
 		4A9AE73B18A3F45500D06721 /* ABCaptureWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureWindow.h; sourceTree = "<group>"; };
 		4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureWindow.m; sourceTree = "<group>"; };
 		4A9AE73E18A40F5B00D06721 /* ABCaptureAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureAreaView.h; sourceTree = "<group>"; };
@@ -414,6 +420,10 @@
 		4A91DA7D19441F4100E54567 /* JSON Objects */ = {
 			isa = PBXGroup;
 			children = (
+				4A91DAA5195F56BD00E54567 /* ABRequest.h */,
+				4A91DAA6195F56BD00E54567 /* ABRequest.m */,
+				4A91DAA8195F56C400E54567 /* ABResponse.h */,
+				4A91DAA9195F56C400E54567 /* ABResponse.m */,
 				4A457C22192DBB3B00A2C2E2 /* ABLoginResponse.h */,
 				4A457C23192DBB3B00A2C2E2 /* ABLoginResponse.m */,
 				4AF0FCDC19305865008AA96F /* ABWindowVisibilityRequest.h */,
@@ -606,9 +616,11 @@
 				4A91DA8C194515B100E54567 /* ABAuthenticationNotice.m in Sources */,
 				4A50E3E518A9AF9B008E2D2A /* ABScreenshotWindow.m in Sources */,
 				4A2620B818A1E68D00E973EC /* ABScreenCapturer.m in Sources */,
+				4A91DAAA195F56C400E54567 /* ABResponse.m in Sources */,
 				4A91DA981956817F00E54567 /* ABFileSystemManager.m in Sources */,
 				4A5FB4E118C4449C009B460B /* ABVideoUploadWindowController.m in Sources */,
 				4A91DA9E1956892D00E54567 /* ABDirectoryContents.m in Sources */,
+				4A91DAA7195F56BD00E54567 /* ABRequest.m in Sources */,
 				4AF0FCDE19305865008AA96F /* ABWindowVisibilityRequest.m in Sources */,
 				4A91DA7C1943D74700E54567 /* ABBrowserRequest.m in Sources */,
 				4A91DA9219452A9000E54567 /* ABConnectionStateNotice.m in Sources */,

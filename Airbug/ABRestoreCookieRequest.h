@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ABRequest.h"
 
-@interface ABRestoreCookieRequest : NSObject
+@interface ABRestoreCookieRequest : ABRequest
 
 @property (strong, nonatomic) NSString *cookieName;
-@property (strong, nonatomic) NSString *messageID;
 
 @end

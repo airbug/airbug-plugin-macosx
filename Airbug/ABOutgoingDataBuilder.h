@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ABScreenshotRequest.h"
+#import "ABResponse.h"
 
 @class ABDirectoryContents;
 
@@ -21,7 +22,7 @@
 /**
  Creates a JSON object to send back to the server in response to a restore cookie request
  */
-- (NSDictionary *)createRestoreCookieResponseForMessageID:(NSString *)messageID;
+- (NSDictionary *)createRestoreCookieResponseForMessageID:(NSString *)messageID status:(ABResponseStatus)responseStatus;
 
 - (NSDictionary *)createShowLoginPageRequest;
 

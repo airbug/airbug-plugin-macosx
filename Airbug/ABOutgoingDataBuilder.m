@@ -32,10 +32,13 @@
              };
 }
 
-- (NSDictionary *)createRestoreCookieResponseForMessageID:(NSString *)messageID
+- (NSDictionary *)createRestoreCookieResponseForMessageID:(NSString *)messageID status:(ABResponseStatus)responseStatus
 {
     NSParameterAssert(messageID);
-    return @{ @"ackId" : messageID };
+    return @{
+             @"responseId" : messageID,
+             @"status" : [self stringForResponseStatus:responseStatus]
+             };
 }
 
 - (NSDictionary *)createShowLoginPageRequest {
@@ -104,15 +107,40 @@
                                         }
                                 }];
     }
-    
-    return @{
+
+    NSMutableDictionary *responseDictionary = [NSMutableDictionary dictionaryWithDictionary:[self responseFromResponse:response]];
+    [responseDictionary addEntriesFromDictionary:
+            @{
              @"type" : @"DirectoryContents",
              @"data" : @{
                          @"status": successString,
                          @"rootDirectory" : response.rootDirectory,
                          @"items" : [itemsArray copy]
                      }
+             }];
+    return [responseDictionary copy];
+}
+
+#pragma mark - Private methods
+
+- (NSDictionary *)responseFromResponse:(ABResponse *)response {
+    return @{
+             @"responseId" : response.responseID,
+             @"status" : [self stringForResponseStatus:response.responseStatus]
              };
+}
+
+- (NSString *)stringForResponseStatus:(ABResponseStatus)responseStatus
+{
+    NSString *str;
+    if (responseStatus == ABResponseStatusSuccess) {
+        str = @"success";
+    } else if (responseStatus == ABResponseStatusError) {
+        str = @"error";
+    } else {
+        str = @"unknown";
+    }
+    return str;
 }
 
 @end

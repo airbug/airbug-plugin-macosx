@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ABRequest.h"
 
-@interface ABListDirectoryContentsRequest : NSObject
+@interface ABListDirectoryContentsRequest : ABRequest
 
 @property (strong, nonatomic) NSString *directory;
 

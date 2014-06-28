@@ -16,6 +16,7 @@
 #import "ABFileSystemManager.h"
 #import "ABListDirectoryContentsRequest.h"
 #import "ABAddFavoriteDirectoryRequest.h"
+#import "ABDirectoryContents.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -190,11 +191,11 @@
 
 - (IBAction)receiveStubRestoreCookieMessage:(id)sender {
     NSDictionary *message = @{
+                              @"messageId" : @"abcdefghijklmnop",
                               @"type" : @"RestoreCookie",
                               @"data" : @{
                                       @"cookieName": @"airbug.sid"
-                                      },
-                              @"messageId" : @"abcdefghijklmnop"
+                                      }
                               };
     [self haveCommunicatorReceiveJSONDictionary:message];
 }
@@ -299,6 +300,7 @@
 - (IBAction)receiveStubListDirectoryContentsMessage:(id)sender
 {
     NSDictionary *message = @{
+                              @"messageId" : @"123457890",
                               @"type" : @"ListDirectoryContents",
                               @"data" : @{
                                       @"directory" : @"/Users/skunkworks",
@@ -412,6 +414,9 @@
 
 #pragma mark ABAirbugManagerDelegate
 
+// TODO: what's a better way to do this that doesn't end up polluting the app delegate? Should
+// we use blocks maybe?
+
 - (void)manager:(ABAirbugManager *)manager failedToSendJSONObject:(id)JSONObject error:(NSError *)error {
     NSAlert *alert = [NSAlert alertWithError:error];
     [alert runModal];
@@ -483,6 +488,7 @@
 - (void)manager:(ABAirbugManager *)manager didReceiveListDirectoryContentsRequest:(ABListDirectoryContentsRequest *)request
 {
     ABDirectoryContents *contents = [self.fileSystemManager contentsOfDirectory:request.directory showHiddenFiles:request.showHiddenFiles];
+    contents.responseID = request.messageID;
     [self.manager sendDirectoryContents:contents];
 }
 

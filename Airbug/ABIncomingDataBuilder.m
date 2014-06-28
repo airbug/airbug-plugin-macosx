@@ -40,6 +40,8 @@ NSString * const VideoURLKeyPath = @"url";
 
 - (id)objectFromJSONDictionary:(NSDictionary *)JSONDictionary
 {
+    // TODO: have each type of JSON class here implement an initWithDictionary: method
+    
     NSString *type = JSONDictionary[@"type"];
     
     if ([type isEqualToString:@"UserNotification"]) {
@@ -137,6 +139,7 @@ NSString * const VideoURLKeyPath = @"url";
     
     if ([type isEqualToString:@"ListDirectoryContents"]) {
         ABListDirectoryContentsRequest *request = [[ABListDirectoryContentsRequest alloc] init];
+        request.messageID = [JSONDictionary valueForKeyPath:@"messageId"];
         request.directory = [JSONDictionary valueForKeyPath:@"data.directory"];
         request.showHiddenFiles = [[JSONDictionary valueForKeyPath:@"data.showHiddenFiles"] boolValue];
         return request;
