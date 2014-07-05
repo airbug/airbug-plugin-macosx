@@ -17,6 +17,7 @@
 #import "ABAvailableDirectoriesRequest.h"
 #import "ABListDirectoryContentsRequest.h"
 #import "ABAddFavoriteDirectoryRequest.h"
+#import "ABStreamFileRequest.h"
 
 @interface ABAirbugManager ()
 
@@ -147,6 +148,10 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
             if ([theDelegate respondsToSelector:@selector(manager:didReceiveAddFavoriteDirectoryRequest:)]) {
                 [theDelegate manager:weakSelf didReceiveAddFavoriteDirectoryRequest:parsedObject];
             }
+        } else if ([parsedObject isKindOfClass:[ABStreamFileRequest class]]) {
+            if ([theDelegate respondsToSelector:@selector(manager:didReceiveStreamFileRequest:)]) {
+                [theDelegate manager:weakSelf didReceiveStreamFileRequest:parsedObject];
+            }
         }
     };
     _delegate = delegate;
@@ -195,6 +200,24 @@ NSString * const ABAirbugManagerError = @"ABAirbugManagerError";
 {
     NSDictionary *JSONResponse = [self.outgoingBuilder createDirectoryContentsResponse:contents];
     [self sendJSONObject:JSONResponse];
+}
+
+- (void)sendStreamFileResponse:(ABStreamFileResponse *)response
+{
+    NSDictionary *JSONResponse = [self.outgoingBuilder createStreamFileResponse:response];
+    [self sendJSONObject:JSONResponse];
+}
+
+- (void)sendData:(NSData *)data forStream:(NSString *)streamID
+{
+    if (data) {
+        [self.communicator sendData:data forStream:streamID];
+    }
+}
+
+- (void)closeStream:(NSString *)streamID
+{
+    [self.communicator closeStream:streamID];
 }
 
 #pragma mark - Private methods

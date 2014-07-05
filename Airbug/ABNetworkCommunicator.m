@@ -58,7 +58,7 @@ NSString * const AirbugAPIBridgeURL = @"http://localhost:8000/client_api";
     } else {
         NSLog(@"Sending JSON string: %@", JSONString);
     }
-    NSData * data = [NSPropertyListSerialization dataFromPropertyList:JSONObject format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
+    NSData *data = [NSPropertyListSerialization dataFromPropertyList:JSONObject format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
     if (data.length < 4096) {
         NSLog(@"JSON string: %@", JSONObject);
     } else {
@@ -87,6 +87,20 @@ NSString * const AirbugAPIBridgeURL = @"http://localhost:8000/client_api";
     if (self.receivedJSONObjectHandler) {
         self.receivedJSONObjectHandler(JSONDictionary);
     }
+}
+
+- (void)sendData:(NSData *)data forStream:(NSString *)streamID
+{
+    JSValue *sendFunc = self.jsWindow[@"receiveFileData"];
+    if (data) {
+        [sendFunc callWithArguments:@[streamID, data, @(data.length > 0)]];
+    }
+}
+
+- (void)closeStream:(NSString *)streamID
+{
+    JSValue *sendFunc = self.jsWindow[@"receiveFileData"];
+    [sendFunc callWithArguments:@[streamID, [NSNull null], @(NO)]];
 }
 
 #pragma mark - Private

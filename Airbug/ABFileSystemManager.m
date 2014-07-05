@@ -9,6 +9,8 @@
 #import "ABFileSystemManager.h"
 #import "ABDirectoryContents.h"
 #import "ABDirectoryItem.h"
+#import "ABStreamFileResponse.h"
+#import "ABFileStream.h"
 
 @interface ABFileSystemManager ()
 @property (strong, nonatomic) NSArray *availableDirectories;
@@ -102,6 +104,46 @@ NSString *const ABFavoriteDirectoriesKey = @"ABFavoriteDirectoriesKey";
 {
     NSParameterAssert(directory);
     self.availableDirectories = [self.availableDirectories arrayByAddingObject:directory];
+}
+
+- (ABFileStream *)fileStreamWithFile:(NSURL *)file
+                            streamID:(NSString *)streamID
+                           chunkSize:(NSInteger)chunkSize
+                            response:(ABStreamFileResponse **)response
+                           messageID:(NSString *)messageID
+                       streamHandler:(void(^)(NSString *streamID, NSData *data, BOOL reachedEOF))streamHandler
+{
+    ABStreamFileResponse *streamFileResponse = [[ABStreamFileResponse alloc] init];
+    streamFileResponse.responseID = messageID;
+    *response = streamFileResponse;
+    
+    // Validate that file exists and is file
+    BOOL isDirectory;
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[file absoluteString] isDirectory:&isDirectory];
+    
+    if (!fileExists) {
+        streamFileResponse.responseStatus = ABResponseStatusError;
+        streamFileResponse.streamFileStatus = ABStreamFileStatusNotFound;
+        return nil;
+    }
+    if (isDirectory) {
+        streamFileResponse.responseStatus = ABResponseStatusError;
+        streamFileResponse.streamFileStatus = ABStreamFileStatusNotAFile;
+        return nil;
+    }
+    
+    BOOL isFileReadable = [[NSFileManager defaultManager] isReadableFileAtPath:[file absoluteString]];
+    if (!isFileReadable) {
+        streamFileResponse.responseStatus = ABResponseStatusError;
+        streamFileResponse.streamFileStatus = ABStreamFileStatusAccessDenied;
+        return nil;
+    }
+    
+    streamFileResponse.responseStatus = ABResponseStatusSuccess;
+    streamFileResponse.streamFileStatus = ABStreamFileStatusSuccess;
+    ABFileStream *fileStream = [[ABFileStream alloc] initWithFile:file streamID:streamID chunkSize:chunkSize streamHandler:streamHandler];
+
+    return fileStream;
 }
 
 @end

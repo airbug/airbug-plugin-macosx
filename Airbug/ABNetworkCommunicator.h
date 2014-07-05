@@ -44,4 +44,14 @@ extern NSString * const AirbugAPIBridgeURL;
  */
 - (void)receivedJSONString:(NSString *)JSONString;
 
+/**
+ Sends a chunk of stream data to the server.
+*/
+- (void)sendData:(NSData *)data forStream:(NSString *)streamID;
+
+/**
+ Closes a stream to indicate that no more data will be sent
+ */
+- (void)closeStream:(NSString *)streamID;
+
 @end

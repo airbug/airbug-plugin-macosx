@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @class ABDirectoryContents;
+@class ABStreamFileResponse;
+@class ABFileStream;
 
 @interface ABFileSystemManager : NSObject
 
@@ -38,5 +40,10 @@
  @param directory The full path to the directory
  */
 - (void)addDirectoryToAvailableDirectories:(NSString *)directory;
+
+/**
+ Returns nil on error.
+ */
+- (ABFileStream *)fileStreamWithFile:(NSURL *)file streamID:(NSString *)streamID chunkSize:(NSInteger)chunkSize response:(ABStreamFileResponse **)response messageID:(NSString *)messageID streamHandler:(void(^)(NSString *streamID, NSData *data, BOOL reachedEOF))streamHandler;
 
 @end

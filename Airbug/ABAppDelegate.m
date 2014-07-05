@@ -17,6 +17,9 @@
 #import "ABListDirectoryContentsRequest.h"
 #import "ABAddFavoriteDirectoryRequest.h"
 #import "ABDirectoryContents.h"
+#import "ABStreamFileRequest.h"
+#import "ABStreamFileResponse.h"
+#import "ABFileStream.h"
 
 @interface ABAppDelegate ()
 @property (weak) IBOutlet NSMenu *statusMenu;
@@ -319,6 +322,18 @@
                                                   }];
 }
 
+- (IBAction)receiveStubStreamFileRequestMessage:(id)sender {
+    [self haveCommunicatorReceiveJSONDictionary:@{
+                                                  @"messageId" : @"ABCDEFG",
+                                                  @"type" : @"StreamFileRequest",
+                                                  @"data" : @{
+                                                          @"filePath" : @"/Users/skunkworks/.bash_profile",
+                                                          @"streamId" : @"123457890",
+                                                          @"chunkSize" : @"20"
+                                                          }
+                                                  }];
+}
+
 - (void)haveCommunicatorReceiveJSONDictionary:(NSDictionary *)dictionary
 {
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:NULL];
@@ -380,6 +395,7 @@
     [debugSubmenu addItemWithTitle:@"Get available directories" action:@selector(receiveStubGetAvailableDirectoriesMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"List directory contents" action:@selector(receiveStubListDirectoryContentsMessage:) keyEquivalent:@""];
     [debugSubmenu addItemWithTitle:@"Add favorite directory" action:@selector(receiveStubAddFavoriteDirectoryMessage:) keyEquivalent:@""];
+    [debugSubmenu addItemWithTitle:@"Stream file request" action:@selector(receiveStubStreamFileRequestMessage:) keyEquivalent:@""];
     debugMenuItem.submenu = debugSubmenu;
     [self.mainStatusItem.menu addItem:debugMenuItem];
 }
@@ -495,6 +511,27 @@
 - (void)manager:(ABAirbugManager *)manager didReceiveAddFavoriteDirectoryRequest:(ABAddFavoriteDirectoryRequest *)request
 {
     [self.fileSystemManager addDirectoryToAvailableDirectories:request.directory];
+}
+
+- (void)manager:(ABAirbugManager *)manager didReceiveStreamFileRequest:(ABStreamFileRequest *)request
+{
+    NSURL *fileURL = [NSURL URLWithString:request.filePath];
+    
+    ABStreamFileResponse *response;
+    ABFileStream *fileStream = [self.fileSystemManager fileStreamWithFile:fileURL streamID:request.streamId chunkSize:request.chunkSize response:&response messageID:request.messageID streamHandler:^(NSString *streamID, NSData *data, BOOL reachedEOF)
+    {
+        if (reachedEOF) NSLog(@"Reached EOF");
+        else {
+            NSLog(@"streamID: %@\ndata: %@", streamID, data);
+        }
+        if (data) {
+            [self.manager sendData:data forStream:streamID];
+        } else {
+            [self.manager closeStream:streamID];
+        }
+    }];
+    [self.manager sendStreamFileResponse:response];
+    if (fileStream) [fileStream start];
 }
 
 @end

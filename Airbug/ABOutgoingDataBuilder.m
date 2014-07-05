@@ -9,6 +9,7 @@
 #import "ABOutgoingDataBuilder.h"
 #import "ABDirectoryItem.h"
 #import "ABDirectoryContents.h"
+#import "ABStreamFileResponse.h"
 
 @implementation ABOutgoingDataBuilder
 
@@ -118,6 +119,33 @@
                          @"items" : [itemsArray copy]
                      }
              }];
+    return [responseDictionary copy];
+}
+
+- (NSDictionary *)createStreamFileResponse:(ABStreamFileResponse *)response
+{
+    
+    NSMutableDictionary *responseDictionary = [NSMutableDictionary dictionaryWithDictionary:[self responseFromResponse:response]];
+    
+    NSString *statusString;
+    switch (response.streamFileStatus) {
+        case ABStreamFileStatusSuccess:
+            statusString = @"success"; break;
+        case ABStreamFileStatusAccessDenied:
+            statusString = @"accessDenied"; break;
+        case ABStreamFileStatusNotAFile:
+            statusString = @"notAFile"; break;
+        case ABStreamFileStatusNotFound:
+            statusString = @"notFound"; break;
+        default:
+            statusString = @"unknown"; break;
+    }
+    
+    [responseDictionary addEntriesFromDictionary:@{
+                                                   @"type" : @"StreamFileResponse",
+                                                   @"data": @{ @"status" : statusString }
+                                                   }];
+
     return [responseDictionary copy];
 }
 

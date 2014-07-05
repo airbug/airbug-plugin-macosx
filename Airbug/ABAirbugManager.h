@@ -18,6 +18,8 @@
 @class ABListDirectoryContentsRequest;
 @class ABDirectoryContents;
 @class ABAddFavoriteDirectoryRequest;
+@class ABStreamFileRequest;
+@class ABStreamFileResponse;
 
 @protocol ABAirbugManagerDelegate <NSObject>
 
@@ -35,6 +37,7 @@
 - (void)managerDidReceiveAvailableDirectoriesRequest:(ABAirbugManager *)manager;
 - (void)manager:(ABAirbugManager *)manager didReceiveListDirectoryContentsRequest:(ABListDirectoryContentsRequest *)request;
 - (void)manager:(ABAirbugManager *)manager didReceiveAddFavoriteDirectoryRequest:(ABAddFavoriteDirectoryRequest *)request;
+- (void)manager:(ABAirbugManager *)manager didReceiveStreamFileRequest:(ABStreamFileRequest *)request;
 
 @end
 
@@ -106,5 +109,20 @@ typedef NS_ENUM(NSInteger, ABAirbugManagerErrorCode) {
  Sends directory contents to the server
  */
 - (void)sendDirectoryContents:(ABDirectoryContents *)contents;
+
+/**
+ Sends stream file response to server
+ */
+- (void)sendStreamFileResponse:(ABStreamFileResponse *)response;
+
+/**
+ Sends a chunk of stream data to the server.
+ */
+- (void)sendData:(NSData *)data forStream:(NSString *)streamID;
+
+/**
+ Closes a stream to indicate that no more data will be sent
+ */
+- (void)closeStream:(NSString *)streamID;
 
 @end

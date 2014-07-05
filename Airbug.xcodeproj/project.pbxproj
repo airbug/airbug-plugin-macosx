@@ -55,6 +55,9 @@
 		4A91DAA4195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA3195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m */; };
 		4A91DAA7195F56BD00E54567 /* ABRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA6195F56BD00E54567 /* ABRequest.m */; };
 		4A91DAAA195F56C400E54567 /* ABResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAA9195F56C400E54567 /* ABResponse.m */; };
+		4A91DAAD1967AD4900E54567 /* ABStreamFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAAC1967AD4900E54567 /* ABStreamFileRequest.m */; };
+		4A91DAB01967ADCF00E54567 /* ABStreamFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAAF1967ADCF00E54567 /* ABStreamFileResponse.m */; };
+		4A91DAB31967BA2F00E54567 /* ABFileStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A91DAB21967BA2F00E54567 /* ABFileStream.m */; };
 		4A9AE73D18A3F45500D06721 /* ABCaptureWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */; };
 		4A9AE74018A40F5B00D06721 /* ABCaptureAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE73F18A40F5B00D06721 /* ABCaptureAreaView.m */; };
 		4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE74318A42C3200D06721 /* NSImage+Crop.m */; };
@@ -170,6 +173,12 @@
 		4A91DAA6195F56BD00E54567 /* ABRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABRequest.m; sourceTree = "<group>"; };
 		4A91DAA8195F56C400E54567 /* ABResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABResponse.h; sourceTree = "<group>"; };
 		4A91DAA9195F56C400E54567 /* ABResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABResponse.m; sourceTree = "<group>"; };
+		4A91DAAB1967AD4900E54567 /* ABStreamFileRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABStreamFileRequest.h; sourceTree = "<group>"; };
+		4A91DAAC1967AD4900E54567 /* ABStreamFileRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABStreamFileRequest.m; sourceTree = "<group>"; };
+		4A91DAAE1967ADCF00E54567 /* ABStreamFileResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABStreamFileResponse.h; sourceTree = "<group>"; };
+		4A91DAAF1967ADCF00E54567 /* ABStreamFileResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABStreamFileResponse.m; sourceTree = "<group>"; };
+		4A91DAB11967BA2F00E54567 /* ABFileStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABFileStream.h; sourceTree = "<group>"; };
+		4A91DAB21967BA2F00E54567 /* ABFileStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABFileStream.m; sourceTree = "<group>"; };
 		4A9AE73B18A3F45500D06721 /* ABCaptureWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureWindow.h; sourceTree = "<group>"; };
 		4A9AE73C18A3F45500D06721 /* ABCaptureWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABCaptureWindow.m; sourceTree = "<group>"; };
 		4A9AE73E18A40F5B00D06721 /* ABCaptureAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCaptureAreaView.h; sourceTree = "<group>"; };
@@ -354,6 +363,8 @@
 				4A91DA9D1956892D00E54567 /* ABDirectoryContents.m */,
 				4A91DA9F19568AD600E54567 /* ABDirectoryItem.h */,
 				4A91DAA019568AD600E54567 /* ABDirectoryItem.m */,
+				4A91DAB11967BA2F00E54567 /* ABFileStream.h */,
+				4A91DAB21967BA2F00E54567 /* ABFileStream.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -448,6 +459,10 @@
 				4A91DA9A195688F000E54567 /* ABListDirectoryContentsRequest.m */,
 				4A91DAA2195D51E000E54567 /* ABAddFavoriteDirectoryRequest.h */,
 				4A91DAA3195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m */,
+				4A91DAAB1967AD4900E54567 /* ABStreamFileRequest.h */,
+				4A91DAAC1967AD4900E54567 /* ABStreamFileRequest.m */,
+				4A91DAAE1967ADCF00E54567 /* ABStreamFileResponse.h */,
+				4A91DAAF1967ADCF00E54567 /* ABStreamFileResponse.m */,
 			);
 			name = "JSON Objects";
 			sourceTree = "<group>";
@@ -621,6 +636,7 @@
 				4A5FB4E118C4449C009B460B /* ABVideoUploadWindowController.m in Sources */,
 				4A91DA9E1956892D00E54567 /* ABDirectoryContents.m in Sources */,
 				4A91DAA7195F56BD00E54567 /* ABRequest.m in Sources */,
+				4A91DAB31967BA2F00E54567 /* ABFileStream.m in Sources */,
 				4AF0FCDE19305865008AA96F /* ABWindowVisibilityRequest.m in Sources */,
 				4A91DA7C1943D74700E54567 /* ABBrowserRequest.m in Sources */,
 				4A91DA9219452A9000E54567 /* ABConnectionStateNotice.m in Sources */,
@@ -633,7 +649,9 @@
 				4A91DAA4195D51E000E54567 /* ABAddFavoriteDirectoryRequest.m in Sources */,
 				4AF0FCE419345417008AA96F /* ABScreenshotRequest.m in Sources */,
 				4A26209318A1DB3400E973EC /* ABAppDelegate.m in Sources */,
+				4A91DAAD1967AD4900E54567 /* ABStreamFileRequest.m in Sources */,
 				4A5FB4E918CD22B9009B460B /* ABLoginWindowController.m in Sources */,
+				4A91DAB01967ADCF00E54567 /* ABStreamFileResponse.m in Sources */,
 				4A50E3E218A9AE70008E2D2A /* ABTargetedScreenshotWindow.m in Sources */,
 				4A5FB4D818C18ECD009B460B /* ABVideoScreenCaptureWindow.m in Sources */,
 				4A9AE74418A42C3200D06721 /* NSImage+Crop.m in Sources */,

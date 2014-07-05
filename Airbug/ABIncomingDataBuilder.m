@@ -20,6 +20,7 @@
 #import "ABAvailableDirectoriesRequest.h"
 #import "ABListDirectoryContentsRequest.h"
 #import "ABAddFavoriteDirectoryRequest.h"
+#import "ABStreamFileRequest.h"
 
 @implementation ABIncomingDataBuilder
 
@@ -106,8 +107,8 @@ NSString * const VideoURLKeyPath = @"url";
     
     if ([type isEqualToString:@"RestoreCookie"]) {
         ABRestoreCookieRequest *request = [[ABRestoreCookieRequest alloc] init];
+        [self parseJSONDictionary:JSONDictionary forRequest:request];
         request.cookieName = [JSONDictionary valueForKeyPath:@"data.cookieName"];
-        request.messageID = [JSONDictionary valueForKeyPath:@"messageId"];
         return request;
     }
     
@@ -139,7 +140,7 @@ NSString * const VideoURLKeyPath = @"url";
     
     if ([type isEqualToString:@"ListDirectoryContents"]) {
         ABListDirectoryContentsRequest *request = [[ABListDirectoryContentsRequest alloc] init];
-        request.messageID = [JSONDictionary valueForKeyPath:@"messageId"];
+        [self parseJSONDictionary:JSONDictionary forRequest:request];
         request.directory = [JSONDictionary valueForKeyPath:@"data.directory"];
         request.showHiddenFiles = [[JSONDictionary valueForKeyPath:@"data.showHiddenFiles"] boolValue];
         return request;
@@ -151,12 +152,28 @@ NSString * const VideoURLKeyPath = @"url";
         return request;
     }
     
+    if ([type isEqualToString:@"StreamFileRequest"]) {
+        ABStreamFileRequest *request = [[ABStreamFileRequest alloc] init];
+        [self parseJSONDictionary:JSONDictionary forRequest:request];
+        request.streamId = [JSONDictionary valueForKeyPath:@"data.streamId"];
+        request.filePath = [JSONDictionary valueForKeyPath:@"data.filePath"];
+        request.chunkSize = [[JSONDictionary valueForKeyPath:@"data.chunkSize"] integerValue];
+        return request;
+    }
+    
     if ([type isEqualToString:@"MessageError"]) {
         // TODO: return something more appropriate
         return nil;
     }
     
     return nil;
+}
+
+#pragma mark - Private methods
+
+- (void)parseJSONDictionary:(NSDictionary *)JSONDictionary forRequest:(ABRequest *)request
+{
+    request.messageID = [JSONDictionary valueForKeyPath:@"messageId"];
 }
 
 @end

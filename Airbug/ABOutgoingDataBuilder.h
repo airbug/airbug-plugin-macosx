@@ -11,6 +11,7 @@
 #import "ABResponse.h"
 
 @class ABDirectoryContents;
+@class ABStreamFileResponse;
 
 @interface ABOutgoingDataBuilder : NSObject
 
@@ -41,5 +42,10 @@
  Creates a JSON object from a @c ABDirectoryContentsResponse object.
  */
 - (NSDictionary *)createDirectoryContentsResponse:(ABDirectoryContents *)response;
+
+/**
+ Creates a JSON object from a @c ABStreamFileResponse object.
+ */
+- (NSDictionary *)createStreamFileResponse:(ABStreamFileResponse *)response;
 
 @end
