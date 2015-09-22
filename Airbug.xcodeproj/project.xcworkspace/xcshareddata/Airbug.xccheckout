@@ -10,31 +10,31 @@
 	<string>Airbug</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>AC8E3603-229C-45B6-AD57-7CAB9631FB9E</key>
-		<string>ssh://github.com/airbug/airbug-plugin-macosx.git</string>
+		<key>A845EB2DF0574421E46DFD7A21EEC1FEEDB109B0</key>
+		<string>github.com:airbug/airbug-plugin-macosx.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Airbug.xcodeproj/project.xcworkspace</string>
+	<string>Airbug.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>AC8E3603-229C-45B6-AD57-7CAB9631FB9E</key>
+		<key>A845EB2DF0574421E46DFD7A21EEC1FEEDB109B0</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/airbug/airbug-plugin-macosx.git</string>
+	<string>github.com:airbug/airbug-plugin-macosx.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>AC8E3603-229C-45B6-AD57-7CAB9631FB9E</string>
+	<string>A845EB2DF0574421E46DFD7A21EEC1FEEDB109B0</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>AC8E3603-229C-45B6-AD57-7CAB9631FB9E</string>
+			<string>A845EB2DF0574421E46DFD7A21EEC1FEEDB109B0</string>
 			<key>IDESourceControlWCCName</key>
-			<string>airbug</string>
+			<string>airbug-plugin-macosx</string>
 		</dict>
 	</array>
 </dict>
